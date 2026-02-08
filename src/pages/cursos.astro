@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/main.astro';
+import { CoursesGrid } from '@/components/CoursesGrid';
+---
+
+<Layout title="Cursos Disponibles">
+  <section class="py-20 md:py-32">
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center space-y-4">
+        <h1 class="text-3xl font-bold md:text-5xl">
+          <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent animate-gradient">
+            Cursos Disponibles
+          </span>
+        </h1>
+      </div>
+
+      <CoursesGrid client:load />
+    </div>
+  </section>
+</Layout>

@@ -1,4 +1,4 @@
-import { Sparkles, Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { Sparkles, Github, Twitter, Linkedin, Mail, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { withBase } from "@/lib/utils";
 
@@ -12,16 +12,15 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
-                <Sparkles className="h-5 w-5 text-white" />
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500">
+                <GraduationCap className="h-5 w-5 text-white" />
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                GenAI
+              <span className="font-bold text-xl bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400 bg-clip-text text-transparent">
+                Hekademos IT
               </span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Build the future with AI-powered solutions. Fast, secure, and
-              scalable.
+              Aprende IT desde cero y consígue trabajo rápido.
             </p>
             <div className="flex gap-3">
               <a
@@ -151,7 +150,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} GenAI. All rights reserved.
+            © {currentYear} Hekademos. Todos los derechos reservados.
           </p>
           <div className="flex gap-6">
             <a
