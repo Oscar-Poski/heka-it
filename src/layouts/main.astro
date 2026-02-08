@@ -4,15 +4,16 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { CommandPalette } from '@/components/CommandPalette';
 import { CookieConsent } from '@/components/CookieConsent';
-const { title = "GenAI - Build the Future with AI" } = Astro.props;
+const { title = "Hekademos IT - Aprende IT desde cero" } = Astro.props;
+const faviconPath = '/heka-it/favicon.svg';
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content="A modern, free Astro theme template for GenAI startups with dark/light mode toggle" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="description" content="Una manera fácil de estudiar para conseguir un trabajo" />
+		<link rel="icon" type="image/svg+xml" href={faviconPath} />
 		<title>{title}</title>
 	</head>
 	<body>
