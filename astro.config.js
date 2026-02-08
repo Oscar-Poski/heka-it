@@ -6,7 +6,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ctrimm.github.io',
+  site: 'https://oscar-poski.github.io',
   base: '/heka-it',
   integrations: [
     react(),
