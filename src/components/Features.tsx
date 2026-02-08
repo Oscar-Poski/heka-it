@@ -11,44 +11,44 @@ import {
 const features = [
   {
     icon: Brain,
-    title: "Advanced AI Models",
+    title: "Lecciones Digeribles",
     description:
-      "Access state-of-the-art language models and neural networks for your applications.",
+      "Dividimos el material en partes digeribles para facilitar la comprensión del contenido.",
     gradient: "from-purple-500 to-pink-500",
   },
   {
     icon: Zap,
-    title: "Lightning Fast",
+    title: "Pequeños Pasos",
     description:
-      "Optimized infrastructure ensures your AI queries are processed in milliseconds.",
+      "Esto permite que cualquiera pueda empezar con una sola lección y avanzar paso a paso.",
     gradient: "from-yellow-500 to-orange-500",
   },
   {
     icon: Shield,
-    title: "Enterprise Security",
+    title: "Habilidades Adquiridas",
     description:
-      "Bank-level encryption and compliance with SOC 2, GDPR, and HIPAA standards.",
+      "El avance reafirma los conocimientos adquiridos a través de los módulos y los convierte en habilidades adquiridas.",
     gradient: "from-green-500 to-emerald-500",
   },
   {
     icon: Code,
-    title: "Developer First",
+    title: "Camino",
     description:
-      "Clean APIs, comprehensive docs, and SDKs in your favorite programming languages.",
+      "El bloque de aprendizaje más grande es un Camino.",
     gradient: "from-blue-500 to-cyan-500",
   },
   {
     icon: Globe,
-    title: "Global Scale",
+    title: "Módulo",
     description:
-      "Deploy worldwide with edge locations across 6 continents for minimal latency.",
+      "El Camino se divide en varios módulos, cada uno de los cuales cubre un tema específico e independiente.",
     gradient: "from-indigo-500 to-purple-500",
   },
   {
     icon: Sparkles,
-    title: "Auto-Optimization",
+    title: "Lección",
     description:
-      "Smart caching and model selection automatically optimize for cost and performance.",
+      "Los módilos de dividen en lecciones digeribles y fáciles de aprender.",
     gradient: "from-pink-500 to-rose-500",
   },
 ];
@@ -80,9 +80,9 @@ export function Features() {
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-bold"
           >
-            Everything you need to{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-              build with AI
+            Cualquier persona puede{" "}
+            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent animate-gradient">
+              Aprender
             </span>
           </motion.h2>
           <motion.p
@@ -92,7 +92,7 @@ export function Features() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            Powerful features designed to help you ship AI-powered products faster
+            Las grandes cosas no se logran por impulso, sino mediante una serie de pequeños actos de disciplina.
           </motion.p>
         </div>
 
