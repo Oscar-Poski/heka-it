@@ -1,0 +1,49 @@
+---
+import Layout from '@/layouts/main.astro';
+import { LessonPlayer } from '@/components/LessonPlayer';
+import { getLessonContext, learningTracks, withBase } from '@/lib/curriculum';
+
+export function getStaticPaths() {
+  return learningTracks.flatMap((track) =>
+    track.courses.flatMap((course) =>
+      course.modules.flatMap((module) =>
+        module.lessons.map((lesson) => ({
+          params: {
+            track: track.slug,
+            course: course.slug,
+            module: module.slug,
+            lesson: lesson.slug,
+          },
+        }))
+      )
+    )
+  );
+}
+
+const { track, course, module, lesson } = Astro.params;
+const context = track && course && module && lesson
+  ? getLessonContext(track, course, module, lesson)
+  : null;
+
+if (!context) {
+  throw new Error('Leccion no encontrada.');
+}
+
+const courseHref = withBase(`/cursos/${context.track.slug}/${context.course.slug}`);
+---
+
+<Layout title={`${context.lesson.title} | ${context.course.title}`}>
+  <LessonPlayer
+    client:load
+    trackTitle={context.track.title}
+    courseTitle={context.course.title}
+    moduleTitle={context.module.title}
+    lesson={context.lesson}
+    lessonId={context.lessonId}
+    courseHref={courseHref}
+    currentHref={context.lessonPath}
+    allLessons={context.nodes}
+    previousLesson={context.previous}
+    nextLesson={context.next}
+  />
+</Layout>

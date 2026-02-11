@@ -1,91 +1,95 @@
-import { motion } from "framer-motion";
-import { Code2, Database, Bot, BarChart3, ShieldCheck, Rocket } from "lucide-react";
+import { motion } from 'framer-motion';
+import { ArrowRight, BookOpen, Network, Terminal, MonitorSmartphone } from 'lucide-react';
+import { learningTracks, withBase } from '@/lib/curriculum';
 
-const courses = [
-  {
-    icon: Code2,
-    title: "Linux Básico",
-    description:
-      "Aprende los fundamentos de Linux y construye tus primeros scripts paso a paso.",
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    icon: Database,
-    title: "SQL para Analisis",
-    description:
-      "Domina consultas SQL para explorar, limpiar y analizar datos reales.",
-    gradient: "from-indigo-500 to-purple-500",
-  },
-  {
-    icon: Bot,
-    title: "IA Generativa",
-    description:
-      "Crea aplicaciones con modelos de IA y flujos de trabajo asistidos por prompts.",
-    gradient: "from-purple-500 to-pink-500",
-  },
-  {
-    icon: BarChart3,
-    title: "Visualizacion de Datos",
-    description:
-      "Disena dashboards claros e interactivos para comunicar hallazgos con impacto.",
-    gradient: "from-yellow-500 to-orange-500",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Ciberseguridad Basica",
-    description:
-      "Entiende amenazas comunes y aplica buenas practicas de seguridad digital.",
-    gradient: "from-green-500 to-emerald-500",
-  },
-  {
-    icon: Rocket,
-    title: "Desarrollo Web Moderno",
-    description:
-      "Construye sitios y apps con herramientas actuales y enfoque en rendimiento.",
-    gradient: "from-pink-500 to-rose-500",
-  },
-];
+const iconMap: Record<string, typeof Terminal> = {
+  'linux-practico': Terminal,
+  'redes-desde-cero': Network,
+  'frontend-moderno': MonitorSmartphone,
+};
 
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
     },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0 },
 };
 
 export function CoursesGrid() {
   return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true }}
-      className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-    >
-      {courses.map((course, index) => {
-        const Icon = course.icon;
-        return (
-          <motion.article
-            key={index}
-            variants={item}
-            className="group relative rounded-2xl border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-          >
-            <div className={`mb-4 inline-flex rounded-xl bg-gradient-to-br p-3 ${course.gradient}`}>
-              <Icon className="h-6 w-6 text-white" />
+    <div className="space-y-8">
+      {learningTracks.map((track) => (
+        <section key={track.slug} className="rounded-2xl border bg-card p-6 md:p-8">
+          <div className="mb-6 flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm uppercase tracking-wide text-muted-foreground">Ruta</p>
+              <h2 className="mt-1 text-2xl font-semibold md:text-3xl">{track.title}</h2>
+              <p className="mt-2 max-w-3xl text-muted-foreground">{track.summary}</p>
             </div>
-            <h2 className="mb-2 text-xl font-semibold">{course.title}</h2>
-            <p className="text-muted-foreground">{course.description}</p>
-          </motion.article>
-        );
-      })}
-    </motion.div>
+            <BookOpen className="h-8 w-8 text-primary" />
+          </div>
+
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 gap-4 lg:grid-cols-2"
+          >
+            {track.courses.map((course) => {
+              const Icon = iconMap[course.slug] ?? BookOpen;
+              const firstModule = course.modules[0];
+              const firstLesson = firstModule?.lessons[0];
+              const startHref = firstModule && firstLesson
+                ? withBase(`/cursos/${track.slug}/${course.slug}/${firstModule.slug}/${firstLesson.slug}`)
+                : withBase(`/cursos/${track.slug}/${course.slug}`);
+
+              return (
+                <motion.article
+                  key={course.slug}
+                  variants={item}
+                  className="rounded-xl border bg-background p-5 transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="inline-flex rounded-lg bg-primary/10 p-2 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+                      {course.level}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-4 text-xl font-semibold">{course.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{course.summary}</p>
+
+                  <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                    <span className="rounded-full border px-2 py-1">{course.modules.length} modulos</span>
+                    <span className="rounded-full border px-2 py-1">{course.estimatedHours} horas</span>
+                  </div>
+
+                  <div className="mt-5 flex items-center gap-4">
+                    <a href={withBase(`/cursos/${track.slug}/${course.slug}`)} className="text-sm font-medium text-primary hover:underline">
+                      Ver programa
+                    </a>
+                    <a href={startHref} className="inline-flex items-center gap-1 text-sm font-semibold text-foreground">
+                      Iniciar
+                      <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </motion.div>
+        </section>
+      ))}
+    </div>
   );
 }
