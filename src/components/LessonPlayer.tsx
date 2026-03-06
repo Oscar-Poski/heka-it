@@ -155,7 +155,7 @@ export function LessonPlayer({
           <p className="text-sm text-muted-foreground">{moduleTitle}</p>
           <h1 className="mt-1 text-3xl font-bold">{lesson.title}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Leccion {currentIndex + 1} de {allLessons.length}
+            Lección {currentIndex + 1} de {allLessons.length}
           </p>
           <p className="mt-3 text-base text-muted-foreground">{lesson.summary}</p>
 
@@ -173,7 +173,7 @@ export function LessonPlayer({
           </section>
 
           <section className="mt-8 space-y-3">
-            <h2 className="text-xl font-semibold">Leccion</h2>
+            <h2 className="text-xl font-semibold">Lección</h2>
             <div
               className="space-y-3 leading-relaxed text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: lesson.contentHtml }}
@@ -210,12 +210,12 @@ export function LessonPlayer({
                 </a>
               ) : (
                 <span className="rounded-lg border border-dashed px-4 py-2 text-sm text-muted-foreground">
-                  Completa esta leccion para desbloquear la siguiente
+                  Completa esta lección para desbloquear la siguiente
                 </span>
               )
             ) : (
               <a href={currentHref} className="rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background">
-                Repetir leccion
+                Repetir lección
               </a>
             )}
           </section>

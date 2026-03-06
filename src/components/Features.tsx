@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import {
   Brain,
-  Zap,
-  Shield,
-  Code,
-  Globe,
-  Sparkles,
+  Wrench,
+  Flag,
+  Bookmark,
+  Footprints,
+  BookOpenText
 } from "lucide-react";
 
 const features = [
@@ -17,35 +17,35 @@ const features = [
     gradient: "from-purple-500 to-pink-500",
   },
   {
-    icon: Zap,
+    icon: Footprints,
     title: "Pequeños Pasos",
     description:
       "Esto permite que cualquiera pueda empezar con una sola lección y avanzar paso a paso.",
     gradient: "from-yellow-500 to-orange-500",
   },
   {
-    icon: Shield,
+    icon: Wrench,
     title: "Habilidades Adquiridas",
     description:
       "El avance reafirma los conocimientos adquiridos a través de los módulos y los convierte en habilidades adquiridas.",
     gradient: "from-green-500 to-emerald-500",
   },
   {
-    icon: Code,
-    title: "Camino",
+    icon: Flag,
+    title: "Path",
     description:
-      "El bloque de aprendizaje más grande es un Camino.",
+      "El bloque de aprendizaje más grande es un ruta.",
     gradient: "from-blue-500 to-cyan-500",
   },
   {
-    icon: Globe,
+    icon: Bookmark,
     title: "Módulo",
     description:
       "El Camino se divide en varios módulos, cada uno de los cuales cubre un tema específico e independiente.",
     gradient: "from-indigo-500 to-purple-500",
   },
   {
-    icon: Sparkles,
+    icon: BookOpenText,
     title: "Lección",
     description:
       "Los módilos de dividen en lecciones digeribles y fáciles de aprender.",

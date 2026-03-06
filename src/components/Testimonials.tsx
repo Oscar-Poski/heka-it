@@ -40,10 +40,11 @@ export function Testimonials() {
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-bold"
           >
-            Loved by{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-              developers
+            Los {" "} 
+            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent animate-gradient">
+              estudiantes
             </span>
+            {" "} nos aman!
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -52,7 +53,7 @@ export function Testimonials() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            See what our customers are saying about us
+            ¿Qué piensan ellos de Hekademos?
           </motion.p>
         </div>
 

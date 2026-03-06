@@ -46,7 +46,7 @@ const startHref = firstModule && firstLesson
             {course.estimatedHours} horas estimadas
           </span>
           <span class="rounded-full bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground">
-            {course.modules.length} modulos
+            {course.modules.length} módulos
           </span>
         </div>
 
@@ -60,7 +60,7 @@ const startHref = firstModule && firstLesson
       <div class="mt-10 grid gap-6">
         {course.modules.map((module, moduleIndex) => (
           <article class="rounded-2xl border bg-card p-6" key={module.slug}>
-            <p class="text-sm text-muted-foreground">Modulo {moduleIndex + 1}</p>
+            <p class="text-sm text-muted-foreground">Módulo {moduleIndex + 1}</p>
             <h2 class="mt-1 text-2xl font-semibold">{module.title}</h2>
             <p class="mt-2 text-muted-foreground">{module.summary}</p>
 
@@ -68,7 +68,7 @@ const startHref = firstModule && firstLesson
               {module.lessons.map((lesson, lessonIndex) => (
                 <li class="flex items-center justify-between rounded-lg border px-4 py-3" key={lesson.slug}>
                   <div>
-                    <p class="text-sm text-muted-foreground">Leccion {lessonIndex + 1}</p>
+                    <p class="text-sm text-muted-foreground">Lección {lessonIndex + 1}</p>
                     <p class="font-medium">{lesson.title}</p>
                   </div>
                   <a

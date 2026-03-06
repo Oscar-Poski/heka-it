@@ -7,7 +7,7 @@ export type CatalogModule = {
 export type CatalogCourse = {
   slug: string;
   title: string;
-  level: 'basico' | 'intermedio';
+  level: 'básico' | 'intermedio';
   summary: string;
   estimatedHours: number;
   modules: CatalogModule[];
@@ -29,26 +29,76 @@ export const curriculumCatalog: CatalogTrack[] = [
       {
         slug: 'linux-practico',
         title: 'Linux Básico',
-        level: 'basico',
+        level: 'básico',
         summary: 'Aprende terminal, sistema de archivos y automatización inicial.',
-        estimatedHours: 8,
+        estimatedHours: 48,
         modules: [
           {
             slug: 'intro-linux',
             title: 'Introducción a Linux',
-            summary: 'Historia y conceptos clave.',
+            summary: 'Fundamentos, historia y contexto actual de Linux.',
           },
           {
             slug: 'uso-linux',
             title: 'Uso básico del sistema',
-            summary: 'Introducción a la terminal y primeros comandos.',
+            summary: 'Terminal, comandos esenciales y edición básica en consola.',
+          },
+          {
+            slug: 'sistema-archivos-linux',
+            title: 'Sistema de archivos de Linux',
+            summary: 'Estructura, rutas, permisos y administración de archivos.',
+          },
+          {
+            slug: 'usuarios-y-permisos',
+            title: 'Gestión de usuarios y permisos',
+            summary: 'Administración de cuentas, grupos y control de acceso.',
+          },
+          {
+            slug: 'gestion-de-procesos',
+            title: 'Gestión de procesos',
+            summary: 'Monitoreo, control y priorización de procesos en Linux.',
+          },
+          {
+            slug: 'instalacion-y-gestion-de-software',
+            title: 'Instalación y gestión de software',
+            summary: 'Repositorios, gestores de paquetes e instalación manual.',
+          },
+          {
+            slug: 'redes-en-linux',
+            title: 'Redes en Linux',
+            summary: 'Configuración, diagnóstico y seguridad básica de red.',
+          },
+          {
+            slug: 'edicion-de-texto-linux',
+            title: 'Edición de texto en Linux',
+            summary: 'Uso de nano y vim para editar archivos del sistema.',
+          },
+          {
+            slug: 'automatizacion-y-scripting',
+            title: 'Automatización y scripting básico',
+            summary: 'Scripts Bash para automatizar tareas repetitivas.',
+          },
+          {
+            slug: 'administracion-basica-del-sistema',
+            title: 'Administración básica del sistema',
+            summary: 'Servicios, logs, diagnóstico y mantenimiento inicial.',
+          },
+          {
+            slug: 'seguridad-basica-linux',
+            title: 'Seguridad básica en Linux',
+            summary: 'Buenas prácticas para proteger sistemas Linux.',
+          },
+          {
+            slug: 'linux-en-el-mundo-profesional',
+            title: 'Linux en el mundo profesional',
+            summary: 'Aplicaciones reales y rutas de carrera con Linux.',
           }
         ]
       },
       {
         slug: 'redes-desde-cero',
         title: 'Redes Desde Cero',
-        level: 'basico',
+        level: 'básico',
         summary: 'Comprende conectividad, diagnostico y principios de red para soporte tecnico.',
         estimatedHours: 7,
         modules: [

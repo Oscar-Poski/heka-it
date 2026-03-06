@@ -35,7 +35,7 @@ export function CoursesGrid({ learningTracks }: CoursesGridProps) {
         <section key={track.slug} className="rounded-2xl border bg-card p-6 md:p-8">
           <div className="mb-6 flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm uppercase tracking-wide text-muted-foreground">Ruta</p>
+              <p className="text-sm uppercase tracking-wide text-muted-foreground">Path</p>
               <h2 className="mt-1 text-2xl font-semibold md:text-3xl">{track.title}</h2>
               <p className="mt-2 max-w-3xl text-muted-foreground">{track.summary}</p>
             </div>
@@ -76,7 +76,7 @@ export function CoursesGrid({ learningTracks }: CoursesGridProps) {
                   <p className="mt-2 text-sm text-muted-foreground">{course.summary}</p>
 
                   <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                    <span className="rounded-full border px-2 py-1">{course.modules.length} modulos</span>
+                    <span className="rounded-full border px-2 py-1">{course.modules.length} módulos</span>
                     <span className="rounded-full border px-2 py-1">{course.estimatedHours} horas</span>
                   </div>
 

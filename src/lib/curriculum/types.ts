@@ -17,7 +17,7 @@ export type Module = {
 export type Course = {
   slug: string;
   title: string;
-  level: 'basico' | 'intermedio';
+  level: 'básico' | 'intermedio';
   summary: string;
   estimatedHours: number;
   modules: Module[];

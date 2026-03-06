@@ -28,7 +28,7 @@ const context = track && course && module && lesson
   : null;
 
 if (!context) {
-  throw new Error('Leccion no encontrada.');
+  throw new Error('Lección no encontrada.');
 }
 
 const courseHref = withBase(`/cursos/${context.track.slug}/${context.course.slug}`);

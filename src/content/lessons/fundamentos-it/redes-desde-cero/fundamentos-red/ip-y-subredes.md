@@ -13,7 +13,7 @@ objectives:
 order: 2
 ---
 
-Comprender subneteo basico reduce tiempos de soporte y evita cambios a ciegas.
+Comprender subneteo básico reduce tiempos de soporte y evita cambios a ciegas.
 
 Mapea rangos y reserva direcciones con criterio para crecimiento futuro.
 
