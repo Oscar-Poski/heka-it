@@ -138,7 +138,7 @@ export function LessonPlayer({
                 >
                   <p className="text-xs text-muted-foreground">{node.moduleTitle}</p>
                   <p className="font-medium">{node.title}</p>
-              {isDone && <p className="text-xs text-primary">Completada</p>}
+                  {isDone && <p className="text-xs text-primary">Completada</p>}
                 </a>
               ) : (
                 <div key={node.id} className="rounded-lg border border-dashed px-3 py-2 text-sm opacity-60">
@@ -174,11 +174,10 @@ export function LessonPlayer({
 
           <section className="mt-8 space-y-3">
             <h2 className="text-xl font-semibold">Leccion</h2>
-            {lesson.content.map((paragraph) => (
-              <p key={paragraph} className="leading-relaxed text-muted-foreground">
-                {paragraph}
-              </p>
-            ))}
+            <div
+              className="space-y-3 leading-relaxed text-muted-foreground"
+              dangerouslySetInnerHTML={{ __html: lesson.contentHtml }}
+            />
           </section>
 
           <section className="mt-10 flex flex-wrap items-center gap-3 border-t pt-6">

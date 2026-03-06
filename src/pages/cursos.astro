@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/main.astro';
 import { CoursesGrid } from '@/components/CoursesGrid';
+import { getLearningTracks } from '@/lib/curriculum';
+
+const learningTracks = await getLearningTracks();
 ---
 
 <Layout title="Cursos Disponibles">
@@ -18,7 +21,7 @@ import { CoursesGrid } from '@/components/CoursesGrid';
         </p>
       </div>
 
-      <CoursesGrid client:load />
+      <CoursesGrid client:load learningTracks={learningTracks} />
     </div>
   </section>
 </Layout>

@@ -1,9 +1,11 @@
 ---
 import Layout from '@/layouts/main.astro';
 import { LessonPlayer } from '@/components/LessonPlayer';
-import { getLessonContext, learningTracks, withBase } from '@/lib/curriculum';
+import { getLearningTracks, getLessonContext, withBase } from '@/lib/curriculum';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const learningTracks = await getLearningTracks();
+
   return learningTracks.flatMap((track) =>
     track.courses.flatMap((course) =>
       course.modules.flatMap((module) =>
@@ -22,7 +24,7 @@ export function getStaticPaths() {
 
 const { track, course, module, lesson } = Astro.params;
 const context = track && course && module && lesson
-  ? getLessonContext(track, course, module, lesson)
+  ? await getLessonContext(track, course, module, lesson)
   : null;
 
 if (!context) {

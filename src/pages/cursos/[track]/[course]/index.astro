@@ -1,8 +1,10 @@
 ---
 import Layout from '@/layouts/main.astro';
-import { learningTracks, getCourse, withBase } from '@/lib/curriculum';
+import { getLearningTracks, getCourse, withBase } from '@/lib/curriculum';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const learningTracks = await getLearningTracks();
+
   return learningTracks.flatMap((track) =>
     track.courses.map((course) => ({
       params: {
@@ -14,7 +16,7 @@ export function getStaticPaths() {
 }
 
 const { track: trackSlug, course: courseSlug } = Astro.params;
-const context = trackSlug && courseSlug ? getCourse(trackSlug, courseSlug) : null;
+const context = trackSlug && courseSlug ? await getCourse(trackSlug, courseSlug) : null;
 
 if (!context) {
   throw new Error('Curso no encontrado.');

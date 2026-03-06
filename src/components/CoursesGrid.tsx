@@ -1,6 +1,11 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Network, Terminal, MonitorSmartphone } from 'lucide-react';
-import { learningTracks, withBase } from '@/lib/curriculum';
+import { withBase } from '@/lib/utils';
+import type { LearningTrack } from '@/lib/curriculum/types';
+
+type CoursesGridProps = {
+  learningTracks: LearningTrack[];
+};
 
 const iconMap: Record<string, typeof Terminal> = {
   'linux-practico': Terminal,
@@ -23,7 +28,7 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-export function CoursesGrid() {
+export function CoursesGrid({ learningTracks }: CoursesGridProps) {
   return (
     <div className="space-y-8">
       {learningTracks.map((track) => (
