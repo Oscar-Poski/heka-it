@@ -11,8 +11,6 @@ export function Header() {
     { label: "Features", href: withBase("/#features") },
     { label: "Cursos", href: withBase("/cursos") },
     { label: "Sobre Nosotros", href: withBase("/about") },
-    { label: "Changelog", href: withBase("/changelog") },
-    { label: "Contact", href: withBase("/contact") },
   ];
 
   return (
@@ -44,10 +42,11 @@ export function Header() {
         {/* Actions */}
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <Button className="hidden md:inline-flex">
-            Get Started
-          </Button>
-
+          <a href={withBase("/cursos")}>
+            <Button className="hidden md:inline-flex">
+              Inicia tu camino
+            </Button>
+          </a>
           {/* Mobile Menu Button */}
           <button
             className="md:hidden"

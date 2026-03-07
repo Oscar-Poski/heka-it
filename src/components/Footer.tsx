@@ -1,4 +1,4 @@
-import { Sparkles, Github, Twitter, Linkedin, Mail, GraduationCap } from "lucide-react";
+import { CircleUser, Github, Linkedin, Mail, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { withBase } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ export function Footer() {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://github.com"
+                href="https://github.com/Oscar-Poski/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
@@ -32,27 +32,27 @@ export function Footer() {
                 <Github className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/oscar-poski/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Linkedin className="h-5 w-5" />
               </a>
+                            <a
+                href="https://oscar-poski.github.io/poski/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <CircleUser className="h-5 w-5" />
+              </a>
             </div>
           </div>
 
           {/* Product */}
           <div>
-            <h3 className="font-semibold mb-4">Product</h3>
+            <h3 className="font-semibold mb-4">Producto</h3>
             <ul className="space-y-3">
               <li>
                 <a
@@ -64,10 +64,10 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={withBase("/#pricing")}
+                  href={withBase("/cursos")}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Pricing
+                  Cursos
                 </a>
               </li>
               <li>
@@ -78,51 +78,19 @@ export function Footer() {
                   FAQ
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  API Reference
-                </a>
-              </li>
             </ul>
           </div>
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
+            <h3 className="font-semibold mb-4">Empresa</h3>
             <ul className="space-y-3">
               <li>
                 <a
                   href={withBase("/about")}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href={withBase("/blog")}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Careers
-                </a>
-              </li>
-              <li>
-                <a
-                  href={withBase("/contact")}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Contact
+                  Sobre Nosotros
                 </a>
               </li>
             </ul>
@@ -130,14 +98,14 @@ export function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-semibold mb-4">Stay Updated</h3>
+            <h3 className="font-semibold mb-4">Mantente al tanto</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Subscribe to our newsletter for the latest updates.
+              Subscríbete a nuestro newsletter.
             </p>
             <div className="flex gap-2">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Ingresa tu email"
                 className="flex h-9 w-full rounded-md border bg-background px-3 py-1 text-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               />
               <Button size="sm">
@@ -157,19 +125,19 @@ export function Footer() {
               href={withBase("/privacy")}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Privacy Policy
+              Política de Privacidad
             </a>
             <a
               href={withBase("/terms")}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Terms of Service
+              Términos de Servicio
             </a>
             <a
               href={withBase("/privacy#cookies")}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Cookie Policy
+              Política de Cookies
             </a>
           </div>
         </div>
