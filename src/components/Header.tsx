@@ -9,9 +9,8 @@ export function Header() {
 
   const navItems = [
     { label: "Features", href: withBase("/#features") },
-    { label: "Pricing", href: withBase("/#pricing") },
     { label: "Cursos", href: withBase("/cursos") },
-    { label: "Dashboard", href: withBase("/dashboard") },
+    { label: "Sobre Nosotros", href: withBase("/about") },
     { label: "Changelog", href: withBase("/changelog") },
     { label: "Contact", href: withBase("/contact") },
   ];

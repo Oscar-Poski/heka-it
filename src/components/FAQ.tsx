@@ -8,34 +8,34 @@ import {
 
 const faqs = [
   {
-    question: "What AI models do you support?",
+    question: "¿Necesito estudiar una carrera en computación para aprender con Hekademos IT?",
     answer:
-      "We support a wide range of state-of-the-art AI models including GPT-4, Claude, Llama, and custom fine-tuned models. Our platform is model-agnostic and continuously updated with the latest releases.",
+      "No. Hekademos IT está diseñado precisamente para personas que no vienen de una carrera técnica. La plataforma explica los fundamentos de la industria tecnológica desde cero, de manera clara y accesible, para que cualquier persona con curiosidad y disciplina pueda comenzar a aprender.",
   },
   {
-    question: "How is pricing calculated?",
+    question: "¿Necesito saber programar antes de empezar?",
     answer:
-      "Pricing is based on the number of API requests and the complexity of the AI models used. We offer transparent, pay-as-you-go pricing with no hidden fees. You can upgrade or downgrade your plan at any time.",
+      "No necesariamente. Muchos de los conceptos fundamentales de la industria —como Linux, redes, cloud computing o cómo funcionan los sistemas— pueden entenderse sin experiencia previa en programación. El objetivo es construir una base sólida que te permita entender cómo funciona el mundo del software.",
   },
   {
-    question: "Is my data secure?",
+    question: "¿Por qué aprender en español?",
     answer:
-      "Absolutely. We use bank-level encryption (AES-256) for data at rest and in transit. We're SOC 2 Type II certified and compliant with GDPR, HIPAA, and other major data protection regulations. Your data is never used to train models without explicit consent.",
+      "Porque aprender conceptos complejos en tu segundo idioma puede generar una fricción mental innecesaria, especialmente cuando estás empezando. Cuando estudias en tu lengua materna puedes concentrarte completamente en entender las ideas y los sistemas, en lugar de gastar energía traduciendo conceptos constantemente.",
   },
   {
-    question: "Can I use this for commercial projects?",
+    question: "¿El contenido es gratuito?",
     answer:
-      "Yes! All our plans, including the free tier, can be used for commercial projects. We encourage you to build and ship products using our platform. Enterprise plans offer additional features for large-scale deployments.",
+      "Sí. La misión de Hekademos IT es que cualquier persona con acceso a internet y una computadora pueda aprender lo suficiente para comenzar en la industria tecnológica. Por eso el contenido está pensado para ser accesible y abierto para quienes quieran empezar.",
   },
   {
-    question: "What kind of support do you offer?",
+    question: "¿Este contenido reemplaza una carrera universitaria?",
     answer:
-      "Free plans include community support and comprehensive documentation. Pro plans get priority email support with 24-hour response times. Enterprise customers receive 24/7 dedicated support with a dedicated account manager and custom SLAs.",
+      "No. Una carrera universitaria puede ofrecer una formación profunda en teoría y fundamentos académicos. Hekademos IT tiene un objetivo diferente: explicar de manera clara y práctica los conocimientos que son más útiles para entender la industria y dar los primeros pasos en ella.",
   },
   {
-    question: "Do you offer a free trial?",
+    question: "¿Para quién es este contenido?",
     answer:
-      "Yes! We offer a generous free tier that includes 1,000 API requests per month. Pro and Enterprise plans come with a 14-day free trial with no credit card required. You can cancel anytime.",
+      "Para personas que quieren descubrir si la industria tecnológica es para ellos, personas que quieren conseguir su primer trabajo y personas que quieren darel un giro a su carrera. Una de las ideas detrás de Hekademos IT es permitir que cualquier persona pueda explorar los temas fundamentales de la industria rápidamente. De esta forma puedes tener un primer contacto con los conceptos importantes y decidir si este camino profesional realmente te interesa.",
   },
 ];
 
@@ -51,9 +51,9 @@ export function FAQ() {
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-bold"
           >
-            Frequently asked{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-              questions
+            Preguntas y {" "}
+            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent animate-gradient">
+              respuestas
             </span>
           </motion.h2>
           <motion.p
@@ -63,7 +63,7 @@ export function FAQ() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            Everything you need to know about our platform
+            Lo que necesitas saber sobre nuestra plataforma
           </motion.p>
         </div>
 

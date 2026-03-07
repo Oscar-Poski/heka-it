@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, GraduationCap, BookOpenText, Laptop } from "lucide-react";
+import { withBase } from "@/lib/utils";
 
 export function Hero() {
   return (
@@ -33,10 +34,10 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-4xl"
           >
-            Aprende IT Desde Cero{" "}
             <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent animate-gradient">
-              Gratis
+              Aprende
             </span>
+            {" "} desde cero y consigue tu primer trabajo.
           </motion.h1>
 
           {/* Subheading */}
@@ -46,7 +47,8 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl"
           >
-            Consigue trabajo en cualquier área de IT.
+            Descubre si el desarrollo de software es para ti.
+            Consigue tu primer trabajo en la industria.
             ¡Solo tienes que estudiar un poco!
           </motion.p>
 
@@ -57,13 +59,12 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Button size="lg" className="group">
-              Inicia tu camino
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-            <Button size="lg" variant="outline">
-              Ver todos los cursos
-            </Button>
+            <a href={withBase("/cursos")}>
+              <Button size="lg" className="group">
+                Inicia tu camino
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </a>
           </motion.div>
 
           {/* Stats */}

@@ -3,27 +3,27 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah Chen",
-    role: "CTO at TechCorp",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    name: "Luis Martínez",
+    role: "Estudiante autodidacta",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Luis",
     content:
-      "This platform transformed how we integrate AI into our products. The API is incredibly easy to use and the performance is outstanding.",
+      "Siempre pensé que la tecnología era solo para ingenieros. Aquí entendí por primera vez cómo funcionan realmente Linux y el cloud. Todo está explicado de forma clara y sin asumir que ya sabes del tema.",
     rating: 5,
   },
   {
-    name: "Marcus Rodriguez",
-    role: "Founder at StartupXYZ",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus",
+    name: "Ana Torres",
+    role: "En transición a carrera tech",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ana",
     content:
-      "We've tried several AI platforms, but this one stands out for its reliability and developer experience. Highly recommended!",
+      "Lo que más me gusta es que el contenido está en español y va directo a lo importante. Me ayudó a entender conceptos que antes me parecían imposibles cuando intentaba aprender con cursos en inglés.",
     rating: 5,
   },
   {
-    name: "Emily Watson",
-    role: "Product Manager at InnovateLabs",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily",
+    name: "Carlos Ramírez",
+    role: "Junior QA Engineer",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos",
     content:
-      "The support team is fantastic and the documentation is comprehensive. We were able to integrate AI features in days, not weeks.",
+      "Gracias a esta plataforma pude entender los fundamentos de cómo funcionan los sistemas y el mundo del software. Me dio la confianza para aplicar a mi primer trabajo en tecnología.",
     rating: 5,
   },
 ];

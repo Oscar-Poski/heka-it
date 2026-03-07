@@ -1,5 +1,147 @@
 ---
 import Layout from '../layouts/main.astro';
-import { motion } from 'framer-motion';
-import { Users, Target, Zap, Heart } from 'lucide-react';
+import { ArrowRight, Target, BookOpen, Users, ShieldCheck } from 'lucide-react';
+import { withBase } from '@/lib/utils';
 ---
+
+<Layout title="Sobre Nosotros | Hekademos IT">
+  <section class="relative overflow-hidden py-16 md:py-24">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="animate-blob absolute -top-24 -left-16 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl"></div>
+      <div class="animate-blob animation-delay-2000 absolute top-10 right-0 h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl"></div>
+    </div>
+
+    <div class="container relative mx-auto px-4">
+      <div class="mx-auto max-w-4xl rounded-3xl border bg-card/90 p-8 shadow-sm backdrop-blur md:p-12">
+        <p class="inline-flex rounded-full border bg-secondary px-3 py-1 text-xs font-medium uppercase tracking-wide text-secondary-foreground">
+          Nuestra historia
+        </p>
+        <h1 class="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+          Sobre Nosotros
+        </h1>
+        <p class="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+          Hekademos IT nace de una experiencia muy personal.
+        </p>
+        <p class="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+          Yo no estudié computación ni ingeniería en sistemas. Durante mucho tiempo pensé que el mundo de la tecnología era algo reservado para personas con una formación muy específica, para quienes habían pasado años en una universidad estudiando programación, redes o sistemas operativos.
+        </p>
+        <p class="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+          Pero un día decidí estudiar por mi cuenta. Internet está lleno de información: documentación, cursos, foros, tutoriales, videos. El problema no es que falten recursos, sino que es muy fácil sentirse perdido entre tanto contenido.
+        </p>
+        <p class="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+          Con el tiempo logré conseguir mi primer trabajo en tecnología como ingeniero de QA. Fue en ese momento cuando confirmé que muchas de las habilidades necesarias para entrar en la industria se pueden aprender de manera autodidacta con la guía correcta y algo de disciplina.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-10 md:pb-14">
+    <div class="container mx-auto px-4">
+      <div class="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
+        <article class="rounded-2xl border bg-card p-6 md:p-8">
+          <div class="mb-4 inline-flex rounded-lg bg-primary/10 p-2 text-primary">
+            <Target class="h-5 w-5" />
+          </div>
+          <h2 class="text-2xl font-semibold">¿Por qué Hekademos IT?</h2>
+          <p class="mt-4 text-muted-foreground">
+            Hoy existen miles de plataformas para aprender tecnología en internet. Entonces, ¿por qué crear otra más?
+          </p>
+          <p class="mt-3 text-muted-foreground">
+            La enorme mayoría del contenido técnico de calidad está en inglés. Y aunque aprender inglés es valioso, estudiar temas complejos en tu segundo idioma introduce una fricción mental innecesaria.
+          </p>
+          <p class="mt-3 text-muted-foreground">
+            Cuando estás empezando, tu cerebro ya está lidiando con conceptos nuevos. Tener que traducir mentalmente todo al mismo tiempo puede hacer el proceso mucho más lento y frustrante.
+          </p>
+          <p class="mt-3 text-muted-foreground">
+            Aprender en tu lengua materna permite que tu atención esté donde realmente importa.
+          </p>
+          <p class="mt-3 text-muted-foreground">
+            Otro problema es el acceso. Muchas plataformas de aprendizaje son excelentes, pero también pueden ser costosas. No todo el mundo puede pagar suscripciones mensuales o cursos caros cuando apenas está explorando si este camino profesional es para ellos.
+          </p>
+        </article>
+
+        <article class="rounded-2xl border bg-card p-6 md:p-8">
+          <div class="mb-4 inline-flex rounded-lg bg-primary/10 p-2 text-primary">
+            <ShieldCheck class="h-5 w-5" />
+          </div>
+          <h2 class="text-2xl font-semibold">Nuestra misión</h2>
+          <blockquote class="mt-4 rounded-xl border-l-4 border-primary bg-secondary/60 p-4 text-lg font-semibold leading-relaxed text-secondary-foreground">
+            Que cualquier persona con acceso a internet y una computadora pueda aprender lo suficiente para entrar en la industria tecnológica.
+          </blockquote>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-10 md:pb-14">
+    <div class="container mx-auto px-4">
+      <article class="mx-auto max-w-5xl rounded-2xl border bg-card p-6 md:p-8">
+        <div class="mb-4 inline-flex rounded-lg bg-primary/10 p-2 text-primary">
+          <BookOpen class="h-5 w-5" />
+        </div>
+        <h2 class="text-2xl font-semibold">Qué encontrarás aquí</h2>
+        <p class="mt-4 text-muted-foreground">
+          El contenido de Hekademos IT no pretende reemplazar una carrera universitaria ni seguir exactamente los programas académicos tradicionales.
+        </p>
+        <p class="mt-3 text-muted-foreground">
+          En cambio, está diseñado con una pregunta muy práctica en mente:
+        </p>
+        <p class="mt-2 text-lg font-medium">¿Qué conocimientos son realmente útiles para conseguir tu primer trabajo en tecnología?</p>
+
+        <p class="mt-5 text-muted-foreground">
+          Aquí encontrarás explicaciones claras sobre los fundamentos que aparecen constantemente en el mundo profesional:
+        </p>
+        <ul class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          <li class="rounded-lg border bg-secondary/60 px-3 py-2 text-sm font-medium">Linux</li>
+          <li class="rounded-lg border bg-secondary/60 px-3 py-2 text-sm font-medium">Redes</li>
+          <li class="rounded-lg border bg-secondary/60 px-3 py-2 text-sm font-medium">Cloud computing</li>
+          <li class="rounded-lg border bg-secondary/60 px-3 py-2 text-sm font-medium">Sistemas distribuidos</li>
+          <li class="rounded-lg border bg-secondary/60 px-3 py-2 text-sm font-medium">Herramientas de desarrollo</li>
+          <li class="rounded-lg border bg-secondary/60 px-3 py-2 text-sm font-medium">Conceptos clave de la industria</li>
+        </ul>
+
+        <p class="mt-6 text-muted-foreground">La idea es ofrecer un camino de aprendizaje que te permita:</p>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="rounded-lg border bg-background px-4 py-3">Explorar rápidamente el área tecnológica si estás considerando estudiarla.</li>
+          <li class="rounded-lg border bg-background px-4 py-3">Entender los fundamentos sin tener que navegar entre cientos de recursos desordenados.</li>
+          <li class="rounded-lg border bg-background px-4 py-3">Construir una base sólida que te acerque a tu primer trabajo en la industria.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="pb-16 md:pb-24">
+    <div class="container mx-auto px-4">
+      <article class="mx-auto max-w-5xl rounded-2xl border bg-card p-6 md:p-8">
+        <div class="mb-4 inline-flex rounded-lg bg-primary/10 p-2 text-primary">
+          <Users class="h-5 w-5" />
+        </div>
+        <h2 class="text-2xl font-semibold">Para quién es Hekademos IT</h2>
+        <p class="mt-4 text-muted-foreground">Esta plataforma está hecha especialmente para personas que:</p>
+        <ul class="mt-4 space-y-2 text-muted-foreground">
+          <li class="rounded-lg border bg-background px-4 py-3">No vienen de una carrera técnica pero sienten curiosidad por la tecnología.</li>
+          <li class="rounded-lg border bg-background px-4 py-3">Quieren entender cómo funciona realmente la industria del software.</li>
+          <li class="rounded-lg border bg-background px-4 py-3">Buscan una manera accesible de empezar a aprender.</li>
+          <li class="rounded-lg border bg-background px-4 py-3">Quieren saber si este camino profesional es para ellos antes de comprometer años de estudio.</li>
+        </ul>
+
+        <p class="mt-6 text-muted-foreground">
+          Si yo pude aprender desde cero usando recursos en internet, estoy convencido de que muchas más personas también pueden hacerlo.
+        </p>
+        <p class="mt-3 text-muted-foreground">
+          Hekademos IT existe para hacer ese camino más claro, más accesible y menos intimidante.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={withBase('/cursos')} class="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">
+            Explorar cursos
+            <ArrowRight class="h-4 w-4" />
+          </a>
+          <a href={withBase('/contact')} class="inline-flex items-center rounded-lg border px-5 py-3 text-sm font-semibold hover:bg-accent">
+            Contacto
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+</Layout>
