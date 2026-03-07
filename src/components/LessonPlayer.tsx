@@ -160,7 +160,7 @@ export function LessonPlayer({
           <p className="mt-3 text-base text-muted-foreground">{lesson.summary}</p>
 
           <div className="mt-4 inline-flex rounded-full bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground">
-            Duracion estimada: {lesson.durationMinutes} min
+            Duración estimada: {lesson.durationMinutes} min
           </div>
 
           <section className="mt-8">
@@ -175,7 +175,7 @@ export function LessonPlayer({
           <section className="mt-8 space-y-3">
             <h2 className="text-xl font-semibold">Lección</h2>
             <div
-              className="space-y-3 leading-relaxed text-muted-foreground"
+              className="markdown-content space-y-3 leading-relaxed text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: lesson.contentHtml }}
             />
           </section>
