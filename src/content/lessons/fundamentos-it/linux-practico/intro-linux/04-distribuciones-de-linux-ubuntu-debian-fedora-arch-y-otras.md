@@ -179,7 +179,7 @@ Existen muchas distribuciones porque Linux es abierto y puede adaptarse a distin
 
 ---
 
-## Mini repaso
+## Repaso
 
 - Linux por sí solo es solo el kernel.
 - Una distribución reúne todo lo necesario para usar el sistema.

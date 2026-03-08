@@ -234,7 +234,7 @@ Es una herramienta ideal para aprender, experimentar y practicar administración
 
 ---
 
-# Mini repaso
+# Repaso
 
 - Una máquina virtual es una computadora simulada dentro de otra computadora.
 - Se ejecuta gracias a un software de virtualización.

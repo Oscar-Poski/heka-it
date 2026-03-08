@@ -71,7 +71,7 @@ Cuando escribes un comando en Linux, la shell:
 
 Por ejemplo, si escribes:
 
-```
+```bash
 ls
 ```
 
@@ -174,7 +174,7 @@ El usuario interactúa con la **terminal**, la terminal ejecuta una **shell**, l
 
 ---
 
-## Mini repaso
+## Repaso
 
 - El **kernel** es el núcleo del sistema operativo.
 - La **shell** interpreta los comandos del usuario.

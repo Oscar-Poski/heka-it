@@ -331,7 +331,7 @@ Si tu enfoque es técnico, operativo, de infraestructura o automatización, Linu
 
 ---
 
-## Mini repaso
+## Repaso
 
 - Los tres son sistemas operativos, pero priorizan cosas distintas.
 - Windows se enfoca mucho en compatibilidad y facilidad para el usuario general.

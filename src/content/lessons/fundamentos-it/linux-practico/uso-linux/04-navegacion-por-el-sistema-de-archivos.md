@@ -3,18 +3,264 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 04-navegacion-por-el-sistema-de-archivos
-title: Navegación por el sistema de archivos
-summary: "Introduccion practica a navegación por el sistema de archivos con enfoque operativo."
-durationMinutes: 22
+title: "Navegación por el sistema de archivos"
+
+summary: "Aprender a moverse dentro del sistema de archivos de Linux utilizando comandos básicos de la terminal."
+
+durationMinutes: 8
+
 objectives:
-  - "Entender los fundamentos de navegación por el sistema de archivos."
-  - "Aplicar comandos y criterios clave de navegación por el sistema de archivos en escenarios reales."
-  - "Identificar errores comunes y buenas practicas relacionadas con navegación por el sistema de archivos."
+
+- "Entender cómo se organiza el sistema de archivos en Linux"
+- "Aprender a cambiar de directorio usando la terminal"
+- "Explorar carpetas y ubicaciones dentro del sistema"
+    
 order: 4
+    
+
 ---
 
-En esta leccion aprenderas navegación por el sistema de archivos desde una perspectiva practica, priorizando tareas que puedes aplicar desde el primer dia en un entorno Linux.
+# Navegación por el sistema de archivos
 
-Se presentan comandos, flujo de trabajo y decisiones tecnicas basicas para resolver problemas frecuentes de forma segura y reproducible.
+Para trabajar con Linux es fundamental saber **moverse dentro del sistema de archivos**.
 
-Al final tendras una base clara para continuar con temas mas avanzados del modulo sin perder contexto operativo.
+El sistema de archivos es la forma en que el sistema operativo organiza:
+
+- archivos
+- carpetas
+- programas
+- configuraciones
+
+En esta lección aprenderás a **explorar y navegar por el sistema** usando algunos comandos básicos de la terminal.
+
+---
+
+# ¿Qué es el sistema de archivos?
+
+El **sistema de archivos** es la estructura que organiza toda la información almacenada en el disco.
+
+En Linux, todo se organiza en forma de **árbol de directorios**.
+
+En la parte superior de ese árbol está el **directorio raíz**, representado por:
+
+```
+/
+```
+
+Desde ese punto se ramifican todas las demás carpetas del sistema.
+
+Por ejemplo:
+
+```
+/
+├── home
+├── etc
+├── var
+├── usr
+```
+
+Cada carpeta puede contener más carpetas y archivos.
+
+---
+
+# Directorio actual
+
+Cuando trabajas en la terminal siempre te encuentras en una ubicación específica del sistema.
+
+A esto se le llama **directorio actual** o **directorio de trabajo**.
+
+Puedes ver tu ubicación actual usando:
+
+```bash
+pwd
+```
+
+Por ejemplo, podrías ver algo como:
+
+```
+/home/oscar
+```
+
+Esto significa que actualmente estás dentro del directorio personal del usuario.
+
+---
+
+# Listar contenido con `ls`
+
+Para ver los archivos y carpetas dentro del directorio actual usamos:
+
+```bash
+ls
+```
+
+Esto muestra el contenido del directorio.
+
+Por ejemplo:
+
+```
+Documentos  Descargas  Imágenes  Videos
+```
+
+Esto permite explorar el sistema paso a paso.
+
+---
+
+# Cambiar de directorio con `cd`
+
+El comando principal para navegar entre carpetas es:
+
+```bash
+cd
+```
+
+`cd` significa **change directory**.
+
+Por ejemplo:
+
+```bash
+cd Documentos
+```
+
+Esto cambia tu ubicación al directorio llamado `Documentos`.
+
+Si después ejecutas:
+
+```bash
+pwd
+```
+
+podrías ver algo como:
+
+```
+/home/oscar/Documentos
+```
+
+---
+
+# Volver al directorio anterior
+
+Si quieres subir un nivel en la estructura de carpetas puedes usar:
+
+```bash
+cd ..
+```
+
+Los dos puntos (`..`) representan **el directorio padre**, es decir, la carpeta que contiene la actual.
+
+Por ejemplo:
+
+```
+/home/oscar/Documentos
+```
+
+si ejecutas:
+
+```bash
+cd ..
+```
+
+terminarás en:
+
+```
+/home/oscar
+```
+
+---
+
+# Ir directamente al directorio personal
+
+Existe una forma rápida de volver a tu directorio personal.
+
+Simplemente ejecuta:
+
+```bash
+cd
+```
+
+o también:
+
+```bash
+cd ~
+```
+
+El símbolo `~` representa **el directorio personal del usuario**.
+
+---
+
+# Rutas absolutas y relativas
+
+Cuando navegas por el sistema puedes usar dos tipos de rutas.
+
+## Ruta absoluta
+
+Una **ruta absoluta** comienza desde la raíz del sistema.
+
+Ejemplo:
+
+```bash
+cd /home/oscar/Documentos
+```
+
+Esta ruta funciona desde cualquier lugar del sistema.
+
+---
+
+## Ruta relativa
+
+Una **ruta relativa** se interpreta desde tu ubicación actual.
+
+Por ejemplo, si estás en:
+
+```
+/home/oscar
+```
+
+puedes entrar a Documentos con:
+
+```bash
+cd Documentos
+```
+
+La ruta no empieza desde `/`, sino desde tu posición actual.
+
+---
+
+# Explorando el sistema paso a paso
+
+Una forma común de explorar el sistema es combinar `ls` y `cd`.
+
+Por ejemplo:
+
+```bash
+ls
+cd Documentos
+ls
+cd ..
+```
+
+Este flujo te permite:
+
+1. ver qué hay en un directorio
+2. entrar en una carpeta
+3. ver su contenido
+4. regresar al directorio anterior
+
+---
+
+# Idea clave de esta lección
+
+El sistema de archivos de Linux está organizado como un árbol de directorios que comienza en la raíz `/`.
+
+Los comandos `pwd`, `ls` y `cd` permiten navegar y explorar esa estructura desde la terminal.
+
+---
+
+# Repaso
+
+- El sistema de archivos organiza toda la información del sistema.
+- `/` representa el directorio raíz.
+- `pwd` muestra el directorio actual.
+- `ls` lista archivos y carpetas.
+- `cd` permite cambiar de directorio.
+- `cd ..` sube un nivel en la estructura.
+- `cd ~` regresa al directorio personal.

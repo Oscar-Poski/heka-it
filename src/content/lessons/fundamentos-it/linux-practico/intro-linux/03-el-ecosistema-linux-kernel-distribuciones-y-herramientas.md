@@ -216,7 +216,7 @@ El **kernel** es la base, pero el sistema que usa una persona también incluye h
 
 ---
 
-## Mini repaso
+## Repaso
 
 - Linux es el kernel, no todo el sistema completo.
 - Un sistema Linux funcional necesita más piezas además del kernel.

@@ -278,7 +278,7 @@ Esto ofrece una experiencia más completa y mejor rendimiento, pero también req
 
 ---
 
-## Mini repaso
+## Repaso
 
 - Linux en hardware físico corre directamente sobre la computadora real.
 - Puede instalarse como sistema único, en dual boot o en una máquina dedicada.

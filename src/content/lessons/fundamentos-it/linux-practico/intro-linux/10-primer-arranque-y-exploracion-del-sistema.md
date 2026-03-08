@@ -141,7 +141,7 @@ Normalmente puedes abrirla desde:
 
 Una vez abierta, verás algo similar a esto:
 
-```
+```bash
 usuario@equipo:~$
 ```
 
@@ -201,7 +201,7 @@ Una vez dentro, puedes comenzar a explorar el entorno gráfico, el gestor de arc
 
 ---
 
-## Mini repaso
+## Repaso
 
 - El sistema pasa por varias etapas antes de arrancar completamente.
 - Después del arranque aparece la pantalla de inicio de sesión.

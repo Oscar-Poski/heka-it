@@ -194,7 +194,7 @@ Aprender Linux significa entender mejor cómo funciona gran parte de la tecnolog
 
 ---
 
-## Mini repaso
+## Repaso
 
 - Linux domina gran parte de los servidores de internet.
 - Las plataformas de cloud utilizan Linux ampliamente.
