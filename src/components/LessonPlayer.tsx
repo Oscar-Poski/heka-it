@@ -9,7 +9,7 @@ type LessonPlayerProps = {
   lessonId: string;
   courseHref: string;
   currentHref: string;
-  allLessons: LessonNode[];
+  moduleLessons: LessonNode[];
   previousLesson: LessonNode | null;
   nextLesson: LessonNode | null;
 };
@@ -58,7 +58,7 @@ export function LessonPlayer({
   lessonId,
   courseHref,
   currentHref,
-  allLessons,
+  moduleLessons,
   previousLesson,
   nextLesson,
 }: LessonPlayerProps) {
@@ -70,15 +70,17 @@ export function LessonPlayer({
   }, []);
 
   const currentIndex = useMemo(
-    () => allLessons.findIndex((node) => node.id === lessonId),
-    [allLessons, lessonId]
+    () => moduleLessons.findIndex((node) => node.id === lessonId),
+    [moduleLessons, lessonId]
   );
 
   const completedCount = useMemo(
-    () => allLessons.filter((node) => completedIds.has(node.id)).length,
-    [allLessons, completedIds]
+    () => moduleLessons.filter((node) => completedIds.has(node.id)).length,
+    [moduleLessons, completedIds]
   );
-  const progressPercent = Math.round((completedCount / allLessons.length) * 100);
+  const progressPercent = moduleLessons.length > 0
+    ? Math.round((completedCount / moduleLessons.length) * 100)
+    : 0;
   const isCurrentCompleted = completedIds.has(lessonId);
   const canOpenNext = !nextLesson || isCurrentCompleted;
 
@@ -100,11 +102,11 @@ export function LessonPlayer({
         <aside className="h-fit rounded-2xl border bg-card p-4 lg:sticky lg:top-24">
           <p className="text-xs uppercase tracking-wide text-muted-foreground">{trackTitle}</p>
           <h2 className="mt-1 text-lg font-semibold">{courseTitle}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Progreso del curso</p>
+          <p className="mt-1 text-sm text-muted-foreground">Progreso del módulo</p>
 
           <div className="mt-4">
             <div className="mb-2 flex items-center justify-between text-sm">
-              <span>{completedCount} / {allLessons.length} lecciones</span>
+              <span>{completedCount} / {moduleLessons.length} lecciones</span>
               <span>{progressPercent}%</span>
             </div>
             <div className="h-2 rounded-full bg-secondary">
@@ -120,8 +122,8 @@ export function LessonPlayer({
           </a>
 
           <div className="mt-5 space-y-2">
-            {allLessons.map((node, index) => {
-              const previousNode = index > 0 ? allLessons[index - 1] : null;
+            {moduleLessons.map((node, index) => {
+              const previousNode = index > 0 ? moduleLessons[index - 1] : null;
               const unlocked = index === 0 || Boolean(previousNode && completedIds.has(previousNode.id)) || node.id === lessonId;
               const isCurrent = node.id === lessonId;
               const isDone = completedIds.has(node.id);
@@ -155,7 +157,7 @@ export function LessonPlayer({
           <p className="text-sm text-muted-foreground">{moduleTitle}</p>
           <h1 className="mt-1 text-3xl font-bold">{lesson.title}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Lección {currentIndex + 1} de {allLessons.length}
+            Lección {currentIndex + 1} de {moduleLessons.length}
           </p>
           <p className="mt-3 text-base text-muted-foreground">{lesson.summary}</p>
 

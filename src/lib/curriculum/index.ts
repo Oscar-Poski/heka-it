@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 import { marked } from 'marked';
 import { withBase } from '@/lib/utils';
 import { curriculumCatalog } from './catalog';
-import type { Course, LearningTrack, Lesson, LessonContext, LessonNode } from './types';
+import type { Course, LearningTrack, Lesson, LessonContext, LessonNode, Module } from './types';
 
 export * from './types';
 export { withBase };
@@ -101,6 +101,19 @@ export function buildCourseLessonNodes(trackSlug: string, course: Course): Lesso
   );
 }
 
+export function buildModuleLessonNodes(
+  trackSlug: string,
+  courseSlug: string,
+  module: Module
+): LessonNode[] {
+  return module.lessons.map((lesson) => ({
+    id: `${trackSlug}/${courseSlug}/${module.slug}/${lesson.slug}`,
+    href: withBase(`/cursos/${trackSlug}/${courseSlug}/${module.slug}/${lesson.slug}`),
+    title: lesson.title,
+    moduleTitle: module.title,
+  }));
+}
+
 export async function getLessonContext(
   trackSlug: string,
   courseSlug: string,
@@ -124,11 +137,13 @@ export async function getLessonContext(
   }
 
   const nodes = buildCourseLessonNodes(track.slug, course);
+  const moduleNodes = buildModuleLessonNodes(track.slug, course.slug, module);
   const lessonId = `${track.slug}/${course.slug}/${module.slug}/${lesson.slug}`;
   const lessonPath = withBase(`/cursos/${track.slug}/${course.slug}/${module.slug}/${lesson.slug}`);
   const currentIndex = nodes.findIndex((node) => node.id === lessonId);
+  const moduleCurrentIndex = moduleNodes.findIndex((node) => node.id === lessonId);
 
-  if (currentIndex < 0) {
+  if (currentIndex < 0 || moduleCurrentIndex < 0) {
     return null;
   }
 
@@ -140,7 +155,9 @@ export async function getLessonContext(
     lessonId,
     lessonPath,
     nodes,
+    moduleNodes,
     currentIndex,
+    moduleCurrentIndex,
     previous: currentIndex > 0 ? nodes[currentIndex - 1] : null,
     next: currentIndex < nodes.length - 1 ? nodes[currentIndex + 1] : null,
   };

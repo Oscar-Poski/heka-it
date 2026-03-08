@@ -45,7 +45,9 @@ export type LessonContext = {
   lessonId: string;
   lessonPath: string;
   nodes: LessonNode[];
+  moduleNodes: LessonNode[];
   currentIndex: number;
+  moduleCurrentIndex: number;
   previous: LessonNode | null;
   next: LessonNode | null;
 };
