@@ -30,8 +30,8 @@ export const curriculumCatalog: CatalogTrack[] = [
         slug: 'linux-practico',
         title: 'Linux Básico',
         level: 'básico',
-        summary: 'Aprende terminal, sistema de archivos y automatización inicial.',
-        estimatedHours: 48,
+        summary: 'Aprende qué es Linux, cómo usar la terminal y administración básica del sistema.',
+        estimatedHours: 15,
         modules: [
           {
             slug: 'intro-linux',
@@ -95,7 +95,7 @@ export const curriculumCatalog: CatalogTrack[] = [
           }
         ]
       },
-      {
+      /*{
         slug: 'redes-desde-cero',
         title: 'Redes Desde Cero',
         level: 'básico',
@@ -129,7 +129,7 @@ export const curriculumCatalog: CatalogTrack[] = [
             summary: 'Bases para interfaces claras, accesibles y mantenibles.',
           }
         ]
-      }
+      }*/
     ]
   }
 ];

@@ -247,6 +247,14 @@
   font-weight: 700;
 }
 
+.markdown-content blockquote {
+  border-left: 4px solid hsl(173, 100%, 30%);
+  padding: 0.5rem 1rem;
+  margin: 1.5rem 0;
+  color: hsl(var(--foreground) / 0.8);
+  font-style: italic;
+}
+
 .markdown-content pre {
   overflow-x: auto;
   border: 1px solid hsl(var(--border));
