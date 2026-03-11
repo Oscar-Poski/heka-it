@@ -118,7 +118,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} Hekademos. Todos los derechos reservados.
+            © {currentYear} Hecho con amor por Hekademos IT. Todos los derechos reservados.
           </p>
           <div className="flex gap-6">
             <a
