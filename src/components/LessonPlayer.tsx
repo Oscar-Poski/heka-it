@@ -98,8 +98,8 @@ export function LessonPlayer({
 
   return (
     <section className="py-10 md:py-14">
-      <div className="container mx-auto grid gap-6 px-4 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <aside className="h-fit rounded-2xl border bg-card p-4 lg:sticky lg:top-24">
+      <div className="container mx-auto grid gap-6 px-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <aside className="order-2 h-fit rounded-2xl border bg-card p-4 lg:sticky lg:top-24">
           <p className="text-xs uppercase tracking-wide text-muted-foreground">{trackTitle}</p>
           <h2 className="mt-1 text-lg font-semibold">{courseTitle}</h2>
           <p className="mt-1 text-sm text-muted-foreground">Progreso del módulo</p>
@@ -153,7 +153,7 @@ export function LessonPlayer({
           </div>
         </aside>
 
-        <article className="rounded-2xl border bg-card p-6 md:p-8">
+        <article className="order-1 rounded-2xl border bg-card p-6 md:p-8">
           <p className="text-sm text-muted-foreground">{moduleTitle}</p>
           <h1 className="mt-1 text-3xl font-bold">{lesson.title}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
