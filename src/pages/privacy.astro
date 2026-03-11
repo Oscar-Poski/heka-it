@@ -1,3 +1,135 @@
 ---
 import Layout from '../layouts/main.astro';
+
+const metadata = {
+  title: "Política de Privacidad",
+  description: "Conoce cómo Hekademos IT recopila, utiliza y protege tu información.",
+};
+
+const introText = [
+  "En Hekademos IT valoramos tu privacidad y nos comprometemos a proteger tu información personal. Esta política explica qué datos recopilamos, cómo los utilizamos y cuáles son tus derechos respecto a tu información.",
+];
+
+const lastUpdated = "11 de marzo de 2026";
 ---
+
+<Layout {metadata}>
+
+  <section class="mx-auto max-w-4xl px-4 pb-16 md:px-6 md:pb-24">
+    <div class="rounded-3xl border border-border bg-card p-8 shadow-sm md:p-10">
+      <p class="mb-8 text-sm text-muted">
+        Última actualización: {lastUpdated}
+      </p>
+
+      <div class="prose prose-neutral dark:prose-invert max-w-none">
+        <h2>1. Introducción</h2>
+        <p>
+          En Hekademos IT respetamos tu privacidad. Esta Política de Privacidad
+          describe cómo recopilamos, utilizamos, almacenamos y protegemos la
+          información cuando utilizas nuestro sitio web, contenido educativo,
+          formularios de contacto u otros servicios relacionados.
+        </p>
+        <p>
+          Al utilizar este sitio web, aceptas las prácticas descritas en esta
+          política.
+        </p>
+
+        <h2>2. Información que recopilamos</h2>
+        <p>Podemos recopilar los siguientes tipos de información:</p>
+        <ul>
+          <li>
+            <strong>Información personal</strong>, como tu nombre o correo
+            electrónico, si decides proporcionarla voluntariamente a través de
+            formularios de contacto, suscripción a newsletter u otros medios.
+          </li>
+          <li>
+            <strong>Información de uso</strong>, como páginas visitadas, tiempo
+            de navegación en el sitio, tipo de navegador o dispositivo.
+          </li>
+          <li>
+            <strong>Información técnica</strong>, como dirección IP aproximada,
+            sistema operativo o datos relacionados con herramientas de
+            analítica.
+          </li>
+        </ul>
+
+        <h2>3. Cómo utilizamos tu información</h2>
+        <p>Podemos utilizar tu información para:</p>
+        <ul>
+          <li>Responder a tus mensajes o solicitudes de contacto.</li>
+          <li>Enviar actualizaciones, contenido educativo o newsletters si te suscribes.</li>
+          <li>Mejorar el contenido, funcionalidad y experiencia del sitio web.</li>
+          <li>Analizar cómo los visitantes utilizan el sitio para optimizar nuestros recursos educativos.</li>
+        </ul>
+
+        <h2>4. Cookies y tecnologías similares</h2>
+        <p>
+          Nuestro sitio puede utilizar cookies u otras tecnologías similares
+          para mejorar la experiencia del usuario, recordar preferencias y
+          analizar el tráfico del sitio.
+        </p>
+        <p>
+          Puedes configurar tu navegador para bloquear o eliminar cookies en
+          cualquier momento.
+        </p>
+
+        <h2>5. Servicios de terceros</h2>
+        <p>
+          Podemos utilizar servicios de terceros para operar el sitio web,
+          analizar tráfico o gestionar comunicaciones. Estos servicios pueden
+          recopilar cierta información de acuerdo con sus propias políticas de
+          privacidad.
+        </p>
+        <p>
+          Ejemplos de servicios que podríamos utilizar incluyen herramientas de
+          analítica, servicios de correo electrónico o proveedores de hosting.
+        </p>
+
+        <h2>6. Protección de la información</h2>
+        <p>
+          Tomamos medidas razonables para proteger la información contra acceso
+          no autorizado, alteración, divulgación o destrucción.
+        </p>
+        <p>
+          Sin embargo, ningún sistema en internet es completamente seguro, por
+          lo que no podemos garantizar seguridad absoluta.
+        </p>
+
+        <h2>7. Enlaces a otros sitios</h2>
+        <p>
+          Nuestro sitio puede contener enlaces a sitios externos. No somos
+          responsables por las prácticas de privacidad ni por el contenido de
+          esos sitios.
+        </p>
+
+        <h2>8. Derechos del usuario</h2>
+        <p>
+          Dependiendo de tu país o región, puedes tener derechos relacionados
+          con tus datos personales, incluyendo el derecho a solicitar acceso,
+          corrección o eliminación de tu información.
+        </p>
+        <p>
+          Si deseas realizar alguna solicitud relacionada con tus datos,
+          puedes contactarnos a través del formulario del sitio.
+        </p>
+
+        <h2>9. Cambios en esta política</h2>
+        <p>
+          Podemos actualizar esta Política de Privacidad ocasionalmente para
+          reflejar cambios en el sitio o en las regulaciones aplicables.
+        </p>
+        <p>
+          Cuando esto ocurra, actualizaremos la fecha de “última actualización”
+          en esta página.
+        </p>
+
+        <h2>10. Contacto</h2>
+        <p>
+          Si tienes preguntas sobre esta Política de Privacidad, puedes
+          comunicarte con nosotros a través del formulario de contacto
+          disponible en el sitio web.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

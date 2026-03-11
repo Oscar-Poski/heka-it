@@ -1,3 +1,128 @@
 ---
 import Layout from '../layouts/main.astro';
+
+const metadata = {
+  title: "Términos y Condiciones",
+  description: "Términos y condiciones de uso del sitio web Hekademos IT.",
+};
+
+const introText = [
+  "Estos Términos y Condiciones describen las reglas y condiciones para el uso del sitio web de Hekademos IT. Al acceder o utilizar este sitio, aceptas cumplir con estos términos.",
+];
+
+const lastUpdated = "11 de marzo de 2026";
 ---
+
+<Layout {metadata}>
+
+  <section class="mx-auto max-w-4xl px-4 pb-16 md:px-6 md:pb-24">
+    <div class="rounded-3xl border border-border bg-card p-8 shadow-sm md:p-10">
+      <p class="mb-8 text-sm text-muted">
+        Última actualización: {lastUpdated}
+      </p>
+
+      <div class="prose prose-neutral dark:prose-invert max-w-none">
+
+        <h2>1. Aceptación de los términos</h2>
+        <p>
+          Al acceder y utilizar el sitio web de Hekademos IT, aceptas cumplir
+          con estos Términos y Condiciones, así como con todas las leyes y
+          regulaciones aplicables. Si no estás de acuerdo con alguno de estos
+          términos, te recomendamos no utilizar este sitio.
+        </p>
+
+        <h2>2. Uso del sitio</h2>
+        <p>
+          El contenido de Hekademos IT está destinado únicamente para fines
+          educativos e informativos. Los usuarios se comprometen a utilizar el
+          sitio de manera responsable y conforme a la ley.
+        </p>
+
+        <p>No está permitido:</p>
+
+        <ul>
+          <li>Utilizar el sitio para actividades ilegales o fraudulentas.</li>
+          <li>Intentar acceder a sistemas, servidores o datos sin autorización.</li>
+          <li>Interferir con el funcionamiento normal del sitio.</li>
+          <li>Utilizar el contenido con fines engañosos o malintencionados.</li>
+        </ul>
+
+        <h2>3. Propiedad intelectual</h2>
+        <p>
+          Todo el contenido disponible en este sitio, incluyendo textos,
+          gráficos, material educativo, logotipos y diseño del sitio,
+          pertenece a Hekademos IT o se utiliza con los permisos
+          correspondientes.
+        </p>
+
+        <p>
+          El contenido puede ser utilizado para aprendizaje personal, pero no
+          puede ser reproducido, distribuido o comercializado sin autorización
+          previa cuando corresponda.
+        </p>
+
+        <h2>4. Contenido educativo</h2>
+        <p>
+          El contenido publicado en Hekademos IT tiene fines educativos y se
+          basa en experiencias prácticas dentro de la industria tecnológica.
+        </p>
+
+        <p>
+          Aunque buscamos ofrecer información precisa y actualizada, no
+          garantizamos que todo el contenido esté libre de errores o que sea
+          aplicable a todas las situaciones.
+        </p>
+
+        <h2>5. Enlaces a terceros</h2>
+        <p>
+          El sitio puede contener enlaces a páginas web externas que no están
+          bajo el control de Hekademos IT. No somos responsables del contenido,
+          políticas de privacidad o prácticas de estos sitios externos.
+        </p>
+
+        <h2>6. Limitación de responsabilidad</h2>
+        <p>
+          Hekademos IT no será responsable por daños directos o indirectos que
+          puedan surgir del uso o la imposibilidad de usar el contenido o los
+          servicios del sitio.
+        </p>
+
+        <p>
+          El uso de la información y recursos disponibles en el sitio es bajo
+          la responsabilidad del usuario.
+        </p>
+
+        <h2>7. Modificaciones del sitio</h2>
+        <p>
+          Nos reservamos el derecho de modificar, suspender o eliminar partes
+          del sitio web o su contenido en cualquier momento sin previo aviso.
+        </p>
+
+        <h2>8. Cambios en los términos</h2>
+        <p>
+          Estos Términos y Condiciones pueden actualizarse ocasionalmente para
+          reflejar cambios en el sitio o en la normativa aplicable.
+        </p>
+
+        <p>
+          Cuando se realicen cambios, se actualizará la fecha de “última
+          actualización” en esta página.
+        </p>
+
+        <h2>9. Legislación aplicable</h2>
+        <p>
+          Estos términos se interpretarán de acuerdo con las leyes aplicables
+          en la jurisdicción correspondiente al operador del sitio.
+        </p>
+
+        <h2>10. Contacto</h2>
+        <p>
+          Si tienes preguntas sobre estos Términos y Condiciones, puedes
+          comunicarte con nosotros a través del formulario de contacto
+          disponible en el sitio web.
+        </p>
+
+      </div>
+    </div>
+  </section>
+</Layout>
