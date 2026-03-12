@@ -1,5 +1,7 @@
 import { getCollection } from 'astro:content';
-import { marked } from 'marked';
+import { Marked } from 'marked';
+import { markedHighlight } from 'marked-highlight';
+import hljs from 'highlight.js';
 import { withBase } from '@/lib/utils';
 import { curriculumCatalog } from './catalog';
 import type { Course, LearningTrack, Lesson, LessonContext, LessonNode, Module } from './types';
@@ -17,6 +19,19 @@ type LessonEntry = {
 
 let cachedTracksPromise: Promise<LearningTrack[]> | null = null;
 
+const markdown = new Marked(
+  markedHighlight({
+    langPrefix: 'language-',
+    highlight(code, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        return hljs.highlight(code, { language: lang }).value;
+      }
+
+      return hljs.highlightAuto(code, ['bash']).value;
+    },
+  })
+);
+
 async function loadLessonEntries(): Promise<LessonEntry[]> {
   const entries = await getCollection('lessons');
 
@@ -31,7 +46,7 @@ async function loadLessonEntries(): Promise<LessonEntry[]> {
       summary: entry.data.summary,
       durationMinutes: entry.data.durationMinutes,
       objectives: entry.data.objectives,
-      contentHtml: marked.parse(entry.body) as string,
+      contentHtml: markdown.parse(entry.body) as string,
     },
   }));
 }

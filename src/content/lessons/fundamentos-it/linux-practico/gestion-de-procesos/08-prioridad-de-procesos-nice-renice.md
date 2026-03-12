@@ -95,7 +95,7 @@ El comando `nice` permite iniciar un proceso con una prioridad diferente.
 Ejemplo:
 
 ```bash
-nice -n10 comando
+nice -n 10 comando
 ```
 
 Esto ejecuta el comando con menor prioridad que la normal.
@@ -103,7 +103,7 @@ Esto ejecuta el comando con menor prioridad que la normal.
 Por ejemplo:
 
 ```bash
-nice -n10 tar -czf respaldo.tar.gz carpeta/
+nice -n 10 tar -czf respaldo.tar.gz carpeta/
 ```
 
 Esto permite que el proceso consuma menos CPU si otros procesos la necesitan.
@@ -166,7 +166,7 @@ Supongamos que ejecutas un proceso pesado que consume CPU.
 Puedes iniciarlo con menor prioridad:
 
 ```bash
-nice -n15 python script_grande.py
+nice -n 15 python script_grande.py
 ```
 
 De esta manera el proceso seguirá ejecutándose, pero el sistema podrá priorizar otros procesos más importantes.

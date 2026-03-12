@@ -301,3 +301,36 @@
   text-transform: lowercase;
   padding: 0.15rem 0.5rem;
 }
+
+/* Syntax highlighting tokens */
+.markdown-content pre code .hljs-comment,
+.markdown-content pre code .hljs-quote {
+  color: hsl(170 12% 62%);
+}
+
+.markdown-content pre code .hljs-keyword,
+.markdown-content pre code .hljs-meta,
+.markdown-content pre code .hljs-literal {
+  color: hsl(45 90% 68%);
+}
+
+.markdown-content pre code .hljs-string,
+.markdown-content pre code .hljs-regexp {
+  color: hsl(140 65% 64%);
+}
+
+.markdown-content pre code .hljs-variable,
+.markdown-content pre code .hljs-template-variable {
+  color: hsl(193 100% 74%);
+}
+
+.markdown-content pre code .hljs-built_in,
+.markdown-content pre code .hljs-function,
+.markdown-content pre code .hljs-title {
+  color: hsl(286 65% 75%);
+}
+
+.markdown-content pre code .hljs-number,
+.markdown-content pre code .hljs-symbol {
+  color: hsl(24 95% 68%);
+}
