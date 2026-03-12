@@ -3,10 +3,8 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
-// https://astro.build/config
 export default defineConfig({
-  site: 'https://oscar-poski.github.io',
-  base: '/heka-it',
+  site: 'https://d1exhn3bk6gq22.cloudfront.net',
   integrations: [
     react(),
     tailwind({
