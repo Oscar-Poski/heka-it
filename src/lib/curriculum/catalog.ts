@@ -95,18 +95,18 @@ export const curriculumCatalog: CatalogTrack[] = [
           }
         ]
       },
-      /*{
+      {
         slug: 'redes-desde-cero',
-        title: 'Redes Desde Cero',
+        title: 'En Construcción: Redes Desde Cero',
         level: 'básico',
-        summary: 'Comprende conectividad, diagnostico y principios de red para soporte tecnico.',
-        estimatedHours: 7,
+        summary: 'Comprende conectividad, diagnóstico y principios de red para soporte técnico.',
+        estimatedHours: 0,
         modules: [
-          {
+          /*{
             slug: 'fundamentos-red',
             title: 'Fundamentos de Red',
             summary: 'Conceptos clave para interpretar trafico y arquitectura basica.',
-          }
+          }*/
         ]
       }
     ]
@@ -118,18 +118,18 @@ export const curriculumCatalog: CatalogTrack[] = [
     courses: [
       {
         slug: 'frontend-moderno',
-        title: 'Frontend Moderno',
-        level: 'intermedio',
-        summary: 'HTML semantico, CSS utilitario y componentes reutilizables.',
-        estimatedHours: 9,
+        title: 'En Construcción: Frontend Moderno',
+        level: 'básico',
+        summary: 'HTML semántico, CSS utilitario y componentes reutilizables.',
+        estimatedHours: 0,
         modules: [
-          {
+          /*{
             slug: 'fundamentos-ui',
             title: 'Fundamentos de UI',
             summary: 'Bases para interfaces claras, accesibles y mantenibles.',
-          }
+          }*/
         ]
-      }*/
+      }
     ]
   }
 ];

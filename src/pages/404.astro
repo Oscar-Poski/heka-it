@@ -5,3 +5,44 @@ import { Home, Search, ArrowLeft } from 'lucide-react';
 const base = import.meta.env.BASE_URL;
 ---
 
+<Layout title="404 - Página no encontrada">
+  <section class="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
+    
+    <h1 class="text-6xl font-bold tracking-tight">404</h1>
+
+    <h2 class="mt-4 text-2xl font-semibold">
+      Página no encontrada
+    </h2>
+
+    <p class="mt-4 max-w-xl text-muted">
+      La página que estás buscando no existe o pudo haber sido movida.
+      Puede que el enlace esté roto o que la dirección no sea correcta.
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+      
+      <a
+        href={`${base}`}
+        class="inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-medium transition hover:bg-muted"
+      >
+        <Home size={18} />
+        Ir al inicio
+      </a>
+
+      <button
+        onclick="history.back()"
+        class="inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-medium transition hover:bg-muted"
+      >
+        <ArrowLeft size={18} />
+        Volver atrás
+      </button>
+
+    </div>
+
+    <div class="mt-12 text-sm text-muted">
+      Si crees que esto es un error, puedes volver a la página principal
+      y continuar explorando el contenido.
+    </div>
+
+  </section>
+</Layout>

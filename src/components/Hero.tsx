@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, GraduationCap, BookOpenText, Laptop } from "lucide-react";
+import { ArrowRight, Heart, GraduationCap, BookOpenText, Laptop } from "lucide-react";
 import { withBase } from "@/lib/utils";
 
 export function Hero() {
@@ -22,8 +22,8 @@ export function Hero() {
             transition={{ duration: 0.5 }}
           >
             <div className="inline-flex items-center gap-2 rounded-full border bg-background/60 backdrop-blur-sm px-4 py-1.5 text-sm">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-muted-foreground">Hecho por Hekademos</span>
+              <GraduationCap className="h-4 w-4 text-primary" />
+              <span className="text-muted-foreground">Hecho con amor por Hekademos IT</span>
             </div>
           </motion.div>
 
