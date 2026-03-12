@@ -32,23 +32,23 @@ const features = [
   },
   {
     icon: Flag,
-    title: "Path",
+    title: "Curso",
     description:
-      "El bloque de aprendizaje más grande es un ruta.",
+      "El bloque de aprendizaje más grande es un curso.",
     gradient: "from-blue-500 to-cyan-500",
   },
   {
     icon: Bookmark,
     title: "Módulo",
     description:
-      "El Camino se divide en varios módulos, cada uno de los cuales cubre un tema específico e independiente.",
+      "El curso se divide en varios módulos, cada uno de los cuales cubre un tema específico e independiente.",
     gradient: "from-indigo-500 to-purple-500",
   },
   {
     icon: BookOpenText,
     title: "Lección",
     description:
-      "Los módilos de dividen en lecciones digeribles y fáciles de aprender.",
+      "Los módulos de dividen en lecciones digeribles y fáciles de aprender.",
     gradient: "from-pink-500 to-rose-500",
   },
 ];

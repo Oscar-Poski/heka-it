@@ -8,7 +8,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Features", href: withBase("/#features") },
+    { label: "Características", href: withBase("/#features") },
     { label: "Cursos", href: withBase("/cursos") },
     { label: "Sobre Nosotros", href: withBase("/about") },
   ];

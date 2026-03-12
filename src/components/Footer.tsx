@@ -59,7 +59,7 @@ export function Footer() {
                   href={withBase("/#features")}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Features
+                  Características
                 </a>
               </li>
               <li>
