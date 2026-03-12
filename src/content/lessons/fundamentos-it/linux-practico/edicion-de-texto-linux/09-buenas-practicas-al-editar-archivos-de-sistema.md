@@ -52,7 +52,7 @@ Esto permite restaurar la configuración original si algo sale mal.
 Por ejemplo:
 
 ```bash
-sudocp archivo.conf archivo.conf.bak
+sudo cp archivo.conf archivo.conf.bak
 ```
 
 Si ocurre un problema, puedes restaurar el archivo original fácilmente.
@@ -116,7 +116,7 @@ Después de modificar un archivo de configuración, muchas veces es necesario:
 Por ejemplo:
 
 ```bash
-sudo systemctlrestart servicio
+sudo systemctl restart servicio
 ```
 
 Esto aplica los cambios al servicio correspondiente.
