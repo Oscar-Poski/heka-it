@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart, GraduationCap, BookOpenText, Laptop } from "lucide-react";
+import { ArrowRight, GraduationCap, BookOpenText, Laptop } from "lucide-react";
 import { withBase } from "@/lib/utils";
 
 export function Hero() {
