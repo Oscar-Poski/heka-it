@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 12-edicion-basica-de-texto-en-terminal
-title: "Edición básica de texto en la terminal"
+title: "Edición Básica de Texto"
 
 summary: "Aprender a crear y editar archivos de texto desde la terminal utilizando un editor sencillo como nano."
 
@@ -56,7 +56,7 @@ En este curso empezaremos con **nano**, porque es uno de los más fáciles de ap
 Para abrir un archivo con nano puedes escribir:
 
 ```bash
-nano archivo.txt
+$ nano archivo.txt
 ```
 
 Si el archivo ya existe, nano abrirá su contenido.
@@ -145,7 +145,7 @@ Estos atajos aparecen siempre visibles dentro del editor.
 Después de salir del editor puedes comprobar el contenido del archivo usando:
 
 ```bash
-cat archivo.txt
+$ cat archivo.txt
 ```
 
 Esto mostrará el contenido en la terminal.
@@ -153,7 +153,7 @@ Esto mostrará el contenido en la terminal.
 También puedes ver el archivo con:
 
 ```bash
-less archivo.txt
+$ less archivo.txt
 ```
 
 Lo que permite navegar el texto más cómodamente si el archivo es largo.

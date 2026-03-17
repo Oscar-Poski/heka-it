@@ -187,8 +187,8 @@ export function LessonPlayer({
     <section className="py-10 md:py-14">
       <div className="container mx-auto grid gap-6 px-4 lg:grid-cols-[minmax(0,1fr)_320px]">
         <aside className="order-2 h-fit rounded-2xl border bg-card p-4 lg:sticky lg:top-24">
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">{trackTitle}</p>
-          <h2 className="mt-1 text-lg font-semibold">{courseTitle}</h2>
+          <p className="text-xs uppercase tracking-wide text-muted-foreground">{courseTitle}</p>
+          <h2 className="mt-1 text-lg font-semibold">{moduleTitle}</h2>
           <p className="mt-1 text-sm text-muted-foreground">Progreso del módulo</p>
 
           <div className="mt-4">
@@ -205,7 +205,7 @@ export function LessonPlayer({
           </div>
 
           <a href={courseHref} className="mt-4 inline-block text-sm font-medium text-primary hover:underline">
-            Ver resumen del curso
+            Ver todos los módulos
           </a>
 
           <div className="mt-5 space-y-2">

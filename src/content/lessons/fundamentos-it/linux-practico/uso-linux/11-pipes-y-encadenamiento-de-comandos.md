@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 11-pipes-y-encadenamiento-de-comandos
-title: "Pipes (|) y encadenamiento de comandos"
+title: "Pipes (|)"
 
 summary: "Aprender cómo conectar comandos en Linux utilizando pipes para que la salida de un comando se convierta en la entrada de otro."
 
@@ -71,7 +71,12 @@ Supongamos que un directorio contiene muchos archivos.
 Podrías usar:
 
 ```bash
-ls | more
+$ ls | more
+archivo1.txt
+archivo2.txt
+archivo3.txt
+archivo4.txt
+--More--
 ```
 
 Esto permite **ver la lista página por página**, en lugar de mostrar todo de golpe.
@@ -87,7 +92,10 @@ Otro ejemplo muy común es filtrar resultados.
 Por ejemplo:
 
 ```bash
-ls | grep txt
+$ ls | grep txt
+reporte.txt
+notas.txt
+archivo1.txt
 ```
 
 Esto significa:
@@ -106,7 +114,10 @@ Los pipes pueden conectarse varias veces.
 Por ejemplo:
 
 ```bash
-ls | grep txt | sort
+$ ls | grep txt | sort
+archivo1.txt
+notas.txt
+reporte.txt
 ```
 
 Aquí ocurre lo siguiente:

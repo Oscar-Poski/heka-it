@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 04-navegacion-por-el-sistema-de-archivos
-title: "Navegación por el sistema de archivos"
+title: "Navegación por el Sistema"
 
 summary: "Aprender a moverse dentro del sistema de archivos de Linux utilizando comandos básicos de la terminal."
 
@@ -72,13 +72,14 @@ A esto se le llama **directorio actual** o **directorio de trabajo**.
 Puedes ver tu ubicación actual usando:
 
 ```bash
-pwd
+usuario@equipo:~$ pwd
 ```
 
 Por ejemplo, podrías ver algo como:
 
-```
-/home/oscar
+```bash
+usuario@equipo:~$ pwd
+/home/usuario
 ```
 
 Esto significa que actualmente estás dentro del directorio personal del usuario.
@@ -90,15 +91,16 @@ Esto significa que actualmente estás dentro del directorio personal del usuario
 Para ver los archivos y carpetas dentro del directorio actual usamos:
 
 ```bash
-ls
+usuario@equipo:~$ ls
 ```
 
 Esto muestra el contenido del directorio.
 
 Por ejemplo:
 
-```
-Documentos  Descargas  Imágenes  Videos
+```bash
+usuario@equipo:~$ ls
+documentos/  fotos/  proyectos/  notas.txt
 ```
 
 Esto permite explorar el sistema paso a paso.
@@ -110,7 +112,7 @@ Esto permite explorar el sistema paso a paso.
 El comando principal para navegar entre carpetas es:
 
 ```bash
-cd
+usuario@equipo:~$ cd
 ```
 
 `cd` significa **change directory**.
@@ -118,7 +120,7 @@ cd
 Por ejemplo:
 
 ```bash
-cd Documentos
+usuario@equipo:~$ cd Documentos
 ```
 
 Esto cambia tu ubicación al directorio llamado `Documentos`.
@@ -126,13 +128,14 @@ Esto cambia tu ubicación al directorio llamado `Documentos`.
 Si después ejecutas:
 
 ```bash
-pwd
+usuario@equipo:~$ pwd
 ```
 
 podrías ver algo como:
 
-```
-/home/oscar/Documentos
+```bash
+usuario@equipo:~$ pwd
+/home/usuario/Documentos
 ```
 
 ---
@@ -142,27 +145,28 @@ podrías ver algo como:
 Si quieres subir un nivel en la estructura de carpetas puedes usar:
 
 ```bash
-cd ..
+usuario@equipo:~$ cd ..
 ```
 
 Los dos puntos (`..`) representan **el directorio padre**, es decir, la carpeta que contiene la actual.
 
 Por ejemplo:
 
-```
-/home/oscar/Documentos
+```bash
+usuario@equipo:~$ pwd
+/home/usuario/Documentos
 ```
 
 si ejecutas:
 
 ```bash
-cd ..
+usuario@equipo:~$ cd ..
 ```
 
 terminarás en:
 
 ```
-/home/oscar
+/home/usuario
 ```
 
 ---
@@ -174,13 +178,13 @@ Existe una forma rápida de volver a tu directorio personal.
 Simplemente ejecuta:
 
 ```bash
-cd
+usuario@equipo:~$ cd
 ```
 
 o también:
 
 ```bash
-cd ~
+usuario@equipo:~$ cd ~
 ```
 
 El símbolo `~` representa **el directorio personal del usuario**.
@@ -198,7 +202,7 @@ Una **ruta absoluta** comienza desde la raíz del sistema.
 Ejemplo:
 
 ```bash
-cd /home/oscar/Documentos
+usuario@equipo:~$ cd /home/usuario/Documentos
 ```
 
 Esta ruta funciona desde cualquier lugar del sistema.
@@ -211,14 +215,15 @@ Una **ruta relativa** se interpreta desde tu ubicación actual.
 
 Por ejemplo, si estás en:
 
-```
-/home/oscar
+```bash
+usuario@equipo:~$ pwd
+usuario@equipo:~$ /home/usuario
 ```
 
 puedes entrar a Documentos con:
 
 ```bash
-cd Documentos
+usuario@equipo:~$ cd Documentos
 ```
 
 La ruta no empieza desde `/`, sino desde tu posición actual.
@@ -232,10 +237,12 @@ Una forma común de explorar el sistema es combinar `ls` y `cd`.
 Por ejemplo:
 
 ```bash
-ls
-cd Documentos
-ls
-cd ..
+usuario@equipo:~$ ls
+documentos/  fotos/  proyectos/  notas.txt
+usuario@equipo:~$ cd Documentos
+usuario@equipo:~$ ls
+tareas/  idea1.txt idea2.txt
+usuario@equipo:~$ cd ..
 ```
 
 Este flujo te permite:

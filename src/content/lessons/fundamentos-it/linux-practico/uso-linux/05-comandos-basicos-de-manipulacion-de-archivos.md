@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 05-comandos-basicos-de-manipulacion-de-archivos
-title: "Comandos básicos de manipulación de archivos"
+title: "Manipulación de Archivos"
 
 summary: "Aprender los comandos esenciales para crear, copiar, mover y eliminar archivos y directorios en Linux."
 
@@ -45,7 +45,7 @@ El comando `touch` permite crear un archivo vacío.
 Por ejemplo:
 
 ```bash
-touch archivo.txt
+$ touch archivo.txt
 ```
 
 Después de ejecutar el comando, el archivo aparecerá en el directorio actual.
@@ -53,12 +53,14 @@ Después de ejecutar el comando, el archivo aparecerá en el directorio actual.
 Puedes comprobarlo con:
 
 ```bash
-ls
+$ ls
 ```
 
 Verás algo como:
 
-```
+```bash
+$ touch archivo.txt
+$ ls
 archivo.txt
 ```
 
@@ -68,16 +70,12 @@ Aunque el archivo esté vacío, ahora ya existe dentro del sistema.
 
 # Crear directorios con `mkdir`
 
-Para crear una carpeta usamos el comando:
-
-```bash
-mkdir
-```
+Para crear una carpeta usamos el comando `mkdir`.
 
 Por ejemplo:
 
 ```bash
-mkdir proyectos
+$ mkdir proyectos
 ```
 
 Esto crea un directorio llamado `proyectos`.
@@ -85,15 +83,18 @@ Esto crea un directorio llamado `proyectos`.
 Si ejecutas:
 
 ```bash
-ls
+$ ls
 ```
 
 verás el nuevo directorio en la lista.
 
-Luego puedes entrar en él con:
+Luego puedes entrar en él con `cd`:
 
 ```bash
-cd proyectos
+$ mkdir proyectos
+$ ls
+archivo.txt  proyectos
+$ cd proyectos
 ```
 
 ---
@@ -105,14 +106,15 @@ El comando `cp` se utiliza para **copiar archivos o directorios**.
 Ejemplo:
 
 ```bash
-cp archivo.txt copia.txt
+$ cp archivo.txt copia.txt
 ```
 
 Esto crea una copia del archivo con otro nombre.
 
 Después de ejecutar el comando, `ls` mostraría algo como:
 
-```
+```bash
+$ ls
 archivo.txt  copia.txt
 ```
 
@@ -128,7 +130,7 @@ El comando `mv` se utiliza para:
 Por ejemplo, para renombrar un archivo:
 
 ```bash
-mv archivo.txt notas.txt
+$ mv archivo.txt notas.txt
 ```
 
 Ahora el archivo se llama `notas.txt`.
@@ -138,7 +140,7 @@ También puedes mover archivos a otra carpeta.
 Ejemplo:
 
 ```bash
-mv notas.txt proyectos/
+$ mv notas.txt proyectos/
 ```
 
 Esto mueve el archivo al directorio `proyectos`.
@@ -147,22 +149,24 @@ Esto mueve el archivo al directorio `proyectos`.
 
 # Eliminar archivos con `rm`
 
-Para eliminar archivos se utiliza el comando:
-
-```bash
-rm
-```
+Para eliminar archivos se utiliza el comand `rm`.
 
 Por ejemplo:
 
 ```bash
-rm notas.txt
+$ rm notas.txt
 ```
 
 Este comando elimina el archivo.
 
 Después de ejecutarlo, el archivo ya no aparecerá en `ls`.
-
+```bash
+$ ls 
+notas.txt copia.txt
+$ rm notas.txt
+$ ls 
+copia.txt
+```
 ---
 
 # Eliminar directorios
@@ -170,13 +174,13 @@ Después de ejecutarlo, el archivo ya no aparecerá en `ls`.
 Para eliminar un directorio vacío puedes usar:
 
 ```bash
-rmdir nombre_directorio
+$ rmdir nombre_directorio
 ```
 
 Por ejemplo:
 
 ```bash
-rmdir proyectos
+$ rmdir proyectos
 ```
 
 Sin embargo, si el directorio contiene archivos, este comando no funcionará.
@@ -200,12 +204,15 @@ Por eso es importante revisar bien qué archivo estás eliminando antes de ejecu
 Un flujo típico cuando trabajas con archivos puede verse así:
 
 ```bash
-mkdir trabajo
-cd trabajo
-touch notas.txt
-cp notas.txt copia.txt
-mv copia.txt respaldo.txt
-ls
+$ mkdir trabajo
+$ cd trabajo
+$ touch notas.txt
+$ ls
+notas.txt
+$ cp notas.txt copia.txt
+$ mv copia.txt respaldo.txt
+$ ls
+notas.txt  respaldo.txt
 ```
 
 Esto crea un directorio, entra en él, crea archivos y los manipula.

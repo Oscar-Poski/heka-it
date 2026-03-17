@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 04-distribuciones-de-linux-ubuntu-debian-fedora-arch-y-otras
-title: "Distribuciones de Linux: Ubuntu, Debian, Fedora, Arch y otras"
+title: "Distribuciones de Linux"
 
 summary: "Entender qué es una distribución de Linux y conocer algunas de las más importantes que existen hoy."
 

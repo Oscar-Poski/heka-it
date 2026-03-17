@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 10-primer-arranque-y-exploracion-del-sistema
-title: "Primer arranque y exploración del sistema"
+title: "Exploración del Sistema"
 
 summary: "Explorar qué sucede cuando Linux inicia por primera vez y cómo comenzar a orientarse dentro del sistema."
 

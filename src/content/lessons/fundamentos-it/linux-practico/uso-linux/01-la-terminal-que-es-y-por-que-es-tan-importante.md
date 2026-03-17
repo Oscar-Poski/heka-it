@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 01-la-terminal-que-es-y-por-que-es-tan-importante
-title: "La terminal: qué es y por qué es tan importante"
+title: "La Terminal"
 
 summary: "Entender qué es la terminal en Linux, cómo se relaciona con la shell y por qué es una herramienta central para trabajar con el sistema."
 
@@ -39,13 +39,17 @@ En lugar de hacer clic en botones o menús, el usuario escribe instrucciones que
 Por ejemplo, un comando simple podría verse así:
 
 ```bash
-ls
+usuario@equipo:~$ ls
 ```
 
 Ese comando le pide al sistema que **liste los archivos del directorio actual**.
 
 La terminal recibe el comando, lo envía a la **shell**, y el sistema ejecuta la acción correspondiente.
 
+```bash
+usuario@equipo:~$ ls
+documentos/  fotos/  proyectos/  notas.txt
+```
 ---
 
 ## Terminal y shell no son lo mismo

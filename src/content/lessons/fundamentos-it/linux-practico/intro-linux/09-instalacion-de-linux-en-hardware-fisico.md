@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 09-instalacion-de-linux-en-hardware-fisico
-title: "Instalación de Linux en hardware físico"
+title: "Linux en Hardware Físico"
 
 summary: "Entender cómo se instala Linux directamente en una computadora real, qué decisiones hay que tomar antes de comenzar y qué precauciones operativas conviene seguir."
 

@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 03-el-ecosistema-linux-kernel-distribuciones-y-herramientas
-title: "El ecosistema Linux: kernel, distribuciones y herramientas"
+title: "Ecosistema Linux"
 summary: "Entender que Linux no es una sola pieza, sino un conjunto de componentes que trabajan juntos: kernel, herramientas del sistema, aplicaciones y distribuciones."
 durationMinutes: 7
 objectives:

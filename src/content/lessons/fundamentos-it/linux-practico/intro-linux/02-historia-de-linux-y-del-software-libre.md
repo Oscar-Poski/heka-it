@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 02-historia-de-linux-y-del-software-libre
-title: "Historia de Linux y del software libre"
+title: "Historia de Linux"
 summary: "Conocer el origen de Linux y entender cómo el movimiento del software libre hizo posible su crecimiento."
 durationMinutes: 7
 objectives:
@@ -13,7 +13,7 @@ objectives:
 order: 2
 ---
 
-# Historia de Linux y del software libre
+# Software Libre
 
 Linux no apareció de la nada. Su nacimiento forma parte de una historia más grande: la historia de personas que querían construir software que pudiera **compartirse, estudiarse y mejorarse libremente**.
 

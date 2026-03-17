@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 05-linux-vs-windows-vs-macos
-title: "Introducción práctica a Linux vs Windows vs macOS con enfoque operativo"
+title: "Linux vs Windows vs MacOS"
 
 summary: "Comparar Linux, Windows y macOS desde un punto de vista práctico para entender cómo se usan, cómo se administran y en qué contextos suelen ser más útiles."
 

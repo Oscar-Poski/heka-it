@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 02-primeros-comandos-en-linux
-title: "Primeros comandos en Linux"
+title: "Primeros Comandos"
 
 summary: "Aprender algunos de los primeros comandos que se utilizan en la terminal de Linux para comenzar a interactuar con el sistema."
 
@@ -59,11 +59,15 @@ Para ejecutar un comando solo debes:
 Por ejemplo:
 
 ```bash
-date
+usuario@equipo:~$ date
 ```
 
 Este comando muestra la fecha y hora actuales del sistema.
 
+```bash
+usuario@equipo:~$ date
+Tue Mar 17 14:32:08 CST 2026
+```
 ---
 
 ## Comando `whoami`
@@ -71,13 +75,17 @@ Este comando muestra la fecha y hora actuales del sistema.
 Uno de los comandos más simples es:
 
 ```bash
-whoami
+usuario@equipo:~$ whoami
 ```
 
 Este comando muestra **qué usuario está ejecutando la sesión actual**.
 
 Esto es útil porque Linux puede tener múltiples usuarios, y algunos comandos dependen del usuario activo.
 
+```bash
+usuario@equipo:~$ whoami
+usuario
+```
 ---
 
 ## Comando `pwd`
@@ -85,7 +93,7 @@ Esto es útil porque Linux puede tener múltiples usuarios, y algunos comandos d
 Otro comando muy importante es:
 
 ```bash
-pwd
+usuario@equipo:~$ pwd
 ```
 
 `pwd` significa **print working directory**.
@@ -94,7 +102,8 @@ Este comando muestra **la ruta de la carpeta en la que estás actualmente** dent
 
 Por ejemplo, podrías ver algo como:
 
-```
+```bash
+oscar@Oscars-VM:~$ pwd
 /home/oscar
 ```
 
@@ -107,15 +116,16 @@ Esto indica que te encuentras dentro del directorio personal del usuario.
 Uno de los comandos más usados en Linux es:
 
 ```bash
-ls
+usuario@equipo:~$ ls
 ```
 
 Este comando muestra **los archivos y carpetas que existen en el directorio actual**.
 
 Por ejemplo, el resultado podría verse así:
 
-```
-Documentos  Descargas  Imágenes  Videos
+```bash
+usuario@equipo:~$ ls
+documentos/  fotos/  proyectos/  notas.txt
 ```
 
 Esto permite explorar rápidamente el contenido del sistema de archivos.
@@ -127,13 +137,22 @@ Esto permite explorar rápidamente el contenido del sistema de archivos.
 Si la terminal empieza a llenarse de texto, puedes limpiarla con:
 
 ```bash
-clear
+usuario@equipo:~$ date
+Tue Mar 17 14:32:08 CST 2026
+usuario@equipo:~$ whoami
+usuario
+usuario@equipo:~$ ls
+documentos/  fotos/  proyectos/  notas.txt
+usuario@equipo:~$ clear
 ```
 
 Este comando **borra el contenido visible de la terminal** y deja la pantalla limpia.
 
 Esto no elimina información del sistema, solo limpia la vista.
 
+```bash
+usuario@equipo:~$
+```
 ---
 
 ## Comando `echo`
@@ -143,12 +162,13 @@ El comando `echo` permite mostrar texto en la terminal.
 Por ejemplo:
 
 ```bash
-echo Hola Linux
+usuario@equipo:~$ echo Hola Linux
 ```
 
 El resultado será:
 
-```
+```bash
+usuario@equipo:~$ echo Hola Linux
 Hola Linux
 ```
 
@@ -167,7 +187,7 @@ comando opciones argumentos
 Por ejemplo:
 
 ```bash
-ls -l
+usuario@equipo:~$ ls -l
 ```
 
 En este caso:
@@ -188,13 +208,13 @@ Linux es **case sensitive**, lo que significa que distingue entre mayúsculas y 
 Por ejemplo:
 
 ```bash
-ls
+usuario@equipo:~$ ls
 ```
 
 no es lo mismo que:
 
 ```
-LS
+usuario@equipo:~$ LS
 ```
 
 El primer comando funciona.

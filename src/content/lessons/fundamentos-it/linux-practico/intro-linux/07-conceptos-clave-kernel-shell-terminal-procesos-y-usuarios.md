@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 07-conceptos-clave-kernel-shell-terminal-procesos-y-usuarios
-title: "Conceptos clave: kernel, shell, terminal, procesos y usuarios"
+title: "Conceptos Clave"
 
 summary: "Introducción a cinco conceptos fundamentales para entender cómo funciona un sistema Linux: kernel, shell, terminal, procesos y usuarios."
 
@@ -31,11 +31,11 @@ Entenderlos desde el principio hará que muchas cosas tengan más sentido más a
 
 En esta lección veremos cinco de los más importantes:
 
-- kernel
-- shell
-- terminal
-- procesos
-- usuarios
+1. kernel
+2. shell
+3. terminal
+4. procesos
+5. usuarios
 
 ---
 

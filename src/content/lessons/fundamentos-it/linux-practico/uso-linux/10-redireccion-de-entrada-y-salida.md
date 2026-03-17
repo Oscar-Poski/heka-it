@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 10-redireccion-de-entrada-y-salida
-title: "Redirección de entrada y salida"
+title: "Redirección de Entrada y Salida"
 
 summary: "Aprender cómo redirigir la entrada y salida de los comandos en Linux utilizando operadores como >, >> y <."
 
@@ -27,7 +27,7 @@ Cuando ejecutas un comando en Linux, ese comando normalmente **recibe informaci�
 Por ejemplo, si ejecutas:
 
 ```bash
-ls
+$ ls
 ```
 
 el comando produce una salida que aparece en la pantalla de la terminal.
@@ -65,7 +65,7 @@ El operador `>` permite **redirigir la salida de un comando hacia un archivo**.
 Por ejemplo:
 
 ```bash
-ls > archivos.txt
+$ ls > archivos.txt
 ```
 
 Esto hace que la salida del comando `ls` se guarde en el archivo `archivos.txt`.
@@ -73,7 +73,10 @@ Esto hace que la salida del comando `ls` se guarde en el archivo `archivos.txt`.
 Después puedes ver el contenido con:
 
 ```bash
-cat archivos.txt
+$ cat archivos.txt
+archivo.txt
+notas.txt
+proyectos
 ```
 
 Si el archivo no existe, se crea automáticamente.
@@ -95,15 +98,15 @@ Si ejecutas después:
 ```bash
 echo Mundo > texto.txt
 ```
-
-el archivo contendrá solo:
-
-```
+El contenido anterior se pierde.
+```bash
+$ echo Hola > texto.txt
+$ cat texto.txt
+Hola
+$ echo Mundo > texto.txt
+$ cat texto.txt
 Mundo
 ```
-
-El contenido anterior se pierde.
-
 ---
 
 # Agregar contenido con `>>`
@@ -117,13 +120,14 @@ Si quieres **agregar contenido al final de un archivo**, puedes usar:
 Por ejemplo:
 
 ```bash
-echo Hola > texto.txt
-echo Mundo >> texto.txt
+$ echo Hola > texto.txt
+$ echo Mundo >> texto.txt
 ```
 
 El resultado será:
 
-```
+```bash
+$ cat texto.txt
 Hola
 Mundo
 ```
@@ -141,32 +145,12 @@ El operador `<` indica que un comando debe leer su entrada desde un archivo.
 Por ejemplo:
 
 ```bash
-comando < archivo.txt
+$ comando < archivo.txt
 ```
 
 Esto hace que el programa reciba como entrada el contenido del archivo.
 
 Aunque este tipo de redirección se usa menos en tareas básicas, es muy común en scripts y automatización.
-
----
-
-# Un ejemplo práctico
-
-Supongamos que quieres guardar una lista de archivos en un archivo de texto.
-
-Puedes hacer:
-
-```bash
-ls > lista_archivos.txt
-```
-
-Luego puedes revisar el resultado con:
-
-```bash
-cat lista_archivos.txt
-```
-
-Esto permite **guardar resultados de comandos para analizarlos después**.
 
 ---
 

@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 09-uso-de-comodines-wildcards
-title: "Uso de comodines (wildcards)"
+title: "Uso de Comodines"
 
 summary: "Aprender a utilizar comodines para trabajar con múltiples archivos al mismo tiempo en la terminal de Linux."
 
@@ -69,19 +69,14 @@ Este símbolo representa **cualquier cantidad de caracteres**.
 Por ejemplo:
 
 ```bash
-ls *.txt
-```
-
-Este comando lista todos los archivos que terminan en `.txt`.
-
-Con los archivos anteriores, el resultado sería algo como:
-
-```
+$ ls *.txt
 reporte1.txt
 reporte2.txt
 reporte3.txt
 notas.txt
 ```
+
+Este comando lista todos los archivos que terminan en `.txt`.
 
 ---
 
@@ -92,17 +87,11 @@ También puedes usar el comodín al inicio.
 Por ejemplo:
 
 ```bash
-ls reporte*
-```
-
-Esto mostraría archivos como:
-
-```
+$ ls reporte*
 reporte1.txt
 reporte2.txt
 reporte3.txt
 ```
-
 El patrón significa:
 
 > cualquier archivo que comience con "reporte".
@@ -123,18 +112,12 @@ representa **un solo carácter**.
 Por ejemplo:
 
 ```bash
-ls reporte?.txt
-```
-
-Esto coincidiría con:
-
-```
+$ ls reporte?.txt
 reporte1.txt
 reporte2.txt
 reporte3.txt
 ```
-
-Pero no coincidiría con un archivo como:
+No coincidiría con un archivo como:
 
 ```
 reporte10.txt
@@ -151,17 +134,11 @@ También puedes usar **corchetes** para elegir entre caracteres específicos.
 Ejemplo:
 
 ```bash
-ls reporte[12].txt
-```
-
-Esto coincidiría con:
-
-```
+$ ls reporte[12].txt
 reporte1.txt
 reporte2.txt
 ```
-
-Pero no con:
+No coincide con:
 
 ```
 reporte3.txt
@@ -180,13 +157,13 @@ Por ejemplo:
 Copiar todos los archivos `.txt`:
 
 ```bash
-cp *.txt respaldo/
+$ cp *.txt respaldo/
 ```
 
 Eliminar todos los archivos `.log`:
 
 ```bash
-rm *.log
+$ rm *.log
 ```
 
 Mover todos los archivos que comienzan con `foto`:
@@ -206,7 +183,7 @@ Es importante tener cuidado cuando usas comodines con comandos destructivos como
 Por ejemplo:
 
 ```bash
-rm *.txt
+$ rm *.txt
 ```
 
 Este comando eliminará **todos los archivos `.txt` del directorio actual**.
@@ -214,7 +191,11 @@ Este comando eliminará **todos los archivos `.txt` del directorio actual**.
 Por eso es recomendable primero verificar qué archivos coinciden usando:
 
 ```bash
-ls *.txt
+$ ls *.txt
+reporte1.txt
+reporte2.txt
+reporte3.txt
+notas.txt
 ```
 
 Y después ejecutar el comando.

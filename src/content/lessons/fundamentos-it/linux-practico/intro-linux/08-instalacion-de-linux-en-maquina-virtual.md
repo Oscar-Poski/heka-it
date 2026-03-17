@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: intro-linux
 lessonSlug: 08-instalacion-de-linux-en-maquina-virtual
-title: "Introducción práctica a instalación de Linux en máquina virtual"
+title: "¿Qué es una VM?"
 
 summary: "Aprender qué es una máquina virtual y cómo usarla para instalar Linux de forma segura sin modificar el sistema operativo principal."
 

@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 08-busqueda-de-archivos-en-el-sistema
-title: "Búsqueda de archivos en el sistema"
+title: "Búsqueda de Archivos"
 
 summary: "Aprender a encontrar archivos dentro del sistema de archivos utilizando comandos de búsqueda en Linux."
 
@@ -32,11 +32,7 @@ En esta lección veremos algunos comandos que permiten localizar archivos dentro
 
 # El comando `find`
 
-Uno de los comandos más poderosos para buscar archivos es:
-
-```bash
-find
-```
+Uno de los comandos más poderosos para buscar archivos es `find`.
 
 Este comando permite buscar archivos dentro de un directorio y todos sus subdirectorios.
 
@@ -49,7 +45,9 @@ find [directorio] [condición]
 Por ejemplo:
 
 ```bash
-find . -name archivo.txt
+$ find . -name archivo.txt
+./archivo.txt
+./documentos/archivo.txt
 ```
 
 Aquí ocurre lo siguiente:
@@ -69,13 +67,19 @@ También puedes usar `find` para buscar solo ciertos tipos de archivos.
 Por ejemplo, para buscar **solo archivos**:
 
 ```bash
-find . -type f
+$ find . -type f
+./archivo.txt
+./notas.txt
+./documentos/reporte.pdf
 ```
 
 Y para buscar **solo directorios**:
 
 ```bash
-find . -type d
+$ find . -type d
+.
+./documentos
+./proyectos
 ```
 
 Esto puede ser útil cuando quieres encontrar carpetas específicas dentro del sistema.
@@ -89,7 +93,10 @@ Puedes buscar archivos que coincidan con ciertos patrones.
 Por ejemplo:
 
 ```bash
-find . -name "*.txt"
+$ find . -name "*.txt"
+./archivo.txt
+./notas.txt
+./documentos/lista.txt
 ```
 
 Este comando busca todos los archivos que terminan en `.txt`.
@@ -102,16 +109,14 @@ Esto permite realizar búsquedas más flexibles.
 
 # El comando `locate`
 
-Otra herramienta para buscar archivos es:
-
-```bash
-locate
-```
+Otra herramienta para buscar archivos es `locate`.
 
 Ejemplo:
 
 ```bash
-locate archivo.txt
+$ locate archivo.txt
+/home/usuario/archivo.txt
+/home/usuario/documentos/archivo.txt
 ```
 
 Este comando busca archivos utilizando una **base de datos del sistema**.
@@ -152,7 +157,10 @@ Supongamos que quieres encontrar todos los archivos `.log` en el directorio actu
 Podrías usar:
 
 ```bash
-find . -name "*.log"
+$ find . -name "*.log"
+./sistema.log
+./logs/error.log
+./logs/acceso.log
 ```
 
 Esto recorrerá todas las subcarpetas y mostrará cualquier archivo que termine con `.log`.

@@ -3,7 +3,7 @@ trackSlug: fundamentos-it
 courseSlug: linux-practico
 moduleSlug: uso-linux
 lessonSlug: 07-visualizar-contenido-de-archivos
-title: "Visualizar contenido de archivos"
+title: "Visualizar Contenido de Archivos"
 
 summary: "Aprender a ver el contenido de archivos de texto desde la terminal utilizando comandos comunes en Linux."
 
@@ -34,28 +34,21 @@ En esta lección veremos algunos comandos muy utilizados para hacerlo.
 
 # Ver el contenido completo con `cat`
 
-Uno de los comandos más simples para ver el contenido de un archivo es:
-
-```bash
-cat
-```
+Uno de los comandos más simples para ver el contenido de un archivo es `cat`.
 
 Por ejemplo:
 
 ```bash
-cat archivo.txt
+$ cat archivo.txt
 ```
 
 Este comando muestra todo el contenido del archivo directamente en la terminal.
 
-Si el archivo contiene algo como:
-
-```
+```bash
+$ cat archivo.txt
 Hola Linux
 Este es un archivo de prueba
 ```
-
-eso será exactamente lo que verás en la pantalla.
 
 El comando `cat` es muy útil cuando los archivos son **pequeños o cortos**.
 
@@ -65,50 +58,74 @@ El comando `cat` es muy útil cuando los archivos son **pequeños o cortos**.
 
 Si un archivo es muy grande, mostrar todo su contenido puede ser poco práctico.
 
-Para esos casos existe el comando:
+Para esos casos existe el comando `head`.
 
 ```bash
-head
-```
-
-Ejemplo:
-
-```bash
-head archivo.txt
+$ head archivo.txt
 ```
 
 Este comando muestra **las primeras líneas del archivo**.
 
 Por defecto, `head` muestra **las primeras 10 líneas**.
-
+```bash
+$ head archivo.txt
+Linea 1
+Linea 2
+Linea 3
+Linea 4
+Linea 5
+Linea 6
+Linea 7
+Linea 8
+Linea 9
+Linea 10
+```
 También puedes especificar cuántas líneas mostrar.
 
 Por ejemplo:
 
 ```bash
-head -n 5 archivo.txt
+$ head -n 5 archivo.txt
 ```
 
 Esto mostrará solo las primeras cinco líneas.
-
+```bash
+$ head -n 5 archivo.txt
+Linea 1
+Linea 2
+Linea 3
+Linea 4
+Linea 5
+```
 ---
 
 # Ver el final de un archivo con `tail`
 
 El comando `tail` funciona de forma similar a `head`, pero muestra **el final del archivo**.
 
-Ejemplo:
-
-```bash
-tail archivo.txt
-```
-
 Esto muestra las **últimas 10 líneas**.
-
+```bash
+$ tail archivo.txt
+Linea 91
+Linea 92
+Linea 93
+Linea 94
+Linea 95
+Linea 96
+Linea 97
+Linea 98
+Linea 99
+Linea 100
+```
 También puedes elegir un número específico de líneas.
 
 ```bash
-tail -n 5 archivo.txt
+$ tail -n 5 archivo.txt
+Linea 96
+Linea 97
+Linea 98
+Linea 99
+Linea 100
 ```
 
 Esto mostrará las últimas cinco líneas.
@@ -122,7 +139,11 @@ Este comando es especialmente útil cuando se revisan **archivos de log**, que s
 Una función muy útil de `tail` es la opción `-f`.
 
 ```bash
-tail -f archivo.log
+$ tail -f archivo.log
+[INFO] Servidor iniciado
+[INFO] Usuario conectado
+[WARNING] Uso de memoria alto
+[INFO] Nueva petición recibida
 ```
 
 Esto permite **seguir el archivo en tiempo real**.
