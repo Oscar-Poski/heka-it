@@ -334,3 +334,79 @@
 .markdown-content pre code .hljs-symbol {
   color: hsl(24 95% 68%);
 }
+
+
+.markdown-content .mermaid {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  background: hsl(var(--card));
+}
+
+.markdown-content .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Texto general del diagrama */
+.markdown-content .mermaid svg text,
+.markdown-content .mermaid .label,
+.markdown-content .mermaid .nodeLabel,
+.markdown-content .mermaid .edgeLabel {
+  fill: hsl(var(--foreground)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Líneas de conexión */
+.markdown-content .mermaid .edgePath path,
+.markdown-content .mermaid path.path {
+  stroke: hsl(var(--primary)) !important;
+}
+
+/* Puntas de flechas */
+.markdown-content .mermaid .arrowheadPath,
+.markdown-content .mermaid marker path {
+  fill: hsl(var(--primary)) !important;
+  stroke: hsl(var(--primary)) !important;
+}
+
+/* Nodos: rectángulos, rombos, elipses, etc. */
+.markdown-content .mermaid .node rect,
+.markdown-content .mermaid .node circle,
+.markdown-content .mermaid .node ellipse,
+.markdown-content .mermaid .node polygon,
+.markdown-content .mermaid .node path {
+  fill: hsl(var(--accent)) !important;
+  stroke: hsl(var(--primary)) !important;
+}
+
+/* Texto dentro de nodos */
+.markdown-content .mermaid .node text {
+  fill: hsl(var(--accent-foreground)) !important;
+}
+
+/* Subgraphs / clusters */
+.markdown-content .mermaid .cluster rect {
+  fill: hsl(var(--muted)) !important;
+  stroke: hsl(var(--border)) !important;
+}
+
+/* Texto de clusters */
+.markdown-content .mermaid .cluster text {
+  fill: hsl(var(--foreground)) !important;
+}
+
+/* Fondo de labels sobre líneas */
+.markdown-content .mermaid .edgeLabel rect {
+  fill: hsl(var(--card)) !important;
+  opacity: 1 !important;
+}
+
+/* Tablas o elementos internos en algunos diagramas */
+.markdown-content .mermaid .labelBkg {
+  fill: hsl(var(--card)) !important;
+}

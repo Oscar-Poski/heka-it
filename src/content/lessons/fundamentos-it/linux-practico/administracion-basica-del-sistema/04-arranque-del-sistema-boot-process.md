@@ -135,18 +135,13 @@ Una vez que estos servicios están activos, el sistema está listo para ser util
 
 El proceso completo puede resumirse así:
 
-```
-BIOS / UEFI
-      ↓
-Bootloader (GRUB)
-      ↓
-Kernel de Linux
-      ↓
-systemd
-      ↓
-Servicios del sistema
-      ↓
-Sistema listo para usar
+```mermaid
+flowchart TD
+    A[BIOS / UEFI] --> B["Bootloader (GRUB)"]
+    B --> C[Kernel de Linux]
+    C --> D[systemd]
+    D --> E[Servicios del sistema]
+    E --> F[Sistema listo para usar]
 ```
 
 ---

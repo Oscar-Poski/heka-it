@@ -57,19 +57,12 @@ Es común que las palabras **terminal** y **shell** se usen como si fueran lo mi
 
 Podemos imaginarlo así:
 
-Usuario
-
-↓
-
-Terminal
-
-↓
-
-Shell
-
-↓
-
-Sistema operativo
+```mermaid
+flowchart TD
+    A[Usuario] --> B["Terminal (interfaz)"]
+    B --> C["Shell (interpreta comandos)"]
+    C --> D["Sistema operativo (ejecuta acciones)"]
+```
 
 En muchos sistemas Linux, la shell más común es **Bash**.
 

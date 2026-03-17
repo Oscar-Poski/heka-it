@@ -36,19 +36,12 @@ En otras palabras, el kernel es el intermediario entre el hardware y los program
 
 ---
 
-Aplicaciones  
-
-↓  
-
-Sistema operativo  
-
-↓  
-
-Kernel (Linux)  
-
-↓  
-
-Hardware
+```mermaid
+flowchart TD
+  A["Aplicaciones"] <--> B["Sistema operativo"]
+  B <--> C["Kernel (Linux)"]
+  C <--> D["Hardware"]
+```
 
 
 ---

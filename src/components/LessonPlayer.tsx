@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Lesson, LessonNode } from '@/lib/curriculum';
 
 type LessonPlayerProps = {
@@ -63,11 +63,98 @@ export function LessonPlayer({
   nextLesson,
 }: LessonPlayerProps) {
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+  const lessonContentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const progress = readProgress();
     setCompletedIds(new Set(progress.completedLessonIds));
   }, []);
+
+  useEffect(() => {
+    const renderMermaid = async () => {
+      const contentElement = lessonContentRef.current;
+      if (!contentElement) {
+        return;
+      }
+
+      const mermaidBlocks = contentElement.querySelectorAll('pre > code.language-mermaid');
+      if (mermaidBlocks.length === 0) {
+        return;
+      }
+
+      mermaidBlocks.forEach((codeBlock) => {
+        const source = codeBlock.textContent?.trim();
+        const pre = codeBlock.closest('pre');
+        if (!source || !pre) {
+          return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid';
+        container.textContent = source;
+        pre.replaceWith(container);
+      });
+
+      const mermaid = (await import('mermaid')).default;
+      const isDark = document.documentElement.classList.contains('dark');
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: isDark
+          ? {
+              background: '#0b1418',          // cercano a --background dark
+              primaryColor: '#16323a',        // relleno principal del nodo
+              primaryBorderColor: '#59d3e3',  // borde del nodo
+              primaryTextColor: '#f5feff',    // texto del nodo
+
+              secondaryColor: '#13252b',
+              tertiaryColor: '#102027',
+
+              lineColor: '#8ee6f2',           // líneas y flechas
+              textColor: '#f5feff',
+
+              mainBkg: '#16323a',
+              secondBkg: '#13252b',
+              tertiaryBkg: '#102027',
+
+              clusterBkg: '#13252b',
+              clusterBorder: '#59d3e3',
+
+              nodeBorder: '#59d3e3',
+              edgeLabelBackground: '#0b1418',
+            }
+          : {
+              background: '#ffffff',          // --background
+              primaryColor: '#e8f7f7',        // nodo suave, no morado
+              primaryBorderColor: '#14808c',  // borde visible
+              primaryTextColor: '#14343a',    // texto
+
+              secondaryColor: '#dff2f1',
+              tertiaryColor: '#f4fbfb',
+
+              lineColor: '#14808c',           // líneas y flechas
+              textColor: '#14343a',
+
+              mainBkg: '#e8f7f7',
+              secondBkg: '#dff2f1',
+              tertiaryBkg: '#f4fbfb',
+
+              clusterBkg: '#f4fbfb',
+              clusterBorder: '#14808c',
+
+              nodeBorder: '#14808c',
+              edgeLabelBackground: '#ffffff',
+            },
+      });
+
+      await mermaid.run({
+        querySelector: '.markdown-content .mermaid',
+      });
+    };
+
+    void renderMermaid();
+  }, [lessonId, lesson.contentHtml]);
 
   const currentIndex = useMemo(
     () => moduleLessons.findIndex((node) => node.id === lessonId),
@@ -177,6 +264,7 @@ export function LessonPlayer({
           <section className="mt-8 space-y-3">
             <h2 className="text-xl font-semibold">Lección</h2>
             <div
+              ref={lessonContentRef}
               className="markdown-content space-y-3 leading-relaxed text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: lesson.contentHtml }}
             />

@@ -45,19 +45,24 @@ Dentro de esa máquina virtual puedes instalar Linux como si fuera una computado
 
 Visualmente, se vería algo así:
 
-Computadora real
+```mermaid
+flowchart TD
+    subgraph Host[Computadora real]
+        A[Hardware físico]
+        B[Sistema operativo host]
+    end
 
-↓
+    A --> B
+    B --> C[Hipervisor / Virtualización]
 
-Software de virtualización
+    subgraph VM[Máquina virtual]
+        D[Hardware virtual]
+        E["Linux (SO invitado)"]
+    end
 
-↓
-
-Máquina virtual
-
-↓
-
-Sistema operativo Linux
+    C --> D
+    D --> E
+```
 
 Desde el punto de vista del sistema operativo invitado, parece que está ejecutándose en una máquina real.
 

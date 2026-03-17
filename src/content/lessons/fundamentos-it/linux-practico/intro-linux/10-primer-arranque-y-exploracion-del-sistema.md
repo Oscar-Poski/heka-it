@@ -36,27 +36,26 @@ Cuando enciendes la computadora, ocurre una serie de pasos antes de que puedas u
 
 De forma simplificada, el flujo suele ser así:
 
-Computadora se enciende
+```mermaid
+flowchart TD
+    A[Encendido del equipo]
 
-↓
+    subgraph Firmware
+        B[BIOS / UEFI]
+    end
 
-Firmware del equipo (BIOS o UEFI) inicia
+    subgraph Arranque
+        C[Bootloader]
+        D[Kernel de Linux]
+    end
 
-↓
+    subgraph Sistema
+        E[Servicios]
+        F[Login / Escritorio]
+    end
 
-Cargador de arranque (bootloader)
-
-↓
-
-Kernel de Linux
-
-↓
-
-Servicios del sistema
-
-↓
-
-Pantalla de inicio de sesión o escritorio
+    A --> B --> C --> D --> E --> F
+```
 
 No necesitas memorizar todos estos pasos ahora, pero es útil saber que el sistema pasa por varias fases antes de estar listo.
 
