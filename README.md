@@ -78,6 +78,23 @@ El proyecto ya incluye estilos para:
 - Etiqueta visual para `bash/sh/shell`
 - Texto en **negritas** en color teal oscuro dentro de contenido Markdown
 
+## Mini-labs con terminal interactiva (xterm.js)
+
+Puedes insertar un laboratorio interactivo en cualquier lección con un bloque `terminal`:
+
+````markdown
+```terminal
+Goal: practice basic commands
+Try: pwd, ls, cd, cat, mkdir, touch, rm, cp, mv, clear, help
+```
+````
+
+Notas:
+- Cada bloque `terminal` crea una sesión independiente.
+- Es una terminal **simulada** (no ejecuta comandos reales del sistema).
+- Comandos no soportados responden con `command not found` y sugerencia de `help`.
+- No hay persistencia entre recargas.
+
 ## Notas importantes
 
 - `lessonSlug` debe ser único dentro de cada ruta `track/course/module` para evitar warnings de IDs duplicados en Astro content.

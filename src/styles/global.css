@@ -410,3 +410,67 @@
 .markdown-content .mermaid .labelBkg {
   fill: hsl(var(--card)) !important;
 }
+
+.markdown-content .terminal-lab {
+  margin: 1rem 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  background: hsl(var(--card));
+  overflow: hidden;
+}
+
+.markdown-content .terminal-lab__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.markdown-content .terminal-lab__header strong {
+  color: inherit;
+}
+
+.markdown-content .terminal-lab__hint {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.markdown-content .terminal-lab__viewport {
+  min-height: 280px;
+  background: #0f1720;
+  padding: 0.5rem;
+}
+
+.markdown-content .terminal-lab__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.65rem 0.9rem;
+  border-top: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.markdown-content .terminal-lab__reset {
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.markdown-content .terminal-lab__reset:hover {
+  background: hsl(var(--accent));
+}
