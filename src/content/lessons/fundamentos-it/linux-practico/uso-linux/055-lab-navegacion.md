@@ -64,7 +64,15 @@ student@heka:~/trabajo$ mv copia.txt respaldo.txt
 student@heka:~/trabajo$ ls
 notas.txt respaldo.txt
 ```
-
+11. Eliminas el archivo **respaldo.txt**.
+```bash
+student@heka:~/trabajo$ rm respaldo.txt
+```
+12. Confirmas la eliminación del archivo. Ahora solo tienes **notas.txt**.
+```bash
+student@heka:~/trabajo$ ls
+notas.txt
+```
 ```terminal
 Objetivo: Aprende a crear directorios, archivos y navegar por el sistema.
 Para ver los comandos disponibles: help
