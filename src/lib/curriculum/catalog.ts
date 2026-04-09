@@ -27,6 +27,45 @@ export const curriculumCatalog: CatalogTrack[] = [
     summary: 'Construye bases sólidas en sistemas, redes y herramientas de trabajo técnico.',
     courses: [
       {
+        slug: 'redes-desde-cero',
+        title: 'En Construcción: Redes Desde Cero',
+        level: 'básico',
+        summary: 'Comprende conectividad, diagnóstico y principios de red para soporte técnico.',
+        estimatedHours: 0,
+        modules: [
+          {
+            slug: 'intro-redes',
+            title: 'Fundamentos de Red',
+            summary: 'Conceptos clave para interpretar tráfico y arquitectura básica.',
+          },
+          {
+            slug: 'intro-datos',
+            title: '¿Qué viaje en la red?',
+            summary: 'Entender los datos que viajan.',
+          },
+          {
+            slug: 'mundo-fisico',
+            title: 'El mundo físico',
+            summary: '¿Qué es lo que no vemos que permite el viaje de nuestros datos?',
+          },
+          {
+            slug: 'intro-paquetes',
+            title: 'Paquetes',
+            summary: 'Entender por qué la información no se envía completa, sino en partes más pequeñas llamadas paquetes.',
+          },
+          {
+            slug: 'intro-ip',
+            title: 'Direcciones IP',
+            summary: 'Entender qué es una dirección IP y cómo permite identificar dispositivos dentro de una red.',
+          },
+          {
+            slug: 'intro-dns',
+            title: 'DNS',
+            summary: 'No usamos direcciones IP directamente. La necesidad de un sistema más fácil de recordar.',
+          },
+        ]
+      },
+      {
         slug: 'linux-practico',
         title: 'Linux Básico',
         level: 'básico',
@@ -95,20 +134,6 @@ export const curriculumCatalog: CatalogTrack[] = [
           }
         ]
       },
-      {
-        slug: 'redes-desde-cero',
-        title: 'En Construcción: Redes Desde Cero',
-        level: 'básico',
-        summary: 'Comprende conectividad, diagnóstico y principios de red para soporte técnico.',
-        estimatedHours: 0,
-        modules: [
-          /*{
-            slug: 'fundamentos-red',
-            title: 'Fundamentos de Red',
-            summary: 'Conceptos clave para interpretar trafico y arquitectura basica.',
-          }*/
-        ]
-      }
     ]
   },
   {

@@ -355,8 +355,7 @@
 /* Texto general del diagrama */
 .markdown-content .mermaid svg text,
 .markdown-content .mermaid .label,
-.markdown-content .mermaid .nodeLabel,
-.markdown-content .mermaid .edgeLabel {
+.markdown-content .mermaid .nodeLabel {
   fill: hsl(var(--foreground)) !important;
   color: hsl(var(--foreground)) !important;
 }
@@ -403,7 +402,7 @@
 /* Fondo de labels sobre líneas */
 .markdown-content .mermaid .edgeLabel rect {
   fill: hsl(var(--card)) !important;
-  opacity: 1 !important;
+  opacity: 0 !important;
 }
 
 /* Tablas o elementos internos en algunos diagramas */
@@ -473,4 +472,37 @@
 
 .markdown-content .terminal-lab__reset:hover {
   background: hsl(var(--accent));
+}
+
+
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  overflow: hidden;
+  background: hsl(var(--background));
+}
+
+.markdown-content th {
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  font-weight: 600;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.markdown-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown-content tbody tr:hover {
+  background: hsl(var(--muted));
 }
