@@ -3,164 +3,250 @@ trackSlug: fundamentos-it
 courseSlug: redes-desde-cero
 moduleSlug: intro-redes
 lessonSlug: 03-intro-redes
-title: ¿Cómo se comunican dos dispositivos?
-summary: Entender paso a paso cómo dos dispositivos intercambian información dentro de una red.
+title: 1.3 Primeras redes de área amplia
+
+summary: Entender cómo surgieron las primeras redes de larga distancia usando el modelo de almacenamiento y reenvío.
+
 durationMinutes: 5
+
 objectives:
-  - Comprender cómo inicia la comunicación entre dispositivos
-  - Entender el flujo básico de envío y recepción de datos
-  - Visualizar el proceso completo de comunicación en una red
+
+- Comprender cómo se lograba la comunicación a larga distancia con pocas conexiones
+- Entender el concepto de almacenamiento y reenvío (store-and-forward)
+- Visualizar cómo viajan los mensajes a través de múltiples equipos intermedios
 order: 3
----
-# ¿Cómo se comunican dos dispositivos?
-
-En la lección anterior vimos qué es una red y sus tipos.
-
-Ahora vamos a responder una pregunta fundamental:
-
-> ¿Qué tiene que pasar para que dos dispositivos realmente se comuniquen?
-> 
 
 ---
 
-## La idea básica
+## El problema de la distancia en redes tempranas
 
-Para que dos dispositivos se comuniquen, necesitan tres cosas:
+### Idea clave
 
-- saber **a quién enviar la información**
-- tener un **camino disponible**
-- usar un **lenguaje común**
+Las computadoras solo estaban conectadas a equipos cercanos debido al alto costo de las conexiones.
 
----
+### Explicación
 
-## Paso 1: Identificar al destino
-
-Antes de enviar cualquier dato, un dispositivo necesita saber a quién enviarlo.
-
-En redes, cada dispositivo tiene una forma de identificarse (más adelante veremos las direcciones IP).
-
-Por ahora, basta con entender:
-
-> cada dispositivo tiene una “dirección” única dentro de la red
-> 
-
----
-
-## Paso 2: Establecer un camino
-
-Una vez que se conoce el destino, los datos necesitan un camino para viajar.
-
-Ese camino puede ser:
-
-- un cable
-- una red WiFi
-- múltiples redes interconectadas
-
----
+- En los años 70 y 80, las conexiones eran costosas
+- Mientras más distancia, mayor el costo
+- Las computadoras no podían conectarse directamente a sistemas lejanos
 
 ```mermaid
 flowchart LR
-  A["Dispositivo A"] -->|"Datos"| B["Dispositivo B"]
+    A[Computadora A] --> B[Computadora cercana]
+    A -. conexión costosa .-> D[Computadora lejana]
 ```
 
 ---
 
-En redes más reales, el camino incluye intermediarios:
+## La idea clave: usar intermediarios
+
+### Idea clave
+
+Un mensaje podía viajar largas distancias pasando por múltiples computadoras intermedias.
+
+### Explicación
+
+- Si A está conectado a B
+- Y B está conectado a C
+- Y C está conectado a D
+
+> Entonces A puede enviar un mensaje a D a través de la cadena
 
 ```mermaid
 flowchart LR
-  A["Dispositivo A"] --> R["Router"] --> B["Dispositivo B"]
+    A[Origen] --> B[Intermedio 1]
+    B --> C[Intermedio 2]
+    C --> D[Destino]
 ```
 
 ---
 
-## Paso 3: Usar un lenguaje común
+## Concepto de almacenamiento y reenvío
 
-No basta con enviar datos.
+### Idea clave
 
-Ambos dispositivos deben entender cómo están organizados.
+Cada computadora intermedia recibe el mensaje, lo guarda temporalmente y luego lo reenvía.
 
-Ese “lenguaje” son las reglas de comunicación, llamadas **protocolos**.
+```mermaid
+flowchart LR
+    A[Origen] --> B[Almacena]
+    B --> C[Reenvía]
+    C --> D[Destino]
+```
 
-Por ejemplo:
+### Explicación
 
-- cómo empieza un mensaje
-- cómo termina
-- cómo se confirma que llegó
-
-Más adelante veremos esto con detalle.
-
----
-
-## El proceso completo 
-
-Podemos resumir la comunicación así:
-
-1. Un dispositivo genera información
-2. Identifica al destino
-3. Envía los datos a través de la red
-4. El otro dispositivo recibe los datos
-5. Interpreta la información
+- El mensaje no viaja de forma continua
+- Se detiene en cada punto intermedio
+- Cada nodo decide cuándo enviarlo al siguiente
 
 ---
+
+## Flujo completo de un mensaje
 
 ```mermaid
 sequenceDiagram
-  participant A as Dispositivo A
-  participant B as Dispositivo B
+    participant A as Origen
+    participant B as Nodo 1
+    participant C as Nodo 2
+    participant D as Destino
 
-  A->>B: Enviar datos
-  B->>A: Confirmación (opcional)
+    A->>B: Enviar mensaje
+    B->>B: Almacenar
+    B->>C: Reenviar
+    C->>C: Almacenar
+    C->>D: Reenviar
 ```
 
----
+### Idea clave
 
-## Ejemplo
-
-Cuando envías un mensaje en una aplicación como WhatsApp:
-
-1. Tu celular crea el mensaje
-2. Identifica al destinatario
-3. Envía los datos a través de la red
-4. El dispositivo del otro usuario recibe el mensaje
-5. La aplicación lo muestra en pantalla
+El mensaje avanza paso a paso, no todo de una vez.
 
 ---
 
-## Algo importante: no siempre es directo
+## Esperas en cada salto (hop)
 
-En la práctica, los dispositivos casi nunca están conectados directamente.
+### Idea clave
 
-La comunicación suele pasar por varios intermediarios:
+El mensaje puede quedarse esperando en cada nodo antes de continuar.
 
-- routers
-- servidores
-- redes externas
+```mermaid
+flowchart LR
+    A[Origen] --> B[Nodo 1]
+    B -->|Espera| B
+    B --> C[Nodo 2]
+    C -->|Espera| C
+    C --> D[Destino]
+```
 
-Esto significa que el mensaje puede viajar por múltiples pasos antes de llegar.
+### Explicación
 
----
-
-La comunicación en redes no es magia.
-
-Es simplemente:
-
-> enviar datos estructurados desde un origen hasta un destino a través de un camino definido
-> 
-
----
-
-Para que dos dispositivos se comuniquen, necesitan:
-
-- una forma de identificarse
-- un medio de conexión
-- reglas compartidas
+- Cada nodo tiene una cola de mensajes
+- El mensaje espera su turno
+- El tiempo depende del tráfico
 
 ---
 
-## Repaso
+## Concepto de "salto" (hop)
 
-- Cada dispositivo tiene una identidad dentro de la red
-- Los datos viajan a través de un camino (directo o indirecto)
-- La comunicación sigue reglas llamadas protocolos
-- El proceso incluye envío, recepción e interpretación
+### Idea clave
+
+Cada vez que un mensaje pasa de una computadora a otra, ocurre un “salto”.
+
+```mermaid
+flowchart LR
+    A[Origen] -->|Hop 1| B
+    B -->|Hop 2| C
+    C -->|Hop 3| D[Destino]
+```
+
+### Explicación
+
+- Más distancia = más saltos
+- Más saltos = más tiempo total
+
+---
+
+## Tiempo de entrega
+
+### Idea clave
+
+El tiempo total dependía de la suma de esperas en cada nodo.
+
+```mermaid
+flowchart TD
+    A[Mensaje enviado]
+    A --> B[Espera en nodo 1]
+    B --> C[Espera en nodo 2]
+    C --> D[Espera en nodo 3]
+    D --> E[Llegada]
+```
+
+### Explicación
+
+- Podía tardar:
+    - Minutos
+    - Horas
+    - Incluso días
+- Todo dependía del tráfico en la red
+
+---
+
+## Comparación con métodos tradicionales
+
+### Idea clave
+
+Aunque lento, este sistema era más eficiente que el correo físico.
+
+```mermaid
+flowchart LR
+    A[Correo postal] --> B[Días o semanas]
+    C[Red store-and-forward] --> D[Minutos o horas]
+```
+
+### Explicación
+
+- Incluso con retrasos, era más rápido que enviar cartas
+- Permitía comunicación digital a larga distancia por primera vez
+
+---
+
+## Ventaja clave del modelo
+
+### Idea clave
+
+Permite comunicación global usando pocas conexiones físicas.
+
+```mermaid
+flowchart TD
+    A[Pocas conexiones]
+    A --> B[Uso compartido de la red]
+    B --> C[Mayor alcance]
+```
+
+### Explicación
+
+- No necesitas conectar todo con todo
+- Se reutilizan enlaces existentes
+- La red crece de forma más eficiente
+
+---
+
+## Desventaja principal
+
+### Idea clave
+
+La comunicación no es inmediata.
+
+```mermaid
+flowchart TD
+    A[Mensaje]
+    A --> B[Se detiene]
+    B --> C[Espera]
+    C --> D[Continúa]
+```
+
+### Explicación
+
+- No hay transmisión en tiempo real
+- El mensaje viaja “por etapas”
+- Puede haber grandes retrasos
+
+---
+
+## Insight clave (muy importante)
+
+Aquí nace uno de los conceptos fundamentales de Internet:
+
+> Los datos pueden viajar en partes, pasando por múltiples nodos, sin necesidad de conexión directa.
+
+---
+
+## Resumen
+
+- Las computadoras estaban conectadas solo a equipos cercanos
+- Los mensajes viajaban a través de múltiples nodos intermedios
+- Cada nodo almacenaba y reenviaba el mensaje
+- El tiempo dependía del tráfico en cada salto
+- Este modelo permitió comunicación a larga distancia con pocas conexiones
+- Fue una base fundamental para el desarrollo de Internet

@@ -336,6 +336,7 @@
 }
 
 
+/* Mermaid container */
 .markdown-content .mermaid {
   display: flex;
   justify-content: center;
@@ -352,28 +353,43 @@
   height: auto;
 }
 
-/* Texto general del diagrama */
+/* =========================================================
+   Base text
+   ========================================================= */
 .markdown-content .mermaid svg text,
 .markdown-content .mermaid .label,
-.markdown-content .mermaid .nodeLabel {
+.markdown-content .mermaid .nodeLabel,
+.markdown-content .mermaid .cluster text,
+.markdown-content .mermaid .section text,
+.markdown-content .mermaid .task text {
   fill: hsl(var(--foreground)) !important;
   color: hsl(var(--foreground)) !important;
 }
 
-/* Líneas de conexión */
+/* Node text should stay readable over accent backgrounds */
+.markdown-content .mermaid .node text {
+  fill: hsl(var(--accent-foreground)) !important;
+}
+
+/* =========================================================
+   Lines and arrows
+   ========================================================= */
 .markdown-content .mermaid .edgePath path,
-.markdown-content .mermaid path.path {
+.markdown-content .mermaid path.path,
+.markdown-content .mermaid .timeline line,
+.markdown-content .mermaid .section line {
   stroke: hsl(var(--primary)) !important;
 }
 
-/* Puntas de flechas */
 .markdown-content .mermaid .arrowheadPath,
 .markdown-content .mermaid marker path {
   fill: hsl(var(--primary)) !important;
   stroke: hsl(var(--primary)) !important;
 }
 
-/* Nodos: rectángulos, rombos, elipses, etc. */
+/* =========================================================
+   Standard nodes
+   ========================================================= */
 .markdown-content .mermaid .node rect,
 .markdown-content .mermaid .node circle,
 .markdown-content .mermaid .node ellipse,
@@ -383,31 +399,54 @@
   stroke: hsl(var(--primary)) !important;
 }
 
-/* Texto dentro de nodos */
-.markdown-content .mermaid .node text {
-  fill: hsl(var(--accent-foreground)) !important;
-}
-
-/* Subgraphs / clusters */
+/* =========================================================
+   Subgraphs / clusters
+   ========================================================= */
 .markdown-content .mermaid .cluster rect {
   fill: hsl(var(--muted)) !important;
   stroke: hsl(var(--border)) !important;
 }
 
-/* Texto de clusters */
-.markdown-content .mermaid .cluster text {
-  fill: hsl(var(--foreground)) !important;
+/* =========================================================
+   Edge labels / internal label backgrounds
+   ========================================================= */
+.markdown-content .mermaid .edgeLabel rect,
+.markdown-content .mermaid .labelBkg {
+  fill: hsl(var(--card)) !important;
 }
 
-/* Fondo de labels sobre líneas */
 .markdown-content .mermaid .edgeLabel rect {
-  fill: hsl(var(--card)) !important;
   opacity: 0 !important;
 }
 
-/* Tablas o elementos internos en algunos diagramas */
-.markdown-content .mermaid .labelBkg {
-  fill: hsl(var(--card)) !important;
+/* =========================================================
+   Timeline diagrams
+   Mermaid timelines are their own diagram type, so these
+   selectors cover the pieces that usually need explicit
+   theming: sections, tasks/events, and timeline markers.
+   ========================================================= */
+.markdown-content .mermaid .section rect,
+.markdown-content .mermaid .section path,
+.markdown-content .mermaid .section polygon,
+.markdown-content .mermaid .task rect,
+.markdown-content .mermaid .task path,
+.markdown-content .mermaid .task polygon {
+  fill: hsl(var(--accent)) !important;
+  stroke: hsl(var(--primary)) !important;
+}
+
+.markdown-content .mermaid .section,
+.markdown-content .mermaid .task,
+.markdown-content .mermaid .timeline {
+  fill: hsl(var(--foreground)) !important;
+  stroke: hsl(var(--primary)) !important;
+}
+
+.markdown-content .mermaid .section .label,
+.markdown-content .mermaid .task .label,
+.markdown-content .mermaid .timeline .label {
+  fill: hsl(var(--foreground)) !important;
+  color: hsl(var(--foreground)) !important;
 }
 
 .markdown-content .terminal-lab {

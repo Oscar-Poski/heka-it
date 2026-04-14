@@ -3,150 +3,192 @@ trackSlug: fundamentos-it
 courseSlug: redes-desde-cero
 moduleSlug: intro-dns
 lessonSlug: 02-intro-dns
-title: ¿Qué es el DNS?
-summary: Entender qué es el DNS y cómo traduce nombres de dominio en direcciones IP para permitir la comunicación en Internet.
-durationMinutes: 5
+title: 5.2 Lectura de nombres de dominio
+
+summary: Comprender cómo se estructuran y leen los nombres de dominio y cómo se comparan con las direcciones IP.
+
+durationMinutes: 6
+
 objectives:
-  - Comprender qué es el DNS
-  - Entender su función principal en Internet
-  - Visualizar cómo ocurre la traducción de nombres a IPs
-order: 22
----
-# ¿Qué es el DNS?
 
-En la lección anterior vimos que:
-
-- los humanos usamos nombres como google.com
-- las computadoras usan direcciones IP
-
-Esto plantea una pregunta clave:
-
-> ¿Quién traduce esos nombres a direcciones IP?
-> 
+- Entender cómo se leen las direcciones IP
+- Comprender cómo se leen los nombres de dominio
+- Identificar la jerarquía dentro de un dominio
+- Entender por qué DNS mejora la usabilidad de Internet
+order: 23
 
 ---
 
-## La idea clave
+## Cómo se leen las direcciones IP
 
-El sistema encargado de esta traducción es:
+### Idea clave
 
-> **DNS (Domain Name System)**
-> 
-
----
-
-## ¿Qué es el DNS?
-
-El DNS es:
-
-> un sistema que traduce nombres de dominio en direcciones IP
-> 
-
-Por ejemplo:
-
-```
-google.com → 142.250.190.78
-```
-
----
-
-## ¿Por qué es necesario?
-
-Sin DNS:
-
-- tendrías que memorizar IPs
-- navegar sería impráctico
-
-El DNS permite usar nombres fáciles mientras la red usa direcciones.
-
----
-
-## Cómo funciona (intuición)
-
-Cuando escribes un dominio en tu navegador:
-
-1. tu dispositivo pregunta:
-“¿Cuál es la IP de este nombre?”
-2. un servidor DNS responde con la IP
-3. tu dispositivo usa esa IP para comunicarse
-
----
+Las direcciones IP se leen de izquierda a derecha.
 
 ```mermaid
-sequenceDiagram
-  participant U as Usuario
-  participant D as DNS
-  participant S as Servidor
+flowchart LR
+    A[212] --> B[78] --> C[1] --> D[25]
+```
 
-  U->>D: ¿IP de google.com?
-  D->>U: 142.250.x.x
-  U->>S: Solicitud a esa IP
+### Interpretación
+
+- Izquierda → más general (red)
+- Derecha → más específico (dispositivo)
+
+```
+212.78.1.25
+General ----> Específico
 ```
 
 ---
 
-## ¿Dónde está el DNS?
+## Cómo se leen los dominios
 
-El DNS no es un solo servidor.
+### Idea clave
 
-Es un sistema distribuido:
+Los nombres de dominio se leen de derecha a izquierda.
 
-- hay muchos servidores DNS
-- trabajan juntos
-- están distribuidos por todo el mundo
+```mermaid
+flowchart RL
+    EDU[.edu] --> UMICH[umich]
+    UMICH --> SI[si]
+    SI --> PERSONAL[personal]
+    PERSONAL --> USER[drchuck]
+```
 
----
+### Interpretación
 
-## Analogía importante
-
-El DNS es como una agenda telefónica.
-
-- tú buscas un nombre
-- obtienes un número
-
-Luego usas ese número para comunicarte.
-
----
-
-## Ejemplo real
-
-Cuando entras a YouTube:
-
-- escribes un nombre
-- DNS lo traduce a una IP
-- tu dispositivo se conecta al servidor
+```
+drchuck.personal.si.umich.edu
+Específico <--- General
+```
 
 ---
 
-## Algo importante
+## Jerarquía de un dominio
 
-El DNS ocurre antes de cualquier comunicación.
+### Idea clave
 
-Sin él:
+Cada parte del dominio representa un nivel.
 
-- no sabrías a dónde enviar los datos
+```mermaid
+flowchart TD
+    A[.edu]
+    A --> B[umich.edu]
+    B --> C[si.umich.edu]
+    C --> D[personal.si.umich.edu]
+    D --> E[drchuck.personal.si.umich.edu]
+```
+
+### Explicación
+
+- `.edu` → tipo de organización
+- `umich` → institución
+- `si` → suborganización
+- `personal` → área específica
+- `drchuck` → recurso específico
 
 ---
 
-## Intuición clave
+## Comparación IP vs dominio
 
-El DNS es el puente entre:
+### Idea clave
 
-- el mundo humano (nombres)
-- el mundo de la red (IPs)
+IP y dominio organizan la información en sentidos opuestos.
+
+```mermaid
+flowchart LR
+    IP[IP] --> G1[General → Específico]
+    DOM[Dominio] --> G2[Específico → General]
+```
 
 ---
 
-## Idea clave de esta lección
+## Ejemplo práctico
 
-El DNS es el sistema que traduce nombres de dominio en direcciones IP, permitiendo que Internet sea usable para las personas.
+```mermaid
+flowchart TD
+    A[Usuario] --> B[heka-it.org]
+    B --> C[Fácil de recordar]
+```
+
+### Idea clave
+
+Los humanos usan nombres, no números.
 
 ---
 
-## Repaso
+## DNS como traductor
 
-- DNS significa Domain Name System
-- Traduce nombres a direcciones IP
-- Es un sistema distribuido
-- Funciona como una agenda telefónica
-- Es esencial para navegar en Internet
+### Idea clave
+
+DNS conecta el mundo humano con el mundo técnico.
+
+```mermaid
+flowchart LR
+    A[Nombre de dominio] --> DNS
+    DNS --> B[Dirección IP]
+```
+
+---
+
+## Ventaja clave del sistema
+
+### Idea clave
+
+Permite cambiar la infraestructura sin afectar al usuario.
+
+```mermaid
+flowchart TD
+    A[Dominio]
+    A --> B[IP antigua]
+    A --> C[IP nueva]
+```
+
+### Explicación
+
+- El usuario sigue usando el mismo nombre
+- El sistema redirige automáticamente
+
+---
+
+## Registro de dominios
+
+### Idea clave
+
+Los dominios pueden comprarse y gestionarse.
+
+```mermaid
+flowchart TD
+    U[Usuario] --> R[Registrador]
+    R --> D[Dominio]
+```
+
+### Explicación
+
+- Empresas registradoras venden dominios
+- Tú controlas tus subdominios
+
+---
+
+## Insight clave 
+
+Los dominios están diseñados para humanos, las IPs para máquinas.
+
+- Dominios → legibles
+- IPs → eficientes
+- DNS → conecta ambos mundos
+
+> Esta abstracción hace Internet usable
+
+---
+
+## Resumen
+
+- Las IP se leen de izquierda a derecha
+- Los dominios se leen de derecha a izquierda
+- Los dominios tienen estructura jerárquica
+- Cada nivel agrega especificidad
+- DNS traduce nombres a IPs
+- Permite cambiar servidores sin afectar usuarios
+- Los dominios pueden registrarse y gestionarse

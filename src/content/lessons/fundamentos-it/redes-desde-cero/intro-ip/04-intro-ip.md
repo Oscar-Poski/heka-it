@@ -3,198 +3,303 @@ trackSlug: fundamentos-it
 courseSlug: redes-desde-cero
 moduleSlug: intro-ip
 lessonSlug: 04-intro-ip
-title: NAT. Cómo muchos dispositivos usan una sola IP
-summary: Entender cómo NAT permite que múltiples dispositivos dentro de una red compartan una sola dirección IP pública.
-durationMinutes: 6
+title: 4.4 Trazando tu ruta (Traceroute y TTL)
+
+summary: Comprender cómo funciona traceroute y cómo el TTL evita bucles infinitos en la red, permitiendo observar rutas aproximadas en Internet.
+
+durationMinutes: 10
+
 objectives:
-  - Comprender qué es NAT
-  - Entender cómo traduce direcciones privadas a públicas
-  - Visualizar cómo múltiples dispositivos comparten una IP
-order: 20
----
-# NAT: cómo muchos dispositivos usan una sola IP
 
-En la lección anterior vimos que:
-
-- cada dispositivo tiene una IP privada
-- el router tiene una IP pública
-
-Pero esto plantea una pregunta importante:
-
-> ¿Cómo pueden muchos dispositivos usar una sola IP pública al mismo tiempo?
-> 
+- Entender qué es traceroute
+- Comprender el problema de los bucles en la red
+- Entender el concepto de TTL
+- Visualizar cómo se reconstruye una ruta
+order: 18
 
 ---
 
-## La idea clave
+## ¿Se puede conocer la ruta de un paquete?
 
-Esto es posible gracias a:
+### Idea clave
 
-> **NAT (Network Address Translation)**
-> 
-
----
-
-## ¿Qué es NAT?
-
-NAT es un mecanismo que:
-
-> traduce direcciones IP privadas en una dirección IP pública (y viceversa)
-> 
-
-Lo realiza el router.
-
----
-
-## El problema que resuelve
-
-En tu casa puedes tener:
-
-- laptop
-- celular
-- tablet
-- smart TV
-
-Todos necesitan acceder a Internet.
-
-Pero:
-
-- solo tienes una IP pública
-
----
-
-## ¿Cómo funciona NAT?
-
-El router actúa como intermediario.
-
----
+Ningún dispositivo conoce la ruta completa de un paquete.
 
 ```mermaid
 flowchart LR
-  A["Laptop\n192.168.1.2"] --> R["Router (NAT)"]
-  B["Celular\n192.168.1.3"] --> R
-  R --> C["IP pública"] --> D["Internet"]
+    A[Origen] --> R1
+    R1 --> R2
+    R2 --> R3
+    R3 --> D[Destino]
+```
+
+### Explicación
+
+- Cada router solo decide el siguiente salto
+- No existe un mapa global completo
+- La ruta se construye dinámicamente
+
+---
+
+## Herramienta: traceroute
+
+### Idea clave
+
+Traceroute permite estimar la ruta de un paquete.
+
+```mermaid
+flowchart TD
+    A[Tu computadora]
+    A --> T[Traceroute]
+    T --> Rutas[Lista de routers]
+```
+
+### Explicación
+
+- No muestra la ruta exacta
+- Muestra una aproximación
+- Puede variar entre ejecuciones
+
+---
+
+## Problema crítico: bucles de red
+
+### Idea clave
+
+Un paquete puede quedar atrapado en un ciclo infinito.
+
+```mermaid
+flowchart LR
+    R1 --> R2
+    R2 --> R3
+    R3 --> R1
+```
+
+### Explicación
+
+- Los routers pueden estar mal configurados
+- El paquete nunca llega a destino
+- Se consume toda la red
+
+---
+
+## Consecuencia de un bucle
+
+### Idea clave
+
+Los paquetes saturan la red.
+
+```mermaid
+flowchart TD
+    A[Paquetes]
+    A --> B[Bucle infinito]
+    B --> C[Saturación]
+    C --> D[Fallo de routers]
 ```
 
 ---
 
-## Paso a paso
+## Solución: TTL (Time To Live)
 
-### 1. Dispositivo envía solicitud
+### Idea clave
 
-Por ejemplo:
+Cada paquete tiene un contador de vida.
 
-- tu laptop (IP privada) quiere acceder a un servidor
+```mermaid
+flowchart LR
+    P[Paquete TTL=30] --> R1[TTL=29]
+    R1 --> R2[TTL=28]
+    R2 --> R3[TTL=27]
+```
 
----
+### Explicación
 
-### 2. NAT modifica la solicitud
-
-El router:
-
-- reemplaza la IP privada por la IP pública
-- registra quién hizo la solicitud
-
----
-
-### 3. Envío a Internet
-
-El servidor ve:
-
-- solo la IP pública
+- Se reduce en cada salto
+- Evita loops infinitos
 
 ---
 
-### 4. Respuesta
+## Cuando TTL llega a cero
 
-El servidor responde a la IP pública.
+### Idea clave
+
+El paquete es descartado.
+
+```mermaid
+flowchart TD
+    A[TTL = 1]
+    A --> B[Router]
+    B --> C[TTL = 0]
+    C --> D[Descartar paquete]
+```
+
+### Explicación
+
+- El router elimina el paquete
+- Evita congestión infinita
 
 ---
 
-### 5. NAT redirige la respuesta
+## Mensaje de error
 
-El router:
+### Idea clave
 
-- revisa su registro
-- envía la respuesta al dispositivo correcto
-
----
+El router notifica al origen.
 
 ```mermaid
 sequenceDiagram
-  participant L as Laptop (privada)
-  participant R as Router (NAT)
-  participant S as Servidor
+    participant O as Origen
+    participant R as Router
 
-  L->>R: Solicitud
-  R->>S: Solicitud (IP pública)
-  S->>R: Respuesta
-  R->>L: Respuesta correcta
+    O->>R: Paquete
+    R-->>O: TTL expirado
+```
+
+### Explicación
+
+- Mensaje de cortesía
+- Incluye IP del router
+- Clave para traceroute
+
+---
+
+## Cómo funciona traceroute
+
+### Idea clave
+
+Usa TTL para descubrir routers paso a paso.
+
+```mermaid
+flowchart TD
+    A[TTL=1] --> R1[Router 1]
+    B[TTL=2] --> R2[Router 2]
+    C[TTL=3] --> R3[Router 3]
 ```
 
 ---
 
-## ¿Cómo distingue entre dispositivos?
+## Proceso completo
 
-El router usa información adicional como:
+```mermaid
+sequenceDiagram
+    participant U as Usuario
+    participant R1 as Router 1
+    participant R2 as Router 2
+    participant R3 as Router 3
 
-- puertos
-- tablas internas
+    U->>R1: TTL=1
+    R1-->>U: Respuesta
 
-Esto le permite saber:
+    U->>R2: TTL=2
+    R2-->>U: Respuesta
 
-- qué respuesta corresponde a qué dispositivo
+    U->>R3: TTL=3
+    R3-->>U: Respuesta
+```
 
----
+### Explicación
 
-## Analogía importante
-
-Imagina una oficina:
-
-- todos los empleados usan la misma dirección del edificio
-- el recepcionista (router) recibe todo
-- luego entrega cada mensaje a la persona correcta
-
----
-
-## Ejemplo real
-
-Cuando usas una app como YouTube:
-
-- tu celular envía una solicitud
-- NAT la traduce
-- el servidor responde
-- el router devuelve la respuesta al dispositivo correcto
+- Incrementa TTL gradualmente
+- Cada router responde
+- Se construye la ruta
 
 ---
 
-## Ventajas de NAT
+## Resultado de traceroute
 
-- permite compartir una IP pública
-- reduce el uso de direcciones IPv4
-- añade una capa básica de aislamiento
+### Idea clave
 
----
+Obtienes una lista de saltos.
 
-## Intuición clave
-
-Internet no ve todos tus dispositivos.
-
-> solo ve tu router
-> 
+```mermaid
+flowchart TD
+    A[Salto 1] --> B[Salto 2]
+    B --> C[Salto 3]
+    C --> D[Destino]
+```
 
 ---
 
-## Idea clave de esta lección
+## Medición de latencia
 
-NAT permite que múltiples dispositivos con IP privadas compartan una sola IP pública mediante traducción de direcciones.
+### Idea clave
+
+También mide el tiempo entre saltos.
+
+```mermaid
+flowchart TD
+    A[Router 1 - 1ms]
+    B[Router 2 - 7ms]
+    C[Router 3 - 30ms]
+    D[Destino - 77ms]
+```
+
+### Explicación
+
+- Milisegundos (ms)
+- Indica distancia y congestión
 
 ---
 
-## Repaso
+## Saltos largos (ej. submarinos)
 
-- NAT traduce IP privadas a una IP pública
-- El router realiza esta función
-- Mantiene una tabla para enrutar respuestas
-- Permite que múltiples dispositivos usen Internet
-- Internet solo ve la IP pública
+### Idea clave
+
+Los enlaces largos aumentan la latencia.
+
+```mermaid
+flowchart LR
+    A[Continente] --> B[Cable submarino]
+    B --> C[Otro continente]
+```
+
+### Explicación
+
+- Saltos internacionales → más tiempo
+- Aún así, muy rápido globalmente
+
+---
+
+## Routers que no responden
+
+### Idea clave
+
+Algunos routers no envían respuesta.
+
+```mermaid
+flowchart TD
+    A[Router]
+    A --> X[Sin respuesta]
+```
+
+### Explicación
+
+- Seguridad
+- Configuración
+- traceroute continúa
+
+---
+
+## Insight clave 
+
+
+Traceroute no muestra la ruta exacta, sino una aproximación basada en el comportamiento de la red.
+
+- La ruta puede cambiar
+- Cada paquete puede tomar caminos distintos
+- Aún así, es una herramienta poderosa
+
+> Es una “radiografía” del Internet en ese momento
+
+---
+
+## Resumen
+
+- No existe conocimiento global de rutas
+- Los routers solo conocen el siguiente salto
+- Pueden existir bucles peligrosos
+- TTL evita loops infinitos
+- Los routers descartan paquetes con TTL=0
+- traceroute usa TTL para mapear rutas
+- Permite ver saltos y latencia
+- La ruta puede variar dinámicamente

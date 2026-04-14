@@ -3,159 +3,253 @@ trackSlug: fundamentos-it
 courseSlug: redes-desde-cero
 moduleSlug: intro-dns
 lessonSlug: 01-intro-dns
-title: ¿Por qué no usamos IPs?
-summary: Entender por qué los humanos no usamos direcciones IP directamente y la necesidad de un sistema más fácil de recordar.
-durationMinutes: 4
+title: 5.1 Sistema de Nombres de Dominio (DNS) y asignación de dominios
+
+summary: Comprender cómo el DNS traduce nombres de dominio a direcciones IP y cómo se organiza la asignación de dominios a nivel global.
+
+durationMinutes: 10
+
 objectives:
-  - Comprender por qué las IPs no son prácticas para humanos
-  - Entender la diferencia entre nombres y direcciones
-  - Introducir la necesidad del DNS
-order: 21
----
-# ¿Por qué no usamos IPs?
 
-Ya sabemos que:
-
-- cada dispositivo tiene una dirección IP
-- las computadoras usan esas direcciones para comunicarse
-
-Pero entonces surge una pregunta natural:
-
-> ¿Por qué nosotros no usamos direcciones IP directamente?
-> 
+- Entender qué es DNS y por qué existe
+- Comprender cómo se resuelve un dominio a una IP
+- Entender la jerarquía de nombres de dominio
+- Conocer el rol de ICANN y los TLDs
+order: 22
 
 ---
 
-## La idea clave
+## El problema: recordar direcciones IP
 
-Las direcciones IP funcionan muy bien para las computadoras.
+### Idea clave
 
-Pero:
+Las direcciones IP no son fáciles de recordar.
 
-> no son prácticas para los humanos
-> 
-
----
-
-## Problema 1: Difíciles de recordar
-
-Una IP se ve así:
-
-```
-142.250.190.78
+```mermaid
+flowchart TD
+    A[Usuario] --> B[212.78.1.25]
+    B --> C[Difícil de recordar]
 ```
 
-Ahora imagina memorizar:
-
-- decenas de direcciones
-- para cada sitio que usas
-
-No es práctico.
-
 ---
 
-## Problema 2: No son intuitivas
+## Solución: nombres de dominio
 
-Una IP no dice nada sobre su contenido.
+### Idea clave
 
-Por ejemplo:
+Usamos nombres fáciles en lugar de números.
 
-- 142.250.190.78 → no sabes qué es
-- youtube.com → sabes inmediatamente a dónde vas
-
----
-
-## Problema 3: Pueden cambiar
-
-Las direcciones IP pueden cambiar con el tiempo.
-
-Si dependieras de ellas:
-
-- tendrías que actualizar constantemente
-- perderías acceso si cambian
-
----
-
-## La solución: nombres
-
-En lugar de usar IPs, usamos nombres como:
-
-- google.com
-- youtube.com
-
-Estos nombres son:
-
-- fáciles de recordar
-- significativos
-- estables desde la perspectiva del usuario
-
----
-
-## Analogía importante
-
-Imagina que en lugar de guardar contactos en tu celular:
-
-- tuvieras que memorizar números largos
-- sin nombres
-
-Sería muy difícil.
-
-Por eso usamos nombres.
-
----
-
-## Pero hay un detalle importante
-
-Aunque tú uses nombres:
-
-> las computadoras siguen usando direcciones IP
-> 
-
----
-
-## Entonces, ¿qué ocurre realmente?
-
-Cuando escribes un nombre como:
-
-```
-google.com
+```mermaid
+flowchart TD
+    A[Usuario] --> B[heka-it.org]
+    B --> C[Fácil de recordar]
 ```
 
-tu dispositivo necesita convertirlo en una IP.
+---
 
-Ese proceso lo realiza un sistema que veremos en la siguiente lección.
+## Qué es DNS
+
+### Idea clave
+
+DNS traduce nombres de dominio a direcciones IP.
+
+```mermaid
+flowchart LR
+    D[Dominio] --> DNS
+    DNS --> IP[Dirección IP]
+```
 
 ---
 
-## Ejemplo real
+## Ejemplo de resolución
 
-Cuando entras a YouTube:
-
-- tú usas un nombre
-- el sistema lo traduce a una IP
-- la comunicación ocurre usando esa IP
-
----
-
-## Intuición clave
-
-Hay dos niveles:
-
-- humanos → usan nombres
-- computadoras → usan direcciones IP
+```mermaid
+flowchart LR
+    A[heka-it.org] --> DNS
+    DNS --> B[212.78.1.25]
+```
 
 ---
 
-## Idea clave de esta lección
+## Flujo de conexión
 
-No usamos direcciones IP porque son difíciles de recordar y no son intuitivas, por lo que utilizamos nombres que luego se traducen a IPs.
+### Idea clave
+
+Primero se resuelve el nombre, luego se conecta.
+
+```mermaid
+sequenceDiagram
+    participant U as Usuario
+    participant D as DNS
+    participant S as Servidor
+
+    U->>D: ¿IP de dominio?
+    D->>U: Dirección IP
+    U->>S: Conexión usando IP
+```
 
 ---
 
-## Repaso
+## Ventaja clave del DNS
 
-- Las IPs son necesarias para la red
-- Pero no son prácticas para humanos
-- Usamos nombres en su lugar
-- Las computadoras convierten esos nombres en IPs
-- Ese proceso se verá en la siguiente lección
+### Idea clave
+
+Permite cambiar la IP sin afectar al usuario.
+
+```mermaid
+flowchart TD
+    A[Dominio]
+    A --> B[IP antigua]
+    A --> C[IP nueva]
+```
+
+### Explicación
+
+- El servidor puede moverse
+- Solo se actualiza el DNS
+- El usuario no nota el cambio
+
+---
+
+## IP vs dominio
+
+### Idea clave
+
+IP = ubicación, dominio = nombre.
+
+```mermaid
+flowchart TD
+    A[IP] --> B[Ubicación física]
+    C[Dominio] --> D[Nombre lógico]
+```
+
+---
+
+## Jerarquía del DNS
+
+### Idea clave
+
+Los dominios están organizados en niveles.
+
+```mermaid
+flowchart TD
+    ROOT[.]
+    ROOT --> COM[.com]
+    COM --> EXAMPLE[example.com]
+    EXAMPLE --> WWW[www.example.com]
+```
+
+---
+
+## Dominios de nivel superior (TLD)
+
+### Idea clave
+
+Son la base de la estructura de nombres.
+
+```mermaid
+flowchart TD
+    A[TLD]
+    A --> B[.com]
+    A --> C[.org]
+    A --> D[.edu]
+    A --> E[.club]
+```
+
+---
+
+## Dominios por país (ccTLD)
+
+### Idea clave
+
+Representan países.
+
+```mermaid
+flowchart TD
+    A[ccTLD]
+    A --> B[.mx]
+    A --> C[.us]
+    A --> D[.jp]
+    A --> E[.uk]
+```
+
+---
+
+## Subdominios
+
+### Idea clave
+
+Las organizaciones crean sus propios subniveles.
+
+```mermaid
+flowchart TD
+    A[umich.edu]
+    A --> B[cs.umich.edu]
+    A --> C[mail.umich.edu]
+```
+
+---
+
+## Organización global: ICANN
+
+### Idea clave
+
+ICANN gestiona el sistema global de dominios.
+
+```mermaid
+flowchart TD
+    ICANN --> TLD[Dominios de nivel superior]
+    TLD --> ORG[Organizaciones]
+```
+
+---
+
+## Flujo de asignación de dominios
+
+```mermaid
+flowchart LR
+    ICANN --> TLD
+    TLD --> Empresa
+    Empresa --> Subdominios
+```
+
+---
+
+## Propiedad de dominios
+
+### Idea clave
+
+Los dominios pueden ser gestionados por organizaciones o personas.
+
+```mermaid
+flowchart TD
+    A[Dominio]
+    A --> B[Empresa]
+    A --> C[Universidad]
+    A --> D[Persona]
+```
+
+---
+
+## Insight clave 
+
+DNS desacopla el nombre de la ubicación.
+
+- Los usuarios usan nombres
+- Los sistemas usan IPs
+- Permite flexibilidad total
+
+> Es una de las piezas más importantes de Internet
+
+---
+
+## Resumen
+
+- DNS traduce nombres a direcciones IP
+- Los usuarios usan dominios, no IPs
+- Primero se resuelve el nombre, luego se conecta
+- Permite mover servidores sin afectar usuarios
+- Existe una jerarquía de dominios
+- ICANN gestiona los dominios globales
+- Los dominios se pueden subdividir
+- DNS hace Internet más usable y flexible

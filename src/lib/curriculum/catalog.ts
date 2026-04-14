@@ -28,40 +28,55 @@ export const curriculumCatalog: CatalogTrack[] = [
     courses: [
       {
         slug: 'redes-desde-cero',
-        title: 'En Construcción: Redes Desde Cero',
+        title: 'Redes Desde Cero',
         level: 'básico',
-        summary: 'Comprende conectividad, diagnóstico y principios de red para soporte técnico.',
-        estimatedHours: 0,
+        summary: 'Comprende a un nivel básico el diseño técnico y la arquitectura del internet.',
+        estimatedHours: 6,
         modules: [
           {
             slug: 'intro-redes',
-            title: 'Fundamentos de Red',
+            title: 'Intro a Redes',
             summary: 'Conceptos clave para interpretar tráfico y arquitectura básica.',
           },
           {
-            slug: 'intro-datos',
-            title: '¿Qué viaje en la red?',
-            summary: 'Entender los datos que viajan.',
+            slug: 'intro-arquitectura',
+            title: 'Arquitectura de la Red',
+            summary: 'Entender la arquitectura de la red.',
           },
           {
-            slug: 'mundo-fisico',
-            title: 'El mundo físico',
-            summary: '¿Qué es lo que no vemos que permite el viaje de nuestros datos?',
-          },
-          {
-            slug: 'intro-paquetes',
-            title: 'Paquetes',
-            summary: 'Entender por qué la información no se envía completa, sino en partes más pequeñas llamadas paquetes.',
+            slug: 'capa-acceso',
+            title: 'La Capa de Acceso',
+            summary: 'Entender la capa de acceso del modelo TCP.',
           },
           {
             slug: 'intro-ip',
-            title: 'Direcciones IP',
-            summary: 'Entender qué es una dirección IP y cómo permite identificar dispositivos dentro de una red.',
+            title: 'La Capa de IP',
+            summary: 'Entender la capa de internet del modelo TCP.',
           },
           {
             slug: 'intro-dns',
-            title: 'DNS',
+            title: 'DNS: Sistema de Nombres de Dominio',
             summary: 'No usamos direcciones IP directamente. La necesidad de un sistema más fácil de recordar.',
+          },
+          {
+            slug: 'capa-transporte',
+            title: 'La Capa de Transporte',
+            summary: 'La capa de Transporte asegura fiabilidad en la entrega de los paquetes.',
+          },
+          {
+            slug: 'capa-app',
+            title: 'La Capa de Aplicación',
+            summary: 'La capa de Aplicación es la más cercana al usuario. Aquí viven las apps (web, correo, video).',
+          },
+          {
+            slug: 'intro-seguridad',
+            title: 'Introducción a la Seguridad',
+            summary: 'Un poco sobre  la seguridad y la privacidad del tráfico de red.',
+          },
+          {
+            slug: 'intro-osi',
+            title: 'El Modelo OSI',
+            summary: 'El diseño de redes con el modelo de Interconexión de Sistemas Abiertos.',
           },
         ]
       },

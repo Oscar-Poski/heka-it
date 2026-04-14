@@ -3,175 +3,285 @@ trackSlug: fundamentos-it
 courseSlug: redes-desde-cero
 moduleSlug: intro-redes
 lessonSlug: 02-intro-redes
-title: Tipos de redes
-summary: Conocer los principales tipos de redes (LAN, WAN e Internet) y entender cómo se diferencian por su alcance y uso.
+title: 1.2 Las computadoras se comunican de forma diferente
+summary: Comprender los inicios de comunicación entre computadoras.
 durationMinutes: 5
 objectives:
-  - Distinguir entre LAN, WAN e Internet
-  - Entender cómo cambia una red según su tamaño
-  - Relacionar ejemplos reales con cada tipo de red
+  - Entender que la comunicación entre computadoras es un problema diferente a la comunicación entre humanos
+  - Conocer un poco de la evolución de la comunicación entre computadoras
 order: 2
 
 ---
-# Tipos de redes
+## Diferencia entre humanos y computadoras
 
-En la lección anterior vimos que una red es simplemente dispositivos conectados para comunicarse.
+### Idea clave
 
-Pero no todas las redes son iguales.
+Las computadoras no se comunican como los humanos.
 
-La diferencia principal entre ellas es **su tamaño y alcance**.
+### Humanos
 
----
-
-## La idea clave
-
-Podemos clasificar las redes en tres grandes tipos:
-
-- **LAN** (Local Area Network)
-- **WAN** (Wide Area Network)
-- **Internet** (la red global)
-
----
-
-## LAN — Red de Área Local
-
-Una **LAN** es una red pequeña que conecta dispositivos cercanos.
-
-Por ejemplo:
-
-- tu casa
-- una oficina
-- una escuela
-
----
+- Hacen una llamada
+- Hablan durante un tiempo
+- Terminan la comunicación
 
 ```mermaid
-flowchart TD
-  R["Router"]
-  A["Laptop"] --> R
-  B["Celular"] --> R
-  C["Smart TV"] --> R
+sequenceDiagram
+    participant A as Persona A
+    participant B as Persona B
+
+    A->>B: Llamada
+    A->>B: Conversación continua
+    A->>B: Fin de llamada
 ```
 
 ---
 
-### Características de una LAN
+### Computadoras
 
-- Área pequeña
-- Alta velocidad
-- Controlada por una persona o empresa
-- Generalmente usa WiFi o cable Ethernet
-
----
-
-### Ejemplo real
-
-Tu red WiFi en casa es una LAN.
-
-Todos tus dispositivos están conectados al mismo router.
-
----
-
-## WAN — Red de Área Amplia
-
-Una **WAN** conecta múltiples redes LAN entre sí a grandes distancias.
-
----
+- Envían datos constantemente
+- No siguen un patrón fijo
+- La comunicación puede ser:
+    - Muy breve
+    - Intermedia
+    - Muy larga
 
 ```mermaid
 flowchart LR
-  A["Casa (LAN)"] --> B["Proveedor de Internet"]
-  C["Oficina (LAN)"] --> B
-  D["Universidad (LAN)"] --> B
+    A[Computadora A] -->|Ping corto| B[Computadora B]
+    A -->|Foto| B
+    A -->|Película| B
 ```
 
 ---
 
-### Características de una WAN
+## Tipos de comunicación entre computadoras
 
-- Cubre grandes distancias (ciudades, países)
-- Conecta muchas redes pequeñas
-- Depende de proveedores de telecomunicaciones
+### Idea clave
 
----
+No todos los mensajes son iguales.
 
-### Ejemplo real
+### Tipos
 
-Cuando tu casa se conecta a Internet a través de tu proveedor, ya estás usando una WAN.
-
----
-
-## Internet — La red de redes
-
-Internet no es una sola red.
-
-Es:
-
-> una enorme red formada por miles de redes conectadas entre sí
-> 
-
----
+- **Mensajes cortos**
+    - Ej: verificar si un servidor está activo
+- **Mensajes medianos**
+    - Ej: enviar una imagen o correo
+- **Mensajes largos**
+    - Ej: descargar una película o software
 
 ```mermaid
 flowchart TD
-  A["Red (México)"] --> B["Red global"]
-  C["Red (USA)"] --> B
-  D["Red (Europa)"] --> B
-  E["Red (Asia)"] --> B
+    A[Datos enviados]
+    A --> B[Pequeños<br/>Ping, señales]
+    A --> C[Medianos<br/>Fotos, correos]
+    A --> D[Grandes<br/>Videos, programas]
 ```
 
 ---
 
-### Características de Internet
+## Primer modelo: conexión directa entre computadoras
 
-- Escala global
-- No pertenece a una sola entidad
-- Interconecta millones de dispositivos
-- Permite servicios como web, correo, streaming
+### Idea clave
 
----
+Las primeras computadoras se conectaban directamente entre sí.
 
-## Cómo se conectan todos
+```mermaid
+flowchart LR
+    A[Computadora A] --- B[Computadora B]
+```
 
-Lo importante no es memorizar definiciones, sino entender la relación:
+### Características
 
-1. Tu casa → **LAN**
-2. Tu proveedor → conecta LANs → **WAN**
-3. Todas las WANs conectadas → **Internet**
-
----
-
-## Ejemplo
-
-Cuando usas una app como WhatsApp:
-
-1. Tu celular está en tu **LAN**
-2. Tu router envía datos a tu proveedor (**WAN**)
-3. Los datos viajan por Internet
-4. Llegan a otra red en otra parte del mundo
+- Conexión física (cables)
+- Comunicación directa
+- Sin intermediarios
 
 ---
 
+## Envío de datos en cola
 
-Puedes pensar en esto como niveles:
+### Idea clave
 
-- LAN = tu casa
-- WAN = carreteras entre ciudades
-- Internet = todo el sistema global conectado
+Los datos se enviaban uno detrás de otro.
+
+```mermaid
+flowchart LR
+    Q[Cola de mensajes]
+    M1[Mensaje 1] --> M2[Mensaje 2] --> M3[Mensaje 3] --> M4[Mensaje 4]
+
+    Q --> M1
+```
+
+### Explicación
+
+- Cada mensaje espera su turno
+- No hay paralelismo
+- El canal se usa de forma secuencial
 
 ---
 
-Las redes se diferencian principalmente por su alcance.
+## Flujo de transmisión
 
-- LAN → pequeña y local
-- WAN → conecta múltiples LANs
-- Internet → red global de redes
+```mermaid
+sequenceDiagram
+    participant A as Computadora A
+    participant B as Computadora B
+
+    A->>B: Mensaje 1
+    A->>B: Mensaje 2
+    A->>B: Mensaje 3
+```
+
+### Idea clave
+
+Los mensajes no se mezclan: se envían en orden.
 
 ---
 
-## Repaso
+## Conexión en el mismo edificio
 
-- Una LAN conecta dispositivos cercanos
-- Una WAN conecta redes a gran escala
-- Internet conecta todo
-- Todas trabajan juntas constantemente
+### Idea clave
+
+Cuando las computadoras estaban cerca, era fácil conectarlas.
+
+```mermaid
+flowchart TD
+    A[Computadora A] --> C[Cable directo]
+    B[Computadora B] --> C
+```
+
+### Características
+
+- Bajo costo
+- Control total del propietario
+- Instalación sencilla
+
+---
+
+## Conexión dentro de una ciudad
+
+### Problema
+
+No siempre puedes tender tu propio cable.
+
+### Solución
+
+Usar infraestructura de compañías telefónicas.
+
+```mermaid
+flowchart LR
+    A[Empresa A] --> T[Compañía telefónica]
+    T --> B[Empresa B]
+```
+
+### Idea clave
+
+Se empieza a depender de terceros.
+
+---
+
+## Líneas arrendadas (leased lines)
+
+### Idea clave
+
+Conexiones dedicadas entre computadoras.
+
+```mermaid
+flowchart LR
+    A[Computadora A] === L[Línea dedicada 24/7] === B[Computadora B]
+```
+
+### Características
+
+- Siempre activas
+- No requieren “marcar”
+- Comunicación inmediata
+
+---
+
+## Ventajas y desventajas
+
+### Ventajas
+
+- Conexión estable
+- Baja latencia
+- Siempre disponible
+
+### Desventajas
+
+- Muy costosas
+- Se usan incluso cuando no hay tráfico
+
+```mermaid
+flowchart TD
+    A[Línea dedicada]
+    A --> B[Siempre activa]
+    A --> C[Recurso ocupado todo el tiempo]
+    C --> D[Alto costo]
+```
+
+---
+
+## Conexiones de larga distancia
+
+### Idea clave
+
+Las líneas arrendadas también se extendían entre ciudades.
+
+```mermaid
+flowchart LR
+    A[Ciudad A] --> C1[Central]
+    C1 --> C2[Central intermedia]
+    C2 --> B[Ciudad B]
+```
+
+### Problema
+
+- Pocos cables disponibles
+- Costos muy altos
+- Escalabilidad limitada
+
+---
+
+## El costo de la distancia
+
+```mermaid
+flowchart LR
+    A[Distancia corta] --> B[Costo bajo]
+    C[Distancia larga] --> D[Costo alto]
+```
+
+### Explicación
+
+- Más distancia = más infraestructura
+- Más infraestructura = mayor costo
+
+---
+
+## Problema de compatibilidad
+
+### Idea clave
+
+No todas las computadoras hablaban el mismo “idioma”.
+
+```mermaid
+flowchart LR
+    A[Computadora Marca A] -. diferente protocolo .-> B[Computadora Marca B]
+```
+
+### Explicación
+
+- Cada fabricante tenía su propio sistema
+- No había estándares universales
+- La comunicación solo funcionaba entre sistemas compatibles
+
+---
+
+## Resumen
+
+- Las computadoras envían datos de forma continua y variable
+- Los mensajes pueden ser de distintos tamaños
+- El envío se hacía en cola, de forma secuencial
+- Las conexiones directas funcionaban, pero no escalaban
+- Las líneas dedicadas resolvían algunos problemas, pero eran costosas
+- La falta de estándares limitaba la comunicación entre diferentes sistemas

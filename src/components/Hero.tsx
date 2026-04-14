@@ -77,9 +77,9 @@ export function Hero() {
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-1 text-2xl md:text-3xl font-bold">
                 <BookOpenText className="h-6 w-6 text-amber-500" />
-                <span>1</span>
+                <span>2</span>
               </div>
-              <p className="text-sm text-muted-foreground">Curso Disponible</p>
+              <p className="text-sm text-muted-foreground">Cursos Disponibles</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-1 text-2xl md:text-3xl font-bold">

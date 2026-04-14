@@ -3,154 +3,305 @@ trackSlug: fundamentos-it
 courseSlug: redes-desde-cero
 moduleSlug: intro-ip
 lessonSlug: 01-intro-ip
-title: ¿Qué es una dirección IP?
-summary: Entender qué es una dirección IP y cómo permite identificar dispositivos dentro de una red.
-durationMinutes: 5
+title: 4.1 Direcciones de Protocolo de Internet (IP)
+
+summary: Comprender cómo las direcciones IP permiten enrutar paquetes a través de múltiples redes de forma eficiente.
+
+durationMinutes: 9
+
 objectives:
-  - Comprender qué es una dirección IP
-  - Entender por qué es necesaria para la comunicación
-  - Identificar cómo se ve una dirección IP
-order: 17
----
-# ¿Qué es una dirección IP?
 
-Hasta ahora ya sabemos:
-
-- los datos viajan en paquetes
-- los paquetes tienen un destino
-
-Pero esto nos lleva a una pregunta clave:
-
-> ¿Cómo sabe la red a dónde enviar los datos?
-> 
+- Entender por qué se necesitan direcciones IP
+- Diferenciar direcciones MAC vs IP
+- Comprender cómo los routers usan direcciones IP
+- Entender la estructura de una dirección IP
+order: 15
 
 ---
 
-## La idea clave
+## El reto: llegar a cualquier destino
 
-Cada dispositivo en una red necesita una forma de identificarse.
+### Idea clave
 
-Esa identificación es:
-
-> la **dirección IP**
-> 
-
----
-
-## ¿Qué es una dirección IP?
-
-Una dirección IP es:
-
-> un identificador único que permite localizar un dispositivo dentro de una red
-> 
-
-Es como una dirección en el mundo real.
-
----
-
-## Analogía importante
-
-Imagina que quieres enviar una carta.
-
-Necesitas:
-
-- dirección de origen
-- dirección de destino
-
-Sin dirección, la carta no llega.
-
-En redes ocurre lo mismo.
-
----
-
-## ¿Cómo se ve una dirección IP?
-
-Una dirección IP común (IPv4) se ve así:
-
-```
-192.168.1.1
-```
-
-Está formada por números separados por puntos.
-
----
-
-## ¿Qué representa?
-
-Una dirección IP identifica:
-
-- un dispositivo específico
-- dentro de una red específica
-
-Esto permite que los paquetes lleguen al destino correcto.
-
----
-
-## En los paquetes
-
-Cuando se envía un paquete, incluye:
-
-- IP de origen
-- IP de destino
-
----
+Para enviar datos a larga distancia, los paquetes deben atravesar múltiples redes y saltos.
 
 ```mermaid
 flowchart LR
-  A["Origen (IP A)"] --> B["Red"] --> C["Destino (IP B)"]
+    A[Origen] --> R1[Router]
+    R1 --> R2[Router]
+    R2 --> R3[Router]
+    R3 --> D[Destino]
+```
+
+### Explicación
+
+- No existe una conexión directa
+- Los paquetes viajan por múltiples medios
+- Cada salto acerca el paquete a su destino
+
+---
+
+## Analogía: viajar por el mundo
+
+### Idea clave
+
+Un paquete viaja como una persona en un viaje largo.
+
+```mermaid
+flowchart LR
+    Casa --> Bus
+    Bus --> Tren
+    Tren --> Avion
+    Avion --> Taxi
+    Taxi --> Hotel
+```
+
+### Explicación
+
+- Diferentes medios de transporte
+- Diferentes decisiones en cada punto
+- El camino completo se construye paso a paso
+
+---
+
+## Routers como estaciones
+
+### Idea clave
+
+Los routers funcionan como estaciones de tránsito.
+
+```mermaid
+flowchart TD
+    R[Router]
+    R --> O1[Salida 1]
+    R --> O2[Salida 2]
+    R --> O3[Salida 3]
+```
+
+### Explicación
+
+- Reciben paquetes
+- Deciden a dónde enviarlos
+- Tienen múltiples rutas posibles
+
+---
+
+## Cómo decide un router
+
+### Idea clave
+
+El router usa la dirección de destino para decidir el siguiente salto.
+
+```mermaid
+flowchart TD
+    P[Paquete]
+    P --> D[Dirección destino]
+    D --> R[Router decide salida]
+```
+
+### Explicación
+
+- No pregunta a nadie
+- No conoce toda la ruta
+- Solo toma la mejor decisión local
+
+---
+
+## Introducción a la dirección IP
+
+### Idea clave
+
+Cada paquete lleva una dirección IP que indica su destino final.
+
+```mermaid
+flowchart LR
+    P[Paquete] --> IP[Dirección IP destino]
 ```
 
 ---
 
-Los dispositivos intermedios usan esta información para enrutar los datos.
+## Ejemplo de dirección IPv4
+
+### Idea clave
+
+Las direcciones IPv4 tienen 4 números.
+
+```
+212.78.1.25
+```
+
+### Características
+
+- 4 números separados por puntos
+- Cada número entre 0 y 255
+- Representa un dispositivo en la red
 
 ---
 
-## Ejemplo real
+## Ejemplo de dirección IPv6
 
-Cuando usas una aplicación como YouTube:
+### Idea clave
 
-- tu dispositivo tiene una IP
-- el servidor tiene otra IP
-- los datos viajan entre esas direcciones
+IPv6 permite muchas más direcciones.
 
----
+```
+2001:0db8:85a3:0042:1000:8a2e:0370:7334
+```
 
-## Algo importante
+### Explicación
 
-Aunque normalmente usas nombres como:
-
-- google.com
-- youtube.com
-
-en realidad:
-
-> las computadoras usan direcciones IP
-> 
-
-Más adelante veremos cómo se traducen esos nombres.
+- Direcciones más largas
+- Solución a la escasez de IPv4
 
 ---
 
-## Intuición clave
+## Problema con direcciones MAC
 
-La red no entiende nombres humanos.
+### Idea clave
 
-> entiende direcciones numéricas
-> 
+Las direcciones MAC no sirven para enrutar en Internet.
+
+```mermaid
+flowchart TD
+    MAC[Dirección MAC]
+    MAC --> X[No indica ubicación]
+```
+
+### Explicación
+
+- Son fijas (hardware)
+- No dependen de la ubicación
+- No escalan para Internet
 
 ---
 
-## Idea clave de esta lección
+## Solución: direcciones basadas en ubicación
 
-Una dirección IP es un identificador único que permite enviar datos a un dispositivo específico dentro de una red.
+### Idea clave
+
+Las direcciones IP dependen de dónde está conectado el dispositivo.
+
+```mermaid
+flowchart TD
+    A[Dispositivo] --> B[Dirección IP según red]
+```
+
+### Explicación
+
+- Cambian según la red
+- Reflejan ubicación lógica
+- Facilitan el enrutamiento
 
 ---
 
-## Repaso
+## Estructura de una dirección IP
 
-- Cada dispositivo tiene una dirección IP
-- Funciona como una dirección en el mundo real
-- Los paquetes incluyen IP de origen y destino
-- Permite que la red enrute los datos correctamente
-- Las computadoras usan IPs, no nombres
+### Idea clave
+
+Una dirección IP se divide en dos partes.
+
+```mermaid
+flowchart LR
+    IP[212.78.1.25]
+    IP --> NET[Red: 212.78]
+    IP --> HOST[Dispositivo: 1.25]
+```
+
+---
+
+## Dirección de red
+
+### Idea clave
+
+Identifica la red a la que pertenece el dispositivo.
+
+```mermaid
+flowchart TD
+    NET[212.78]
+    NET --> A[Dispositivo 1]
+    NET --> B[Dispositivo 2]
+    NET --> C[Dispositivo 3]
+```
+
+### Explicación
+
+- Agrupa dispositivos
+- Permite enrutar en bloque
+
+---
+
+## Identificador de dispositivo
+
+### Idea clave
+
+Identifica el equipo dentro de la red.
+
+```mermaid
+flowchart TD
+    NET[Red 212.78]
+    NET --> H1[1.1]
+    NET --> H2[1.2]
+    NET --> H3[1.3]
+```
+
+---
+
+## Enrutamiento eficiente
+
+### Idea clave
+
+Los routers solo necesitan conocer redes, no dispositivos individuales.
+
+```mermaid
+flowchart LR
+    P[Paquete 212.78.*.*] --> R[Router]
+    R --> DEST[Enviar a red 212.78]
+```
+
+### Explicación
+
+- Reduce complejidad
+- Escala a nivel global
+- Hace posible Internet
+
+---
+
+## Ventaja clave del diseño
+
+### Idea clave
+
+Agrupar dispositivos en redes simplifica el enrutamiento.
+
+```mermaid
+flowchart TD
+    A[Miles de millones de dispositivos]
+    A --> B[Agrupados en redes]
+    B --> C[Menos rutas a gestionar]
+```
+
+---
+
+## Insight clave
+
+
+Las direcciones IP permiten enrutar de forma eficiente a escala global.
+
+- Representan ubicación lógica
+- Agrupan dispositivos
+- Reducen complejidad
+- Permiten decisiones rápidas en routers
+
+> Sin este diseño, Internet no podría escalar
+
+---
+
+## Resumen
+
+- Los paquetes viajan a través de múltiples routers
+- Cada router usa la dirección IP para decidir
+- Las direcciones MAC no sirven para enrutar globalmente
+- Las direcciones IP dependen de la red
+- IPv4 usa 4 números, IPv6 usa direcciones más largas
+- Una IP tiene parte de red y parte de dispositivo
+- Los routers enrutan usando la parte de red
+- Esto hace posible escalar Internet
