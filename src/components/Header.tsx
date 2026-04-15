@@ -76,7 +76,6 @@ export function Header() {
                 {item.label}
               </a>
             ))}
-            <Button className="w-full">Get Started</Button>
           </div>
         </div>
       )}

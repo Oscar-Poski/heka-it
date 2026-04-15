@@ -83,7 +83,7 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold mb-4">Empresa</h3>
+            <h3 className="font-semibold mb-4">Proyecto</h3>
             <ul className="space-y-3">
               <li>
                 <a
@@ -96,7 +96,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Newsletter 
           <div>
             <h3 className="font-semibold mb-4">Mantente al tanto</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -112,7 +112,7 @@ export function Footer() {
                 <Mail className="h-4 w-4" />
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom */}
