@@ -12,6 +12,15 @@ objectives:
 order: 1
 
 ---
+<iframe 
+  width="560" 
+  height="315" 
+  src="https://youtu.be/KC6EliFkkIA?si=vx5UjLurgALOifQS" 
+  title="Lección 1.1" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+  allowfullscreen>
+</iframe>
 
 ## La ilusión de simplicidad
 
