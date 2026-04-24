@@ -106,6 +106,13 @@ const capitulo: Capitulo = {
         "IPv4 permite ~4,300 millones de direcciones únicas. Parecía suficiente en los años 80. Hoy hay más de 15,000 millones de dispositivos conectados. Por eso existe IPv6, que usa 128 bits en lugar de 32 y ofrece más direcciones que átomos hay en la Tierra.",
     },
     {
+      tipo: "visual",
+      eyebrow: "Visualización",
+      texto:
+        "Así se ve un paquete saltando entre routers hasta llegar a su destino.",
+      componente: "ipv4-animation",
+    },
+    {
       tipo: "quiz",
       pregunta: "¿Cuál es la diferencia entre una IP privada y una IP pública?",
       opciones: [

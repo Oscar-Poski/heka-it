@@ -8,17 +8,22 @@ import { AnalogiaBlock } from "./AnalogiaBlock";
 import { AnatomiaBlock } from "./AnatomiaBlock";
 import { PasosBlock } from "./PasosBlock";
 import { PacketJourney } from "./PacketJourney";
+import { IPv4Animation } from "./IpDireccion";
 import { DNSLookup } from "./DNSLookup";
 import { TcpUdpCompare } from "./TCPUDPCompare";
 import { HttpVsHttps } from "./HttpVsHttps";
 import { OsiEncapsulation } from "./OsiEncapsulation";
+import { LinuxLayers } from "./LinuxLayers";
 
 const COMPONENT_MAP: Record<string, ComponentType> = {
   "packet-journey": PacketJourney,
+  "ipv4-animation": IPv4Animation,
   "dns-lookup": DNSLookup,
   "tcp-udp-compare": TcpUdpCompare,
   "http-vs-https": HttpVsHttps,
   "osi-encapsulation": OsiEncapsulation,
+  "linux-layers": LinuxLayers,
+
 };
 
 type Props = {

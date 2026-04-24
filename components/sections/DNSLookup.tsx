@@ -1,464 +1,342 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
-type Direction = "fwd" | "bwd";
+const ACCENT = "#00FFBF";
+const ACCENT_DIM = "#00FFBF22";
+const DARK = "#0a0a0f";
+const SURFACE = "#13131e";
+const BORDER = "#2a2a3a";
+const TEXT_MUTED = "#888";
+const TEXT_DIM = "#444";
 
-interface NodeDef {
-  id: string;
-  icon: string;
-  label: string;
-  sub: string;
-}
-
-interface StepDef {
-  fromIdx: number;
-  toIdx: number;
-  dir: Direction;
-  step: string;
-  title: string;
-  desc: string;
-  final?: boolean;
-}
-
-type NodeState = "idle" | "active" | "done";
-
-const NODES: NodeDef[] = [
-  { id: "device", icon: "💻", label: "Tu dispositivo", sub: "Caché local" },
-  { id: "isp",    icon: "🏢", label: "Resolver ISP",   sub: "Tu proveedor" },
-  { id: "root",   icon: "🌐", label: "Servidor raíz",  sub: "13 en el mundo" },
-  { id: "tld",    icon: "📂", label: "Servidor TLD",   sub: ".com / .org" },
-  { id: "auth",   icon: "📋", label: "Autoritativo",   sub: "Respuesta final" },
+const NODES = [
+  { x: 70,  y: 120, label: "Tu PC",         sub: "pregunta",    role: "pc"       },
+  { x: 230, y: 120, label: "Resolver",       sub: "tu router",   role: "resolver" },
+  { x: 390, y: 120, label: "DNS Raíz",       sub: "sabe todo",   role: "root"     },
+  { x: 550, y: 120, label: "DNS .com",       sub: "sabe .com",   role: "tld"      },
+  { x: 390, y: 240, label: "DNS Google",     sub: "responde",    role: "auth"     },
 ];
 
-const STEPS: StepDef[] = [
+const STEPS = [
   {
-    fromIdx: 0, toIdx: 1, dir: "fwd",
-    step: "Paso 1 de 5",
-    title: "Tu dispositivo pregunta al resolver del ISP",
-    desc: "No tienes la respuesta en caché. Tu computadora envía la pregunta al servidor DNS de tu proveedor de internet (ISP).",
+    from: 0, to: 1, dir: "fwd",
+    label: "Tu PC → Resolver",
+    msg: `Tu PC no sabe la IP de google.com. Le pregunta al resolver (normalmente tu router o el de tu proveedor de internet).`,
+    packet: "¿google.com?",
   },
   {
-    fromIdx: 1, toIdx: 2, dir: "fwd",
-    step: "Paso 2 de 5",
-    title: "El resolver consulta un servidor raíz",
-    desc: "El resolver tampoco tiene la respuesta. Pregunta a uno de los 13 servidores raíz del mundo.",
+    from: 1, to: 2, dir: "fwd",
+    label: "Resolver → DNS Raíz",
+    msg: `El resolver tampoco sabe. Pregunta al servidor raíz, que conoce quién maneja cada extensión (.com, .org, .mx…).`,
+    packet: "¿google.com?",
   },
   {
-    fromIdx: 2, toIdx: 3, dir: "fwd",
-    step: "Paso 3 de 5",
-    title: "El servidor raíz apunta al servidor TLD",
-    desc: 'El raíz responde: "No lo sé, pero el servidor .com sí sabe quién maneja ese dominio."',
+    from: 2, to: 1, dir: "back",
+    label: "DNS Raíz → Resolver",
+    msg: `El servidor raíz responde: "Yo no sé, pero el servidor DNS de .com sí sabe. Ve con él."`,
+    packet: "→ DNS .com",
   },
   {
-    fromIdx: 3, toIdx: 4, dir: "fwd",
-    step: "Paso 4 de 5",
-    title: "El TLD apunta al servidor autoritativo",
-    desc: 'El servidor .com dice: "El autoritativo de ese dominio es ns1.example.com".',
+    from: 1, to: 3, dir: "fwd",
+    label: "Resolver → DNS .com",
+    msg: `El resolver ahora pregunta al servidor de .com. Ese servidor conoce todos los dominios .com registrados.`,
+    packet: "¿google.com?",
   },
   {
-    fromIdx: 4, toIdx: 0, dir: "bwd",
-    step: "Paso 5 de 5",
-    title: "El autoritativo responde con la IP",
-    desc: "El servidor autoritativo devuelve la IP al resolver, que la reenvía a tu dispositivo. ¡Listo!",
+    from: 3, to: 1, dir: "back",
+    label: "DNS .com → Resolver",
+    msg: `El servidor .com responde: "Yo tampoco tengo la IP exacta, pero el DNS oficial de Google sí. Ve con él."`,
+    packet: "→ DNS Google",
+  },
+  {
+    from: 1, to: 4, dir: "fwd",
+    label: "Resolver → DNS Google",
+    msg: `El resolver pregunta al servidor oficial de Google. ¡Este sí tiene la respuesta definitiva!`,
+    packet: "¿google.com?",
+  },
+  {
+    from: 4, to: 1, dir: "back",
+    label: "DNS Google → Resolver",
+    msg: `El DNS de Google responde con la IP: 142.250.80.46. El resolver la guarda en caché para no preguntar otra vez.`,
+    packet: "142.250.80.46",
+  },
+  {
+    from: 1, to: 0, dir: "back",
+    label: "Resolver → Tu PC",
+    msg: `¡Listo! El resolver le entrega la IP a tu PC. Ahora puede conectarse directamente a Google.`,
+    packet: "142.250.80.46",
     final: true,
   },
 ];
 
-const KNOWN_IPS: Record<string, string> = {
-  "google.com":    "142.250.80.46",
-  "wikipedia.org": "185.15.58.224",
-  "github.com":    "140.82.112.4",
-  "youtube.com":   "142.250.217.110",
-  "amazon.com":    "205.251.242.103",
+const ROLE_COLORS: Record<string, { fill: string; stroke: string; text: string }> = {
+  pc:       { fill: "#0d1f1a", stroke: ACCENT,    text: ACCENT },
+  resolver: { fill: "#141428", stroke: "#7f77dd",  text: "#afa9ec" },
+  root:     { fill: "#1a1410", stroke: "#ef9f27",  text: "#fac775" },
+  tld:      { fill: "#1a1410", stroke: "#ef9f27",  text: "#fac775" },
+  auth:     { fill: "#0d1a0d", stroke: "#639922",  text: "#97c459" },
 };
 
-function randomIP(): string {
-  const o = () => Math.floor(Math.random() * 200) + 20;
-  return `${o()}.${o()}.${o()}.${o()}`;
+function NodeIcon({ role, x, y }: { role: string; x: number; y: number }) {
+  const s = SURFACE;
+  const b = BORDER;
+  if (role === "pc") return (
+    <g>
+      <rect x={x-16} y={y-14} width={32} height={22} rx={3} fill={s} stroke={b} strokeWidth={1}/>
+      <rect x={x-11} y={y-11} width={22} height={14} rx={1} fill={DARK}/>
+      {[0,4,8].map((dy,i) => <line key={i} x1={x-8} y1={y-10+dy} x2={x+(i===1?2:6)} y2={y-10+dy} stroke={TEXT_DIM} strokeWidth={0.8}/>)}
+      <rect x={x-7} y={y+8} width={14} height={2.5} rx={1} fill={b}/>
+      <rect x={x-12} y={y+10} width={24} height={2} rx={1} fill={b}/>
+    </g>
+  );
+  if (role === "resolver") return (
+    <g>
+      <rect x={x-16} y={y-10} width={32} height={20} rx={4} fill={s} stroke={b} strokeWidth={1}/>
+      {[-7,0,7].map((dx,i) => <circle key={i} cx={x+dx} cy={y} r={2} fill={TEXT_DIM}/>)}
+      <rect x={x-12} y={y+6} width={24} height={3} rx={1} fill={b}/>
+    </g>
+  );
+  if (role === "root" || role === "tld") return (
+    <g>
+      <circle cx={x} cy={y} r={14} fill={s} stroke={b} strokeWidth={1}/>
+      {[[-6,-6],[0,-8],[6,-6],[8,0],[6,6],[0,8],[-6,6],[-8,0]].map(([dx,dy],i) =>
+        <circle key={i} cx={x+dx} cy={y+dy} r={1.2} fill={TEXT_DIM}/>
+      )}
+      <circle cx={x} cy={y} r={4} fill="none" stroke={b} strokeWidth={0.8}/>
+    </g>
+  );
+  if (role === "auth") return (
+    <g>
+      {[0,7,14].map((dy,i) => (
+        <g key={i}>
+          <rect x={x-16} y={y-12+dy} width={32} height={5.5} rx={1.5} fill={s} stroke={b} strokeWidth={1}/>
+          <circle cx={x+9} cy={y-9.5+dy} r={1.5} fill={TEXT_DIM}/>
+        </g>
+      ))}
+    </g>
+  );
+  return null;
 }
 
-// ---------------------------------------------------------------------------
-// Layout zigzag para 5 nodos en grilla 2 columnas:
-//
-//  [0] → [1]
-//          ↓
-//  [3] ← [2]
-//   ↓
-//  [4]
-//
-// Posiciones en grid (row, col) base 0:
-const NODE_POS = [
-  [0, 0], // device
-  [0, 1], // isp
-  [1, 1], // root
-  [1, 0], // tld
-  [2, 0], // auth
-] as const;
+function getEdge(from: number, to: number) {
+  const a = NODES[from];
+  const b = NODES[to];
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  const r = 24;
+  return {
+    x1: a.x + dx/len*r, y1: a.y + dy/len*r,
+    x2: b.x - dx/len*r, y2: b.y - dy/len*r,
+  };
+}
 
-// Segmentos de flecha entre nodos consecutivos:
-// { from, to, axis, headAt }
-// axis: "h" = horizontal, "v" = vertical
-// headAt: "end" = apunta hacia to, "start" = apunta hacia from (para bwd final)
-const SEGMENTS = [
-  { from: 0, to: 1, axis: "h" as const, col: 0, row: 0, bwdReturn: false },
-  { from: 1, to: 2, axis: "v" as const, col: 1, row: 0, bwdReturn: false },
-  { from: 2, to: 3, axis: "h" as const, col: 0, row: 1, bwdReturn: false, reverse: true },
-  { from: 3, to: 4, axis: "v" as const, col: 0, row: 1, bwdReturn: false },
+const EDGES = [
+  [0,1],[1,2],[1,3],[1,4]
 ];
 
-// ---------------------------------------------------------------------------
-
-interface ArrowHProps {
-  lit: boolean;
-  dir: Direction;
-  animating: boolean;
-  reverse?: boolean;
-}
-
-function ArrowH({ lit, dir, animating, reverse = false }: ArrowHProps) {
-  const lineColor = lit
-    ? dir === "fwd" ? "bg-blue-400 dark:bg-blue-500" : "bg-green-400 dark:bg-green-500"
-    : "bg-neutral-200 dark:bg-neutral-700";
-  const headColor = lit
-    ? dir === "fwd" ? "border-l-blue-400 dark:border-l-blue-500" : "border-l-green-400 dark:border-l-green-500"
-    : "border-l-neutral-200 dark:border-l-neutral-700";
-  const dotColor = dir === "fwd" ? "bg-blue-400 dark:bg-blue-500" : "bg-green-400 dark:bg-green-500";
-  const animClass = reverse
-    ? dir === "fwd" ? "animate-pkt-bwd" : "animate-pkt-fwd"
-    : dir === "fwd" ? "animate-pkt-fwd" : "animate-pkt-bwd";
-
-  return (
-    <div className="flex items-center justify-center w-full h-full">
-      <div className="relative flex items-center w-full h-3">
-        <div className={`flex-1 h-px transition-colors duration-300 ${lineColor}`} />
-        <div className={`w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[6px] transition-colors duration-300 ${headColor}`} />
-        {animating && (
-          <div className={`absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${dotColor} ${animClass}`} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-interface ArrowVProps {
-  lit: boolean;
-  dir: Direction;
-  animating: boolean;
-}
-
-function ArrowV({ lit, dir, animating }: ArrowVProps) {
-  const lineColor = lit
-    ? dir === "fwd" ? "bg-blue-400 dark:bg-blue-500" : "bg-green-400 dark:bg-green-500"
-    : "bg-neutral-200 dark:bg-neutral-700";
-  const headColor = lit
-    ? dir === "fwd" ? "border-t-blue-400 dark:border-t-blue-500" : "border-t-green-400 dark:border-t-green-500"
-    : "border-t-neutral-200 dark:border-t-neutral-700";
-  const dotColor = dir === "fwd" ? "bg-blue-400 dark:bg-blue-500" : "bg-green-400 dark:bg-green-500";
-  const animClass = dir === "fwd" ? "animate-pkt-down" : "animate-pkt-up";
-
-  return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="relative flex flex-col items-center h-full w-3">
-        <div className={`w-px flex-1 transition-colors duration-300 ${lineColor}`} />
-        <div className={`w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[6px] transition-colors duration-300 ${headColor}`} />
-        {animating && (
-          <div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full ${dotColor} ${animClass}`} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-interface DnsNodeProps {
-  node: NodeDef;
-  state: NodeState;
-}
-
-function DnsNode({ node, state }: DnsNodeProps) {
-  const border =
-    state === "active"
-      ? "border-blue-400 bg-blue-50 dark:border-blue-500 dark:bg-blue-950/40"
-      : state === "done"
-      ? "border-green-400 bg-green-50 dark:border-green-500 dark:bg-green-950/40"
-      : "border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900";
-
-  return (
-    <div className={`rounded-lg border px-2 py-2.5 text-center transition-all duration-300 ${border}`}>
-      <span className="block text-xl leading-none mb-1">{node.icon}</span>
-      <p className="text-[11px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight">{node.label}</p>
-      <p className="text-[10px] text-neutral-500 dark:text-neutral-400 leading-tight mt-0.5">{node.sub}</p>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-
 export function DNSLookup() {
-  const [domainInput, setDomainInput] = useState("google.com");
-  const [started, setStarted] = useState(false);
-  const [currentStep, setCurrentStep] = useState(-1);
-  const [animating, setAnimating] = useState(false);
-  const [resolvedIP, setResolvedIP] = useState<string | null>(null);
-  const [activeIP, setActiveIP] = useState("");
+  const [step, setStep] = useState(-1);
+  const [running, setRunning] = useState(false);
+  const [done, setDone] = useState(false);
+  const [packetPos, setPacketPos] = useState({ x: NODES[0].x, y: NODES[0].y });
+  const [showPacket, setShowPacket] = useState(false);
+  const [activeEdge, setActiveEdge] = useState<[number,number]|null>(null);
+  const animRef = useRef<number|null>(null);
 
-  const [nodeStates, setNodeStates] = useState<NodeState[]>(Array(NODES.length).fill("idle"));
-  // litSegments[i] = true si el segmento i está iluminado
-  const [litSegments, setLitSegments] = useState<boolean[]>(Array(SEGMENTS.length).fill(false));
-  const [animSegments, setAnimSegments] = useState<boolean[]>(Array(SEGMENTS.length).fill(false));
-  const [animDir, setAnimDir] = useState<Direction>("fwd");
+  function lerp(a: number, b: number, t: number) { return a + (b-a)*t; }
+  function ease(t: number) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
 
-  const reset = useCallback(() => {
-    setStarted(false);
-    setCurrentStep(-1);
-    setAnimating(false);
-    setResolvedIP(null);
-    setNodeStates(Array(NODES.length).fill("idle"));
-    setLitSegments(Array(SEGMENTS.length).fill(false));
-    setAnimSegments(Array(SEGMENTS.length).fill(false));
-    setAnimDir("fwd");
-  }, []);
-
-  const handleStart = useCallback(() => {
-    const domain = domainInput.trim().toLowerCase() || "google.com";
-    const ip = KNOWN_IPS[domain] ?? randomIP();
-    setActiveIP(ip);
-    reset();
-    setTimeout(() => {
-      setStarted(true);
-      setCurrentStep(0);
-      setNodeStates((prev) => { const n = [...prev]; n[0] = "active"; return n; });
-    }, 50);
-  }, [domainInput, reset]);
-
-  const handleNext = useCallback(() => {
-    if (animating || currentStep < 0 || currentStep >= STEPS.length) return;
-
-    const step = STEPS[currentStep];
-    const { fromIdx, toIdx, dir } = step;
-
-    // Determinar qué segmentos atravesar (índices en SEGMENTS)
-    // Cada step va de fromIdx a toIdx. Los segmentos van de nodo en nodo secuencialmente.
-    // Para el paso final (bwd, de 4→0), iluminamos todos en reversa.
-    let segIndices: number[];
-    if (step.final) {
-      segIndices = [3, 2, 1, 0]; // todos en reversa
-    } else {
-      // el segmento correspondiente al paso es currentStep (0-3)
-      segIndices = [currentStep];
+  function animatePacket(fromN: number, toN: number, onDone: () => void) {
+    const fx = NODES[fromN].x, fy = NODES[fromN].y;
+    const tx = NODES[toN].x,  ty = NODES[toN].y;
+    setActiveEdge([Math.min(fromN,toN) === fromN ? fromN : toN, Math.max(fromN,toN) === toN ? toN : fromN]);
+    const dur = 900;
+    const start = performance.now();
+    function frame(now: number) {
+      const t = Math.min((now-start)/dur, 1);
+      const e = ease(t);
+      setPacketPos({ x: lerp(fx,tx,e), y: lerp(fy,ty,e) });
+      if (t < 1) { animRef.current = requestAnimationFrame(frame); }
+      else { setActiveEdge(null); onDone(); }
     }
+    animRef.current = requestAnimationFrame(frame);
+  }
 
-    setAnimating(true);
-    setAnimDir(dir);
-    setNodeStates((prev) => { const n = [...prev]; n[toIdx] = "active"; return n; });
+  function run() {
+    if (running) return;
+    setRunning(true); setDone(false);
+    setPacketPos({ x: NODES[0].x, y: NODES[0].y });
+    setShowPacket(true);
+    setStep(0);
 
-    let i = 0;
-    function animSeg() {
-      if (i >= segIndices.length) {
-        setAnimating(false);
-        if (step.final) {
-          setResolvedIP(activeIP);
-          setNodeStates((prev) => { const n = [...prev]; n[0] = "done"; return n; });
-          setCurrentStep(STEPS.length);
-        } else {
-          setCurrentStep((c) => c + 1);
-          const nextStep = STEPS[currentStep + 1];
-          if (nextStep) {
-            setNodeStates((prev) => { const n = [...prev]; n[nextStep.fromIdx] = "active"; return n; });
-          }
-        }
-        return;
-      }
-      const si = segIndices[i];
-      setLitSegments((prev) => { const n = [...prev]; n[si] = true; return n; });
-      setAnimSegments((prev) => { const n = [...prev]; n[si] = true; return n; });
-      setTimeout(() => {
-        setAnimSegments((prev) => { const n = [...prev]; n[si] = false; return n; });
-        i++;
-        setTimeout(animSeg, 80);
-      }, 460);
+    let s = 0;
+    function next() {
+      if (s >= STEPS.length) { setRunning(false); setDone(true); return; }
+      const cur = STEPS[s];
+      setStep(s);
+      animatePacket(cur.from, cur.to, () => {
+        s++;
+        setTimeout(next, 500);
+      });
     }
-    animSeg();
-  }, [animating, currentStep, activeIP]);
+    setTimeout(next, 400);
+  }
 
-  const progress = currentStep < 0 ? 0 : Math.round((Math.min(currentStep, STEPS.length) / STEPS.length) * 100);
-  const stepInfo = currentStep >= 0 && currentStep < STEPS.length ? STEPS[currentStep] : null;
-  const isFinished = currentStep >= STEPS.length;
-  const nextDisabled = !started || animating || isFinished;
+  function reset() {
+    if (animRef.current) cancelAnimationFrame(animRef.current);
+    setStep(-1); setRunning(false); setDone(false);
+    setShowPacket(false); setActiveEdge(null);
+    setPacketPos({ x: NODES[0].x, y: NODES[0].y });
+  }
+
+  const curStep = step >= 0 && step < STEPS.length ? STEPS[step] : null;
+  const finalIP = done;
 
   return (
-    <div className="font-sans py-4 select-none max-w-sm mx-auto">
-      {/* Input */}
-      <div className="flex gap-2 mb-2">
-        <input
-          type="text"
-          value={domainInput}
-          onChange={(e) => setDomainInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleStart()}
-          placeholder="dominio.com"
-          className="flex-1 min-w-0 rounded-lg border border-neutral-200 dark:border-neutral-700
-            bg-white dark:bg-neutral-900 px-3 py-2 text-sm font-mono
-            text-neutral-800 dark:text-neutral-100
-            focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <button
-          onClick={handleStart}
-          className="px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700
-            bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-200
-            hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors whitespace-nowrap"
-        >
-          Resolver ↗
-        </button>
-        <button
-          onClick={reset}
-          className="px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700
-            bg-white dark:bg-neutral-900 text-sm text-neutral-400 dark:text-neutral-500
-            hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
-        >
-          ↺
-        </button>
-      </div>
+    <div style={{
+      background: DARK, borderRadius: 12, border: `1px solid ${BORDER}`,
+      padding: "16px", fontFamily: "system-ui, sans-serif", maxWidth: 660,
+    }}>
+      <svg viewBox="0 0 620 310" style={{ width: "100%", height: "auto", display: "block" }}
+        role="img" aria-label="Animación consulta DNS">
 
-      {/* Grilla de nodos: 2 columnas, flujo zigzag */}
-      {/*
-        Estructura de la grid (7 col × 5 row):
-        col: node0 | arrowH | node1
-                              arrowV
-             node3  | arrowH | node2   (derecha←izquierda)
-             arrowV
-             node4
-      */}
-      <div
-        className="mb-4"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 36px 1fr",
-          gridTemplateRows: "auto 36px auto 36px auto",
-          gap: "0",
-        }}
-      >
-        {/* Row 0: node0, arrowH(0→1), node1 */}
-        <div style={{ gridColumn: 1, gridRow: 1 }}>
-          <DnsNode node={NODES[0]} state={nodeStates[0]} />
-        </div>
-        <div style={{ gridColumn: 2, gridRow: 1, display: "flex", alignItems: "center" }}>
-          <ArrowH lit={litSegments[0]} dir={animDir} animating={animSegments[0]} />
-        </div>
-        <div style={{ gridColumn: 3, gridRow: 1 }}>
-          <DnsNode node={NODES[1]} state={nodeStates[1]} />
-        </div>
+        {/* Edges base */}
+        {EDGES.map(([a,b],i) => {
+          const e = getEdge(a,b);
+          const isActive = activeEdge && ((activeEdge[0]===a && activeEdge[1]===b)||(activeEdge[0]===b && activeEdge[1]===a));
+          return (
+            <g key={i}>
+              <line x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2}
+                stroke={BORDER} strokeWidth={1.5} strokeDasharray="5 4"/>
+              {isActive && (
+                <line x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2}
+                  stroke={ACCENT} strokeWidth={2} strokeDasharray="5 4" opacity={0.7}/>
+              )}
+            </g>
+          );
+        })}
 
-        {/* Row 1: arrowV col derecha (1→2) */}
-        <div style={{ gridColumn: 3, gridRow: 2, display: "flex", justifyContent: "center" }}>
-          <ArrowV lit={litSegments[1]} dir={animDir} animating={animSegments[1]} />
-        </div>
+        {/* Nodes */}
+        {NODES.map((n, i) => {
+          const col = ROLE_COLORS[n.role];
+          const isActive = curStep && (curStep.from === i || curStep.to === i);
+          const visited = finalIP && (n.role === "pc" || n.role === "resolver");
+          return (
+            <g key={i}>
+              {isActive && (
+                <circle cx={n.x} cy={n.y} r={28} fill={ACCENT_DIM}/>
+              )}
+              <circle cx={n.x} cy={n.y} r={24}
+                fill={isActive ? col.fill : SURFACE}
+                stroke={isActive ? col.stroke : (visited ? `${col.stroke}66` : BORDER)}
+                strokeWidth={isActive ? 1.5 : 1}/>
+              <NodeIcon role={n.role} x={n.x} y={n.y}/>
+              <text x={n.x} y={n.y - 50} textAnchor="middle" fontSize={20}
+                fill={isActive ? col.text : TEXT_MUTED}
+                style={{ fontFamily: "system-ui" }}>{n.label}</text>
+              <text x={n.x} y={n.y - 35} textAnchor="middle" fontSize={16}
+                fill={isActive ? `${col.text}99` : TEXT_DIM}
+                style={{ fontFamily: "system-ui" }}>{n.sub}</text>
+            </g>
+          );
+        })}
 
-        {/* Row 2: node3, arrowH(2→3 reversed), node2 */}
-        <div style={{ gridColumn: 1, gridRow: 3 }}>
-          <DnsNode node={NODES[3]} state={nodeStates[3]} />
-        </div>
-        <div style={{ gridColumn: 2, gridRow: 3, display: "flex", alignItems: "center" }}>
-          <ArrowH lit={litSegments[2]} dir={animDir} animating={animSegments[2]} reverse />
-        </div>
-        <div style={{ gridColumn: 3, gridRow: 3 }}>
-          <DnsNode node={NODES[2]} state={nodeStates[2]} />
-        </div>
+        {/* Packet */}
+        {showPacket && curStep && (() => {
+          const label = curStep.packet;
+          const isFinal = (curStep as any).final && done;
+          const pColor = isFinal ? ACCENT : (curStep.dir === "back" ? "#7f77dd" : ACCENT);
+          const textW = Math.max(label.length * 5.5 + 80, 50);
+          return (
+            <g>
+              <rect x={packetPos.x - textW/2} y={packetPos.y - 8}
+                width={textW} height={20} rx={4}
+                fill={pColor} stroke={DARK} strokeWidth={0.8} opacity={0.95}/>
+              <text x={packetPos.x} y={packetPos.y + 9}
+                textAnchor="middle" fontSize={18} fill={DARK}
+                style={{ fontFamily: "monospace", fontWeight: "bold" }}>{label}</text>
+            </g>
+          );
+        })()}
 
-        {/* Row 3: arrowV col izquierda (3→4) */}
-        <div style={{ gridColumn: 1, gridRow: 4, display: "flex", justifyContent: "center" }}>
-          <ArrowV lit={litSegments[3]} dir={animDir} animating={animSegments[3]} />
-        </div>
-
-        {/* Row 4: node4 */}
-        <div style={{ gridColumn: 1, gridRow: 5 }}>
-          <DnsNode node={NODES[4]} state={nodeStates[4]} />
-        </div>
-      </div>
-
-      {/* Info box */}
-      <div className="rounded-xl border border-neutral-200 dark:border-neutral-700
-        bg-neutral-50 dark:bg-neutral-900/60 p-3 min-h-[80px] mb-3">
-        {stepInfo ? (
+        {/* Final IP glow on PC */}
+        {finalIP && (
           <>
-            <p className="text-[10px] font-medium text-neutral-400 dark:text-neutral-500 uppercase tracking-wide mb-1">
-              {stepInfo.step}
-            </p>
-            <p className="text-[13px] font-medium text-neutral-800 dark:text-neutral-100 mb-1">
-              {stepInfo.title}
-            </p>
-            <p className="text-[12px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              {stepInfo.desc}
-            </p>
-          </>
-        ) : isFinished ? (
-          <p className="text-[13px] font-medium text-neutral-800 dark:text-neutral-100">Consulta completada ✓</p>
-        ) : (
-          <>
-            <p className="text-[10px] font-medium text-neutral-400 dark:text-neutral-500 uppercase tracking-wide mb-1">Listo</p>
-            <p className="text-[13px] font-medium text-neutral-800 dark:text-neutral-100 mb-1">Ingresa un dominio y presiona Resolver</p>
-            <p className="text-[12px] text-neutral-500 dark:text-neutral-400">La consulta DNS recorrerá hasta 5 etapas para encontrar la IP.</p>
+            <circle cx={NODES[0].x} cy={NODES[0].y} r={30} fill={`${ACCENT}18`}/>
+            <text x={NODES[0].x} y={NODES[0].y + 46} textAnchor="middle" fontSize={18}
+              fill={ACCENT} style={{ fontFamily: "monospace" }}>142.250.80.46 ✓</text>
           </>
         )}
+      </svg>
+
+      {/* Step progress dots */}
+      <div style={{ display: "flex", gap: 4, marginTop: 10, justifyContent: "center" }}>
+        {STEPS.map((_, i) => (
+          <div key={i} style={{
+            flex: 1, height: 3, borderRadius: 2,
+            background: step > i ? ACCENT : step === i ? `${ACCENT}77` : BORDER,
+            transition: "background 0.3s",
+          }}/>
+        ))}
       </div>
 
-      {/* Result */}
-      <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border
-        border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-950/40
-        text-xs mb-3 transition-opacity duration-500
-        ${resolvedIP ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-        <span className="text-neutral-400 dark:text-neutral-500">Dirección IP:</span>
-        <span className="font-mono font-medium text-green-700 dark:text-green-400 text-[13px]">
-          {resolvedIP ?? "—"}
-        </span>
+      {/* Step label */}
+      {curStep && (
+        <div style={{
+          marginTop: 6, textAlign: "center", fontSize: 18,
+          color: `${ACCENT}99`, fontFamily: "monospace", letterSpacing: 1,
+        }}>
+          {curStep.label}
+        </div>
+      )}
+
+      {/* Message */}
+      <div style={{
+        marginTop: 8, minHeight: 52, padding: "10px 14px",
+        background: SURFACE, border: `0.5px solid ${step >= 0 ? `${ACCENT}33` : BORDER}`,
+        borderRadius: 8, fontSize: 12, color: step >= 0 ? "#aaa" : TEXT_DIM,
+        lineHeight: 1.6, transition: "border-color 0.3s",
+      }}>
+        {step >= 0 && curStep ? (
+          <>
+            <span style={{ color: ACCENT, fontWeight: 600, marginRight: 6 }}>
+              [{STEPS[step].label}]
+            </span>
+            {curStep.msg}
+          </>
+        ) : done ? (
+          <span style={{ color: ACCENT }}>
+            ✓ Tu PC ahora tiene la IP <strong>142.250.80.46</strong> y puede conectarse a Google directamente. El proceso entero toma ~50ms.
+          </span>
+        ) : (
+          <span style={{ color: TEXT_DIM }}>
+            Presiona <strong style={{ color: TEXT_MUTED }}>Iniciar consulta</strong> para ver cómo tu PC descubre la IP de google.com paso a paso.
+          </span>
+        )}
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-2">
-        <button
-          onClick={handleNext}
-          disabled={nextDisabled}
-          className="px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700
-            bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-200
-            hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors
-            disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
-        >
-          Siguiente →
+      <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+        <button onClick={run} disabled={running} style={{
+          flex: 1, padding: "9px 0",
+          background: running ? `${ACCENT}22` : ACCENT,
+          color: running ? `${ACCENT}88` : DARK,
+          border: "none", borderRadius: 7, fontSize: 12, fontWeight: 600,
+          cursor: running ? "not-allowed" : "pointer",
+          transition: "all 0.2s", fontFamily: "system-ui",
+        }}>
+          {running ? "Consultando…" : done ? "Consultar de nuevo" : "Iniciar consulta DNS →"}
         </button>
-        <div className="flex-1 h-[3px] rounded-full bg-neutral-200 dark:bg-neutral-700 overflow-hidden">
-          <div
-            className="h-full rounded-full bg-blue-400 dark:bg-blue-500 transition-all duration-300 ease-out"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <span className="text-[11px] text-neutral-400 dark:text-neutral-500 whitespace-nowrap">
-          {Math.min(currentStep < 0 ? 0 : currentStep, STEPS.length)} / {STEPS.length}
-        </span>
+        {(step >= 0 || done) && !running && (
+          <button onClick={reset} style={{
+            padding: "9px 16px", background: "transparent", color: TEXT_MUTED,
+            border: `0.5px solid ${BORDER}`, borderRadius: 7, fontSize: 12,
+            cursor: "pointer", fontFamily: "system-ui",
+          }}>Reset</button>
+        )}
       </div>
-
-      <style>{`
-        @keyframes pkt-fwd {
-          from { transform: translateY(-50%) translateX(0); opacity: 1; }
-          to   { transform: translateY(-50%) translateX(28px); opacity: 0; }
-        }
-        @keyframes pkt-bwd {
-          from { transform: translateY(-50%) translateX(28px); opacity: 1; }
-          to   { transform: translateY(-50%) translateX(0); opacity: 0; }
-        }
-        @keyframes pkt-down {
-          from { transform: translateX(-50%) translateY(0); opacity: 1; }
-          to   { transform: translateX(-50%) translateY(24px); opacity: 0; }
-        }
-        @keyframes pkt-up {
-          from { transform: translateX(-50%) translateY(24px); opacity: 1; }
-          to   { transform: translateX(-50%) translateY(0); opacity: 0; }
-        }
-        .animate-pkt-fwd  { animation: pkt-fwd  0.45s ease forwards; }
-        .animate-pkt-bwd  { animation: pkt-bwd  0.45s ease forwards; }
-        .animate-pkt-down { animation: pkt-down 0.45s ease forwards; }
-        .animate-pkt-up   { animation: pkt-up   0.45s ease forwards; }
-      `}</style>
     </div>
   );
 }
-
-export default DNSLookup;

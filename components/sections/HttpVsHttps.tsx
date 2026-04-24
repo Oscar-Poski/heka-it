@@ -1,414 +1,363 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
+
+const ACCENT = "#00FFBF";
+const DANGER = "#FF4D6D";
+const BG = "#0a0a0f";
+const SURFACE = "#13131e";
+const DIM = "#2a2a3a";
+const MUTED = "#555";
 
 type Mode = "http" | "https";
+type Phase = "idle" | "sending" | "intercepted" | "delivered";
 
-interface Packet {
-  id: number;
-  progress: number; // 0..1
-  mode: Mode;
-  phase: "request" | "response";
-  intercepted: boolean;
-  opacity: number;
-}
-
-interface Burst {
-  id: number;
-  mode: Mode;
-  age: number;
-}
-
-const HTTP_COLOR = "#FF4D4D";
-const HTTPS_COLOR = "#00E5A0";
-const GOLD = "#FFD700";
-
-const PAYLOAD_HTTP = [
-  { text: "POST /login HTTP/1.1", highlight: false },
-  { text: "Host: banco.com", highlight: false },
-  { text: "", highlight: false },
-  { text: "usuario=juan", highlight: false },
-  { text: "contraseña=miperro123", highlight: true },
-  { text: "tarjeta=4532-1234-5678-9012", highlight: true },
-];
-
-const PAYLOAD_HTTPS = [
-  { text: "TLSv1.3 Application Data", highlight: false },
-  { text: "──────────────────", highlight: false },
-  { text: "a2 9c 3e b1 7f 44 d0", highlight: false },
-  { text: "08 cc 91 5a e3 12 88", highlight: false },
-  { text: "4b 2d f0 19 37 5c 2a", highlight: false },
-  { text: "[ AES-256-GCM ]", highlight: false },
-];
-
-let uid = 0;
-
-export function HttpVsHttps() {
-  const [running, setRunning] = useState(false);
-  const [packets, setPackets] = useState<Packet[]>([]);
-  const [bursts, setBursts] = useState<Burst[]>([]);
-  const [log, setLog] = useState<{ id: number; text: string }[]>([]);
-  const [tab, setTab] = useState<Mode>("http");
-
+function useLoop(mode: Mode) {
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [t, setT] = useState(0); // 0..1 packet progress
   const rafRef = useRef<number>(0);
-  const tickRef = useRef(0);
-  const spawnRef = useRef(0);
-  const logId = useRef(0);
-
-  const addLog = useCallback((text: string) => {
-    setLog((p) => [{ id: logId.current++, text }, ...p].slice(0, 6));
-  }, []);
-
-  const stop = () => {
-    cancelAnimationFrame(rafRef.current);
-    setRunning(false);
-  };
-
-  const start = () => {
-    cancelAnimationFrame(rafRef.current);
-    setPackets([]);
-    setBursts([]);
-    setLog([]);
-    tickRef.current = 0;
-    spawnRef.current = 0;
-    setRunning(true);
-  };
+  const startRef = useRef<number | null>(null);
+  const phaseRef = useRef<Phase>("idle");
 
   useEffect(() => {
-    if (!running) return;
+    phaseRef.current = phase;
+  }, [phase]);
 
-    const loop = () => {
-      tickRef.current++;
-      const t = tickRef.current;
+  useEffect(() => {
+    let running = true;
 
-      if (t - spawnRef.current > 80) {
-        spawnRef.current = t;
-        setPackets((p) => [
-          ...p,
-          { id: uid++, progress: 0, mode: "http", phase: "request", intercepted: false, opacity: 1 },
-          { id: uid++, progress: 0, mode: "https", phase: "request", intercepted: false, opacity: 1 },
-        ]);
+    function runCycle() {
+      setPhase("sending");
+      setT(0);
+      startRef.current = null;
+
+      const TRAVEL = 2200;
+
+      function animate(ts: number) {
+        if (!running) return;
+        if (!startRef.current) startRef.current = ts;
+        const elapsed = ts - startRef.current;
+        const progress = Math.min(elapsed / TRAVEL, 1);
+        setT(progress);
+
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(animate);
+        } else {
+          if (mode === "http") {
+            setPhase("intercepted");
+            setTimeout(() => {
+              if (!running) return;
+              setPhase("idle");
+              setTimeout(() => { if (running) runCycle(); }, 400);
+            }, 2000);
+          } else {
+            setPhase("delivered");
+            setTimeout(() => {
+              if (!running) return;
+              setPhase("idle");
+              setTimeout(() => { if (running) runCycle(); }, 400);
+            }, 1800);
+          }
+        }
       }
 
-      setPackets((prev) => {
-        const next: Packet[] = [];
-        const newBursts: Burst[] = [];
-        const newPackets: Packet[] = [];
+      rafRef.current = requestAnimationFrame(animate);
+    }
 
-        for (const p of prev) {
-          if (p.opacity <= 0) continue;
-
-          if (p.intercepted) {
-            const op = p.opacity - 0.04;
-            if (op > 0) next.push({ ...p, opacity: op });
-            continue;
-          }
-
-          const speed = 0.012;
-          const np = p.progress + speed;
-
-          if (np >= 1) {
-            if (p.phase === "request") {
-              newPackets.push({ id: uid++, progress: 1, mode: p.mode, phase: "response", intercepted: false, opacity: 1 });
-            }
-            const op = p.opacity - 0.1;
-            if (op > 0) next.push({ ...p, progress: 1, opacity: op });
-            continue;
-          }
-
-          if (p.phase === "response" && np <= 0) {
-            const op = p.opacity - 0.1;
-            if (op > 0) next.push({ ...p, progress: 0, opacity: op });
-            continue;
-          }
-
-          // Intercept HTTP at midpoint
-          if (p.mode === "http" && !p.intercepted && Math.abs(np - 0.5) < 0.015) {
-            newBursts.push({ id: uid++, mode: "http", age: 0 });
-            addLog(p.phase === "request" ? "⚠ contraseña=miperro123 capturada" : "⚠ Set-Cookie: session interceptado");
-            next.push({ ...p, progress: np, intercepted: true });
-            continue;
-          }
-
-          const delta = p.phase === "response" ? -speed : speed;
-          next.push({ ...p, progress: p.progress + delta });
-        }
-
-        return [...next, ...newPackets];
-      });
-
-      setBursts((p) =>
-        p.map((b) => ({ ...b, age: b.age + 1 })).filter((b) => b.age < 25)
-      );
-
-      rafRef.current = requestAnimationFrame(loop);
+    const delay = setTimeout(runCycle, 300);
+    return () => {
+      running = false;
+      clearTimeout(delay);
+      cancelAnimationFrame(rafRef.current);
     };
+  }, [mode]);
 
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [running, addLog]);
+  return { phase, t };
+}
 
-  // Map progress (0..1) to SVG x coordinate
-  const toX = (progress: number) => 30 + progress * 260;
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
 
-  const httpReq = packets.filter((p) => p.mode === "http" && p.phase === "request");
-  const httpRes = packets.filter((p) => p.mode === "http" && p.phase === "response");
-  const httpsReq = packets.filter((p) => p.mode === "https" && p.phase === "request");
-  const httpsRes = packets.filter((p) => p.mode === "https" && p.phase === "response");
+function easeInOut(t: number) {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+}
+
+// Packet position along path
+// HTTP: 0..0.5 → Client to Sniffer X midpoint, 0.5..1 → goes UP to hacker
+// HTTPS: 0..1 → straight Client to Server
+function getPacketPos(t: number, mode: Mode, phase: Phase) {
+  const clientX = 60, serverX = 320, y = 200;
+  const snifferX = 190, hackerY = 80;
+
+  if (mode === "https") {
+    const e = easeInOut(t);
+    return { x: lerp(clientX, serverX, e), y };
+  }
+
+  // HTTP
+  if (t <= 0.5) {
+    const e = easeInOut(t / 0.5);
+    return { x: lerp(clientX, snifferX, e), y };
+  } else {
+    const e = easeInOut((t - 0.5) / 0.5);
+    return { x: snifferX, y: lerp(y, hackerY, e) };
+  }
+}
+
+export function HttpVsHttps() {
+  const [mode, setMode] = useState<Mode>("http");
+  const { phase, t } = useLoop(mode);
+
+  const isHTTP = mode === "http";
+  const clientX = 60, serverX = 320, pathY = 200;
+  const snifferX = 190, hackerY = 80;
+
+  const packetPos = phase === "sending" || phase === "intercepted" || phase === "delivered"
+    ? getPacketPos(phase === "intercepted" ? 1 : phase === "delivered" ? 1 : t, mode, phase)
+    : null;
+
+  const packetColor = isHTTP ? DANGER : ACCENT;
+
+  // Particles for HTTPS encryption effect
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick(x => x + 1), 80);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div style={{
-      fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-      background: "#0b0b0b",
-      color: "#e0e8ff",
-      padding: "16px",
+      background: BG,
       minHeight: "100vh",
-      maxWidth: 420,
-      margin: "0 auto",
-      boxSizing: "border-box",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontFamily: "'Segoe UI', system-ui, sans-serif",
+      padding: 16,
     }}>
-      {/* Header */}
-      <div style={{ marginBottom: 14 }}>
-        <div style={{ fontSize: 9, letterSpacing: "0.2em", color: "#777777", textTransform: "uppercase", marginBottom: 4 }}>
-          Seguridad Web
-        </div>
-        <div style={{ fontSize: 17, fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-          HTTP <span style={{ color: "#3c3c3c" }}>vs</span> HTTPS
-        </div>
-        <div style={{ fontSize: 10, color: "#d6d6d6", marginTop: 2 }}>¿Qué ve el intermediario?</div>
-      </div>
+      <div style={{ width: "100%", maxWidth: 480 }}>
 
-      {/* Legend */}
-      <div style={{ display: "flex", gap: 14, marginBottom: 12, fontSize: 10 }}>
-        {[
-          { color: HTTP_COLOR, label: "HTTP · texto plano" },
-          { color: HTTPS_COLOR, label: "HTTPS · cifrado" },
-        ].map((l) => (
-          <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <div style={{ width: 8, height: 8, borderRadius: 2, background: l.color }} />
-            <span style={{ color: "#858585" }}>{l.label}</span>
+        {/* Title */}
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <div style={{ fontSize: 13, color: MUTED, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>
+            Seguridad en la web
           </div>
-        ))}
-      </div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: -0.5 }}>
+            HTTP vs HTTPS
+          </div>
+        </div>
 
-      {/* Animation canvas */}
-      <div style={{
-        background: "#060606",
-        borderRadius: 10,
-        border: "1px solid #1a1a1a",
-        marginBottom: 12,
-        overflow: "hidden",
-      }}>
-        <svg width="100%" viewBox="0 0 320 180" style={{ display: "block" }}>
-          {/* Track lines */}
-          {/* HTTP req */}
-          <line x1="30" y1="55" x2="290" y2="55" stroke="#1c1c1c" strokeWidth="1.5" />
-          {/* HTTP res */}
-          <line x1="30" y1="75" x2="290" y2="75" stroke="#1c1c1c" strokeWidth="1" strokeDasharray="3 5" />
-          {/* HTTPS req */}
-          <line x1="30" y1="115" x2="290" y2="115" stroke="#1c1c1c" strokeWidth="1.5" />
-          {/* HTTPS res */}
-          <line x1="30" y1="135" x2="290" y2="135" stroke="#1c1c1c" strokeWidth="1" strokeDasharray="3 5" />
+        {/* Mode Toggle */}
+        <div style={{
+          display: "flex",
+          background: SURFACE,
+          borderRadius: 12,
+          padding: 4,
+          marginBottom: 24,
+          border: `1px solid ${DIM}`,
+        }}>
+          {(["http", "https"] as Mode[]).map((m) => (
+            <button key={m} onClick={() => setMode(m)} style={{
+              flex: 1,
+              padding: "10px 0",
+              borderRadius: 9,
+              border: "none",
+              cursor: "pointer",
+              fontWeight: 700,
+              fontSize: 14,
+              letterSpacing: 1,
+              transition: "all 0.25s",
+              background: mode === m
+                ? (m === "http" ? DANGER : ACCENT)
+                : "transparent",
+              color: mode === m ? BG : MUTED,
+            }}>
+              {m.toUpperCase()}
+            </button>
+          ))}
+        </div>
 
-          {/* Lane labels */}
-          <text x="10" y="59" fontSize="8" fill={HTTP_COLOR} fontFamily="inherit" fontWeight="700" textAnchor="middle">H</text>
-          <text x="10" y="119" fontSize="7" fill={HTTPS_COLOR} fontFamily="inherit" fontWeight="700" textAnchor="middle">S</text>
+        {/* Animation SVG */}
+        <div style={{
+          background: SURFACE,
+          borderRadius: 16,
+          border: `1px solid ${DIM}`,
+          padding: "8px 4px",
+          marginBottom: 20,
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          <svg viewBox="0 0 380 280" style={{ width: "100%", height: "auto" }}>
 
-          {/* Direction hints */}
-          <text x="32" y="48" fontSize="6" fill="#2a2a2a" fontFamily="inherit">→ req</text>
-          <text x="32" y="88" fontSize="6" fill="#2a2a2a" fontFamily="inherit">← res</text>
+            {/* Grid bg lines */}
+            {[60, 100, 140, 180, 220, 260].map(yy => (
+              <line key={yy} x1={0} y1={yy} x2={380} y2={yy}
+                stroke="#1a1a28" strokeWidth={1} />
+            ))}
+            {[80, 160, 240, 320].map(xx => (
+              <line key={xx} x1={xx} y1={0} x2={xx} y2={280}
+                stroke="#1a1a28" strokeWidth={1} />
+            ))}
 
-          {/* Origin / Server boxes */}
-          <rect x="14" y="40" width="18" height="105" rx="4" fill="#0a0a0a" stroke="#1a1a1a" strokeWidth="1" />
-          <text x="23" y="96" textAnchor="middle" fontSize="5.5" fill="#333" fontFamily="inherit" transform="rotate(-90,23,96)">ORIGEN</text>
+            {/* === HACKER NODE (top center, HTTP only) === */}
+            <g opacity={isHTTP ? 1 : 0.12} style={{ transition: "opacity 0.4s" }}>
+              {/* Danger glow */}
+              <circle cx={snifferX} cy={hackerY} r={28}
+                fill={DANGER} fillOpacity={phase === "intercepted" ? 0.18 : 0.06} />
+              <circle cx={snifferX} cy={hackerY} r={18}
+                fill={SURFACE} stroke={DANGER} strokeWidth={2}
+                strokeDasharray={phase === "intercepted" ? "none" : "4 3"} />
+              <text x={snifferX} y={hackerY + 6} fontSize={14} textAnchor="middle">👤</text>
+              <text x={snifferX} y={hackerY - 26} fontSize={9} fill={DANGER} textAnchor="middle" fontWeight={700}>
+                ATACANTE
+              </text>
 
-          <rect x="288" y="40" width="18" height="105" rx="4" fill="#0a0a0a" stroke="#1a1a1a" strokeWidth="1" />
-          <text x="297" y="96" textAnchor="middle" fontSize="5.5" fill="#333" fontFamily="inherit" transform="rotate(-90,297,96)">SERVIDOR</text>
+              {/* Vertical intercept line */}
+              <line x1={snifferX} y1={hackerY + 18} x2={snifferX} y2={pathY - 12}
+                stroke={DANGER} strokeWidth={1.5} strokeDasharray="4 3"
+                strokeOpacity={0.5} />
+            </g>
 
-          {/* Intercept zone */}
-          <rect x="148" y="30" width="24" height="130" fill={GOLD} fillOpacity="0.03" />
-          <line x1="160" y1="30" x2="160" y2="160" stroke={GOLD} strokeWidth="0.8" strokeDasharray="3 4" strokeOpacity="0.2" />
-          <text x="160" y="22" textAnchor="middle" fontSize="12">🕵️</text>
-          <text x="160" y="170" textAnchor="middle" fontSize="6" fill={GOLD} fillOpacity="0.35" fontFamily="inherit">INTERMEDIARIO</text>
+            {/* === MAIN PATH === */}
+            {/* Dashed base road */}
+            <line x1={clientX} y1={pathY} x2={serverX} y2={pathY}
+              stroke={DIM} strokeWidth={2} strokeDasharray="6 5" />
 
-          {/* HTTP packets — request */}
-          {httpReq.map((p) => (
-            <g key={p.id} opacity={p.opacity}>
-              <rect x={toX(p.progress) - 16} y="47" width="32" height="16" rx="4"
-                fill={p.intercepted ? GOLD : HTTP_COLOR} fillOpacity="0.15"
-                stroke={p.intercepted ? GOLD : HTTP_COLOR} strokeWidth="1" />
-              <text x={toX(p.progress)} y="58" textAnchor="middle" fontSize="7" fill={p.intercepted ? GOLD : HTTP_COLOR} fontFamily="inherit">
-                {p.intercepted ? "⚡" : "REQ"}
+            {/* HTTPS encryption shield segments */}
+            {!isHTTP && [0.2, 0.4, 0.6, 0.8].map((frac, i) => {
+              const sx = lerp(clientX, serverX, frac);
+              const pulse = Math.sin(tick * 0.3 + i * 1.5) * 0.3 + 0.7;
+              return (
+                <g key={i}>
+                  <circle cx={sx} cy={pathY} r={7}
+                    fill={ACCENT} fillOpacity={0.08 * pulse}
+                    stroke={ACCENT} strokeWidth={1} strokeOpacity={0.3 * pulse} />
+                  <text x={sx} y={pathY + 4} fontSize={8} textAnchor="middle" opacity={0.5 * pulse}>🔒</text>
+                </g>
+              );
+            })}
+
+            {/* Sniffer tap point (HTTP) */}
+            {isHTTP && (
+              <g>
+                <circle cx={snifferX} cy={pathY} r={8}
+                  fill={DANGER} fillOpacity={0.15}
+                  stroke={DANGER} strokeWidth={1.5} />
+                <line x1={snifferX - 5} y1={pathY - 5} x2={snifferX + 5} y2={pathY + 5}
+                  stroke={DANGER} strokeWidth={1.5} />
+                <line x1={snifferX + 5} y1={pathY - 5} x2={snifferX - 5} y2={pathY + 5}
+                  stroke={DANGER} strokeWidth={1.5} />
+              </g>
+            )}
+
+            {/* === CLIENT NODE === */}
+            <g>
+              <circle cx={clientX} cy={pathY} r={22}
+                fill={SURFACE} stroke={ACCENT} strokeWidth={2} />
+              <text x={clientX} y={pathY + 6} fontSize={18} textAnchor="middle">💻</text>
+              <text x={clientX} y={pathY + 36} fontSize={9} fill={ACCENT} textAnchor="middle" fontWeight={600}>
+                CLIENTE
               </text>
             </g>
-          ))}
 
-          {/* HTTP packets — response */}
-          {httpRes.map((p) => (
-            <g key={p.id} opacity={p.opacity}>
-              <rect x={toX(1 - p.progress) - 16} y="67" width="32" height="16" rx="4"
-                fill={p.intercepted ? GOLD : HTTP_COLOR} fillOpacity="0.12"
-                stroke={p.intercepted ? GOLD : HTTP_COLOR} strokeWidth="0.8" />
-              <text x={toX(1 - p.progress)} y="78" textAnchor="middle" fontSize="7" fill={p.intercepted ? GOLD : HTTP_COLOR} fontFamily="inherit">
-                {p.intercepted ? "⚡" : "RES"}
+            {/* === SERVER NODE === */}
+            <g>
+              <circle cx={serverX} cy={pathY} r={22}
+                fill={SURFACE}
+                stroke={phase === "delivered" ? ACCENT : DIM}
+                strokeWidth={2}
+                style={{ transition: "stroke 0.3s" }} />
+              {phase === "delivered" && (
+                <circle cx={serverX} cy={pathY} r={28}
+                  fill="none" stroke={ACCENT} strokeWidth={1.5} strokeOpacity={0.3} />
+              )}
+              <text x={serverX} y={pathY + 6} fontSize={18} textAnchor="middle">🖥️</text>
+              <text x={serverX} y={pathY + 36} fontSize={9}
+                fill={phase === "delivered" ? ACCENT : MUTED}
+                textAnchor="middle" fontWeight={600}
+                style={{ transition: "fill 0.3s" }}>
+                SERVIDOR
               </text>
             </g>
-          ))}
 
-          {/* HTTPS packets — request */}
-          {httpsReq.map((p) => (
-            <g key={p.id} opacity={p.opacity}>
-              <rect x={toX(p.progress) - 14} y="107" width="28" height="16" rx="4"
-                fill={HTTPS_COLOR} fillOpacity="0.12"
-                stroke={HTTPS_COLOR} strokeWidth="1" />
-              <text x={toX(p.progress)} y="118" textAnchor="middle" fontSize="9" fill={HTTPS_COLOR}>🔒</text>
-            </g>
-          ))}
+            {/* === PACKET === */}
+            {packetPos && phase !== "delivered" && (
+              <g transform={`translate(${packetPos.x}, ${packetPos.y})`}>
+                {/* Glow */}
+                <circle cx={0} cy={0} r={14} fill={packetColor} fillOpacity={0.15} />
+                {/* Body */}
+                <rect x={-11} y={-7} width={22} height={14} rx={3}
+                  fill={packetColor} stroke={BG} strokeWidth={1.5} />
+                <text x={0} y={4} fontSize={8} fill={BG} textAnchor="middle" fontWeight={800}>
+                  {isHTTP ? "DATA" : "🔒"}
+                </text>
+              </g>
+            )}
 
-          {/* HTTPS packets — response */}
-          {httpsRes.map((p) => (
-            <g key={p.id} opacity={p.opacity}>
-              <rect x={toX(1 - p.progress) - 14} y="127" width="28" height="16" rx="4"
-                fill={HTTPS_COLOR} fillOpacity="0.1"
-                stroke={HTTPS_COLOR} strokeWidth="0.8" />
-              <text x={toX(1 - p.progress)} y="138" textAnchor="middle" fontSize="9" fill={HTTPS_COLOR}>🔒</text>
-            </g>
-          ))}
+            {/* === STATUS LABELS === */}
+            {/* HTTP intercepted */}
+            {isHTTP && phase === "intercepted" && (
+              <g>
+                <rect x={snifferX - 58} y={hackerY + 40} width={116} height={22} rx={5}
+                  fill={DANGER} fillOpacity={0.15} stroke={DANGER} strokeWidth={1} />
+                <text x={snifferX} y={hackerY + 55} fontSize={10} fill={DANGER}
+                  textAnchor="middle" fontWeight={700}>
+                  ¡Datos expuestos!
+                </text>
+              </g>
+            )}
 
-          {/* Burst particles */}
-          {bursts.map((b) => (
-            <g key={b.id} opacity={1 - b.age / 25}>
-              {[0, 60, 120, 180, 240, 300].map((angle) => {
-                const rad = (angle * Math.PI) / 180;
-                const r = (b.age / 25) * 16;
-                const cy = b.mode === "http" ? 55 : 115;
-                return (
-                  <circle
-                    key={angle}
-                    cx={160 + Math.cos(rad) * r}
-                    cy={cy + Math.sin(rad) * r}
-                    r={1.5}
-                    fill={GOLD}
-                    opacity={0.9}
-                  />
-                );
-              })}
-            </g>
-          ))}
-        </svg>
-      </div>
+            {/* HTTPS delivered */}
+            {!isHTTP && phase === "delivered" && (
+              <g>
+                <rect x={serverX - 100} y={pathY - 54} width={140} height={22} rx={5}
+                  fill={ACCENT} fillOpacity={0.12} stroke={ACCENT} strokeWidth={1} />
+                <text x={serverX - 30} y={pathY - 38} fontSize={10} fill={ACCENT}
+                  textAnchor="middle" fontWeight={700}>
+                  Entregado con seguridad
+                </text>
+              </g>
+            )}
 
-      {/* Controls */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-        <button
-          onClick={start}
-          style={{
-            flex: 1,
-            background: "#FF4D4D",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            padding: "10px 0",
-            fontSize: 12,
-            fontFamily: "inherit",
-            fontWeight: 700,
-            cursor: "pointer",
-            letterSpacing: "0.06em",
-          }}
-        >
-          {running ? "↺ REINICIAR" : "▶ INICIAR"}
-        </button>
-        <button
-          onClick={stop}
-          disabled={!running}
-          style={{
-            flex: 1,
-            background: "transparent",
-            color: running ? "#e0e8ff" : "#2a2a2a",
-            border: `1px solid ${running ? "#2a2a2a" : "#1a1a1a"}`,
-            borderRadius: 8,
-            padding: "10px 0",
-            fontSize: 12,
-            fontFamily: "inherit",
-            fontWeight: 700,
-            cursor: running ? "pointer" : "not-allowed",
-          }}
-        >
-          ⏸ PAUSAR
-        </button>
-      </div>
+            {/* Open packet content shown to hacker */}
+            {isHTTP && phase === "intercepted" && (
+              <g>
+                <rect x={snifferX + 24} y={hackerY - 20} width={90} height={50} rx={6}
+                  fill="#1a0810" stroke={DANGER} strokeWidth={1} strokeOpacity={0.6} />
+                <text x={snifferX + 30} y={hackerY + 8} fontSize={12} fill="#ff8fa3">user: admin</text>
+                <text x={snifferX + 30} y={hackerY + 20} fontSize={12} fill="#ff8fa3">pass: 1234</text>
+              </g>
+            )}
 
-      {/* Bottom panels */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          </svg>
+        </div>
 
-        {/* Payload inspector */}
-        <div style={{ background: "#060606", borderRadius: 10, border: "1px solid #1a1a1a", overflow: "hidden" }}>
-          <div style={{ display: "flex", borderBottom: "1px solid #1a1a1a" }}>
-            {(["http", "https"] as Mode[]).map((m) => (
-              <button
-                key={m}
-                onClick={() => setTab(m)}
-                style={{
-                  flex: 1,
-                  padding: "7px 0",
-                  fontSize: 9,
-                  fontFamily: "inherit",
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  background: tab === m ? (m === "http" ? "#1a0808" : "#081a11") : "transparent",
-                  color: tab === m ? (m === "http" ? HTTP_COLOR : HTTPS_COLOR) : "#333",
-                  border: "none",
-                  borderBottom: tab === m ? `2px solid ${m === "http" ? HTTP_COLOR : HTTPS_COLOR}` : "2px solid transparent",
-                  cursor: "pointer",
-                }}
-              >
-                {m.toUpperCase()}
-              </button>
-            ))}
+        {/* Info card */}
+        <div style={{
+          background: SURFACE,
+          borderRadius: 12,
+          border: `1.5px solid ${isHTTP ? DANGER : ACCENT}`,
+          padding: "14px 18px",
+          transition: "border-color 0.3s",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+            <div style={{
+              width: 8, height: 8, borderRadius: "50%",
+              background: isHTTP ? DANGER : ACCENT,
+              boxShadow: `0 0 8px ${isHTTP ? DANGER : ACCENT}`,
+            }} />
+            <span style={{ fontWeight: 700, fontSize: 13, color: isHTTP ? DANGER : ACCENT }}>
+              {isHTTP ? "Sin cifrado — texto plano" : "TLS/SSL — cifrado extremo a extremo"}
+            </span>
           </div>
-          <div style={{ padding: "8px 10px" }}>
-            <div style={{ fontSize: 7.5, color: "#f8f8f8", marginBottom: 5, letterSpacing: "0.1em" }}>
-              VE EL INTERMEDIARIO:
-            </div>
-            {(tab === "http" ? PAYLOAD_HTTP : PAYLOAD_HTTPS).map((line, i) => (
-              <div key={i} style={{
-                fontSize: 9,
-                lineHeight: 1.8,
-                color: line.highlight
-                  ? HTTP_COLOR
-                  : tab === "https"
-                  ? HTTPS_COLOR
-                  : "#fdfdfd",
-                fontFamily: "inherit",
-              }}>
-                {line.text || "\u00a0"}
-              </div>
-            ))}
+          <div style={{ fontSize: 12, color: MUTED, lineHeight: 1.7 }}>
+            {isHTTP
+              ? "Cualquier nodo intermedio (router, ISP, atacante en la red) puede leer y modificar los datos que envías."
+              : "Los datos se cifran antes de salir del cliente. Solo el servidor con la clave privada puede descifrarlos."}
           </div>
         </div>
 
-        {/* Intercept log */}
-        <div style={{ background: "#060606", borderRadius: 10, border: "1px solid #1a1a1a", padding: "8px 10px" }}>
-          <div style={{ fontSize: 7.5, color: "#ffffff", marginBottom: 7, letterSpacing: "0.1em" }}>
-            INTERCEPTACIONES:
-          </div>
-          {log.length === 0 ? (
-            <div style={{ fontSize: 9, color: "#222", lineHeight: 1.5 }}>
-              Inicia la simulación...
-            </div>
-          ) : (
-            log.map((l) => (
-              <div key={l.id} style={{ fontSize: 9, color: HTTP_COLOR, marginBottom: 5, lineHeight: 1.5 }}>
-                {l.text}
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* Footer note */}
-      <div style={{ marginTop: 12, fontSize: 9.5, color: "#e4e4e4", lineHeight: 1.7 }}>
-        HTTP expone todo el tráfico. HTTPS cifra con TLS: el intermediario solo ve datos ininteligibles.
       </div>
     </div>
   );

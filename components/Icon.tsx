@@ -23,6 +23,8 @@ import {
   FileText,
   Layers,
   CircleEllipsis,
+  Building2,
+  AppWindow,
   type LucideIcon,
   type LucideProps,
 } from "lucide-react";
@@ -50,6 +52,8 @@ const icons: Record<string, LucideIcon> = {
   FileText,
   Layers,
   CircleEllipsis,
+  Building2,
+  AppWindow,
 };
 
 type Props = { name: string } & LucideProps;
