@@ -3,7 +3,7 @@
 import { notFound, useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Clock, ListOrdered, Info } from "lucide-react";
+import { Clock, ListOrdered, Info, CircleEllipsis } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
 import { ChapterCard, type ChapterState } from "@/components/ChapterCard";
 import { StickyCTA } from "@/components/StickyCTA";
@@ -51,15 +51,17 @@ export function TemaPageClient() {
   const ctaHref = `/tema/${tema.slug}/${capActualClamp}`;
 
   return (
-    <main className="min-h-screen pb-32">
+    // pb-36 + safe area para el StickyCTA con home indicator
+    <main className="min-h-screen pb-[calc(9rem+env(safe-area-inset-bottom))]">
       <TopBar backHref="/" title="Inicio → Tema" subtitle={tema.nombre} />
 
       <section className="px-4 pt-5">
-        <div className="text-[11px] text-text-dim mb-3">
-          <Link href="/" className="hover:text-text-muted">
+        {/* Breadcrumb — text-xs en lugar de text-[11px] */}
+        <div className="text-xs text-text-dim mb-3">
+          <Link href="/" className="hover:text-text-muted transition-colors">
             Inicio
           </Link>
-          <span className="mx-1.5">→</span>
+          <span className="mx-1.5 opacity-40">/</span>
           <span className="text-text-muted">{tema.nombre}</span>
         </div>
 
@@ -70,7 +72,8 @@ export function TemaPageClient() {
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent"
         >
           <Icon name={tema.iconoLucide} size={15} strokeWidth={1.9} />
-          <span className="text-[12px] font-semibold tracking-wide">
+          {/* tracking-wide + ALL CAPS eliminado — sentence case más legible */}
+          <span className="text-[12px] font-medium">
             {tema.nombre}
           </span>
         </motion.div>
@@ -79,41 +82,46 @@ export function TemaPageClient() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="mt-4 text-[26px] leading-[1.2] font-semibold tracking-tight"
+          // text-[26px] → text-[28px], leading más cerrado para títulos pregunta
+          className="mt-3 text-[28px] leading-[1.15] font-semibold tracking-tight"
         >
           {tema.preguntaGancho}
         </motion.h1>
       </section>
 
-      <section className="px-4 mt-5">
-        <div className="grid grid-cols-3 gap-2">
+      {/* Stats */}
+      <section className="px-5 mt-5">
+        <div className="grid grid-cols-3 gap-5">
           <Stat
-            icon={<ListOrdered size={14} strokeWidth={1.8} />}
+            icon={<CircleEllipsis size={20} strokeWidth={1.8} />}
             label="Capítulos"
             value={String(tema.totalCapitulos)}
           />
           <Stat
-            icon={<Clock size={14} strokeWidth={1.8} />}
-            label="Estimado"
+            icon={<Clock size={20} strokeWidth={1.8} />}
+            label="Tiempo"
             value={`${tema.tiempoEstimadoMin} min`}
           />
           <Stat
-            icon={<Info size={14} strokeWidth={1.8} />}
+            icon={<Info size={20} strokeWidth={1.8} />}
             label="Requisitos"
             value={tema.requisitos}
           />
         </div>
       </section>
 
+      {/* Prerrequisitos — texto más grande y borde más visible */}
       <section className="px-4 mt-4">
-        <p className="text-[12.5px] text-text-muted leading-relaxed border-l-2 border-border pl-3">
+        <p className="text-[13.5px] text-text-muted leading-relaxed border-l-2 border-accent/30 pl-3">
           {tema.prerrequisitos}
         </p>
       </section>
 
+      {/* Lista de capítulos */}
       <section className="px-4 mt-7">
-        <div className="text-[11px] font-semibold tracking-[0.15em] text-accent uppercase mb-3">
-          Capítulos
+        {/* Eliminado tracking-[0.15em] y uppercase — sentence case */}
+        <div className="text-[12px] font-semibold text-accent mb-3">
+          Capítulos del tema
         </div>
         <div className="space-y-2">
           {capitulosList.map((c) => (
@@ -145,12 +153,14 @@ function Stat({
   value: string;
 }) {
   return (
-    <div className="rounded-card border border-border bg-surface p-2.5">
-      <div className="flex items-center gap-1.5 text-text-dim mb-1">
+    <div className="rounded-card border border-border bg-surface p-3">
+      <div className="flex items-center gap-1.5 text-text-dim mb-1.5">
         <span className="text-accent">{icon}</span>
-        <span className="text-[10px] uppercase tracking-wider">{label}</span>
+        {/* text-[10px] uppercase → text-xs sentence case */}
+        <span className="text-xs text-text-dim">{label}</span>
       </div>
-      <div className="text-[13px] text-text-primary font-medium leading-snug">
+      {/* text-[13px] → text-sm, leading-snug → leading-tight */}
+      <div className="text-sm text-text-primary font-medium leading-snug">
         {value}
       </div>
     </div>

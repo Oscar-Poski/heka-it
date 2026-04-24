@@ -6,6 +6,12 @@ import redes3 from "./redes/3";
 import redes4 from "./redes/4";
 import redes5 from "./redes/5";
 import redes6 from "./redes/6";
+import linux1 from "./linux/1";
+import linux2 from "./linux/2";
+import linux3 from "./linux/3";
+import linux4 from "./linux/4";
+import linux5 from "./linux/5";
+import linux6 from "./linux/6";
 
 type ContentMap = Record<string, Record<number, Capitulo>>;
 
@@ -17,6 +23,14 @@ export const capitulos: ContentMap = {
     4: redes4,
     5: redes5,
     6: redes6,
+  },
+  linux: {
+    1: linux1,
+    2: linux2,
+    3: linux3,
+    4: linux4,
+    5: linux5,
+    6: linux6,
   },
 };
 

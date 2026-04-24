@@ -4,6 +4,7 @@ import { notFound, useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SectionRenderer } from "@/components/sections/SectionRenderer";
@@ -38,15 +39,16 @@ export function CapituloPageClient() {
           title={tema.nombre}
           subtitle={`Cap. ${capNum} de ${tema.totalCapitulos}`}
         />
-        <div className="px-4 pt-10 text-center">
-          <p className="text-[14px] text-text-muted">
+        <div className="px-4 pt-16 text-center flex flex-col items-center gap-4">
+          <p className="text-[15px] text-text-muted">
             Este capítulo todavía no está disponible.
           </p>
           <Link
             href={`/tema/${tema.slug}`}
-            className="mt-4 inline-block text-accent text-[13px]"
+            className="inline-flex items-center gap-1.5 text-accent text-[14px] font-medium"
           >
-            ← Volver al tema
+            <ArrowRight size={14} className="rotate-180" />
+            Volver al tema
           </Link>
         </div>
       </main>
@@ -74,11 +76,11 @@ export function CapituloPageClient() {
   };
 
   return (
-    <main className="min-h-screen pb-24">
+    <main className="min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))]">
       <TopBar
         backHref={`/tema/${tema.slug}`}
-        title={tema.nombre}
-        subtitle={`Cap. ${capNum} de ${tema.totalCapitulos}`}
+        title={`Cap. ${capNum} de ${tema.totalCapitulos}`}
+        subtitle={capitulo.titulo}
         tiempoMin={capitulo.tiempoMin}
       />
       <ScrollProgress />
@@ -89,14 +91,16 @@ export function CapituloPageClient() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
         >
-          <div className="text-[11px] font-semibold tracking-[0.15em] text-accent uppercase">
+          {/* Eliminado uppercase + tracking exagerado — sentence case */}
+          <div className="text-[12px] font-medium text-accent">
             Capítulo {capNum}
           </div>
-          <h1 className="mt-2 text-[26px] leading-[1.2] font-semibold tracking-tight">
+          <h1 className="mt-2 text-[28px] leading-[1.15] font-semibold tracking-tight">
             {capitulo.titulo}
           </h1>
           {capitulo.preguntaGancho ? (
-            <p className="mt-3 text-[14.5px] text-text-muted leading-relaxed">
+            // text-[14.5px] → text-base, max-w para líneas de lectura cómodas
+            <p className="mt-3 text-base text-text-muted leading-relaxed max-w-[340px]">
               {capitulo.preguntaGancho}
             </p>
           ) : null}
@@ -124,10 +128,10 @@ export function CapituloPageClient() {
           <Link
             href={siguienteHref}
             onClick={handleQuizComplete}
-            className="w-full flex items-center justify-between gap-2 bg-accent text-bg rounded-card px-4 py-3 active:bg-accent/90 transition-colors"
+            className="w-full flex items-center justify-between gap-3 min-h-[52px] bg-accent text-bg rounded-card px-5 py-3.5 active:scale-[0.98] active:bg-accent/90 transition-all"
           >
-            <span className="text-[14px] font-semibold">{nextLabel}</span>
-            <span>→</span>
+            <span className="text-[15px] font-semibold">{nextLabel}</span>
+            <ArrowRight size={18} className="shrink-0 opacity-80" />
           </Link>
         </RevealSection>
       )}

@@ -22,6 +22,7 @@ import {
   ChefHat,
   FileText,
   Layers,
+  CircleEllipsis,
   type LucideIcon,
   type LucideProps,
 } from "lucide-react";
@@ -48,6 +49,7 @@ const icons: Record<string, LucideIcon> = {
   ChefHat,
   FileText,
   Layers,
+  CircleEllipsis,
 };
 
 type Props = { name: string } & LucideProps;

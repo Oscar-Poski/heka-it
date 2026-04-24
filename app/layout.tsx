@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Hekademos IT — ¿Es IT para ti?",
   description:
-    "Plataforma educativa mobile-first para explorar si una carrera en IT es para vos.",
+    "Plataforma educativa mobile-first para explorar si una carrera en IT es para ti.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

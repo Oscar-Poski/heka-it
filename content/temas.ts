@@ -15,9 +15,9 @@ export const temas: Tema[] = [
   {
     slug: "linux",
     nombre: "Linux Admin",
-    preguntaGancho: "La base de todos los servidores del mundo.",
+    preguntaGancho: "La base de todos los servidores del mundo. También de Google, Netflix y Amazon.",
     iconoLucide: "Terminal",
-    totalCapitulos: 7,
+    totalCapitulos: 6,
     tiempoEstimadoMin: 60,
     requisitos: "Ninguno",
     prerrequisitos:
