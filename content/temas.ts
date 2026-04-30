@@ -3,7 +3,7 @@ import type { Tema } from "@/lib/types";
 export const temas: Tema[] = [
   {
     slug: "redes",
-    nombre: "Redes",
+    nombre: "Internet",
     preguntaGancho: "¿Cómo llega un video de YouTube a tu pantalla en menos de un segundo?",
     iconoLucide: "Network",
     totalCapitulos: 6,

@@ -14,6 +14,11 @@ import { TcpUdpCompare } from "./TCPUDPCompare";
 import { HttpVsHttps } from "./HttpVsHttps";
 import { OsiEncapsulation } from "./OsiEncapsulation";
 import { LinuxLayers } from "./LinuxLayers";
+import { TerminalFlow } from "./TerminalFlow"
+import { FilesystemTree } from "./FilesystemTree"
+import { PermissionsDecoder } from "./PermissionsDecoder"
+import { ProcessTree } from "./ProcessTree"
+import { PipelineFlow } from "./PipelineFlow"
 
 const COMPONENT_MAP: Record<string, ComponentType> = {
   "packet-journey": PacketJourney,
@@ -23,7 +28,11 @@ const COMPONENT_MAP: Record<string, ComponentType> = {
   "http-vs-https": HttpVsHttps,
   "osi-encapsulation": OsiEncapsulation,
   "linux-layers": LinuxLayers,
-
+  "terminal-flow": TerminalFlow,
+  "filesystem-tree": FilesystemTree,
+  "permissions-decoder": PermissionsDecoder,
+  "process-tree": ProcessTree,
+  "pipeline-flow": PipelineFlow,
 };
 
 type Props = {

@@ -1,309 +1,343 @@
-import { useState, useEffect, useRef } from "react";
+"use client";
 
-const LAYERS = [
+import { useState } from "react";
+
+type Layer = {
+  id: string;
+  label: string;
+  sublabel: string;
+  color: string;
+  y: number;
+  height: number;
+  description: string;
+  detail: string;
+  examples: { label: string; icon: string }[];
+};
+
+const GAP = 5;
+
+const LAYERS_BASE: Omit<Layer, "y">[] = [
   {
-    id: "userspace",
-    label: "Espacio de usuario",
-    sublabel: "Tus apps",
-    color: "#00C896",
-    bg: "#00C89612",
-    border: "#00C89640",
-    apps: ["Firefox", "nginx", "Python", "bash", "MySQL"],
-    desc: "Aquí viven todos tus programas. Cada proceso tiene memoria aislada — si uno falla, no puede dañar a los demás. Para tocar el hardware, tienen que pedírselo al kernel.",
+    id: "apps",
+    label: "Aplicaciones",
+    sublabel: "Espacio de usuario",
+    color: "#00FFBF",
+    height: 90,
+    description: "Lo que el usuario ve y usa",
+    detail:
+      "Navegadores, editores, bases de datos, servidores web. Corren en espacio aislado: nunca tocan el hardware directamente. Si una app se cuelga, el resto del sistema sigue vivo.",
+    examples: [
+      { label: "nginx", icon: "🌐" },
+      { label: "postgres", icon: "🗄" },
+      { label: "vim", icon: "📝" },
+      { label: "python", icon: "🐍" },
+    ],
   },
   {
     id: "shell",
     label: "Shell",
-    sublabel: "Terminal",
+    sublabel: "bash / zsh / fish",
     color: "#4A9EFF",
-    bg: "#4A9EFF12",
-    border: "#4A9EFF40",
-    apps: ["bash", "zsh", "fish"],
-    desc: "Una app más del espacio de usuario. Interpreta lo que escribes, lo convierte en llamadas al sistema y muestra el resultado. Es el puente entre el humano y el kernel.",
+    height: 82,
+    description: "Intérprete entre usuario y kernel",
+    detail:
+      "La terminal que ves es la shell. Traduce lo que escribes en llamadas al sistema. Bash, Zsh y Fish son distintas shells: misma idea, distinta sintaxis y ergonomía.",
+    examples: [
+      { label: "bash", icon: "$" },
+      { label: "zsh", icon: "%" },
+      { label: "fish", icon: "🐟" },
+      { label: "pipes", icon: "|" },
+    ],
+  },
+  {
+    id: "syscalls",
+    label: "Syscalls",
+    sublabel: "Interfaz kernel–usuario",
+    color: "#FFB830",
+    height: 82,
+    description: "La frontera entre software y kernel",
+    detail:
+      "System calls son la API del kernel. Las apps no pueden hablar con el hardware directamente: deben pedir permiso al kernel mediante funciones como read(), write(), fork(), open(). Es la frontera de seguridad más crítica del sistema.",
+    examples: [
+      { label: "read()", icon: "↓" },
+      { label: "write()", icon: "↑" },
+      { label: "fork()", icon: "⑂" },
+      { label: "open()", icon: "🔓" },
+    ],
   },
   {
     id: "kernel",
     label: "Kernel",
-    sublabel: "El núcleo",
+    sublabel: "El núcleo de Linux",
     color: "#FF5C5C",
-    bg: "#FF5C5C12",
-    border: "#FF5C5C40",
-    apps: ["Scheduler", "Memoria", "FS", "Red", "Drivers"],
-    desc: "El corazón de Linux. Ninguna app toca el hardware directamente — todo pasa por aquí. Decide qué proceso usa la CPU, gestiona la RAM y habla con cada dispositivo.",
+    height: 90,
+    description: "Árbitro entre software y hardware",
+    detail:
+      "El código que Linus Torvalds escribió en 1991. Gestiona memoria, CPU, discos y red. Decide qué proceso usa la CPU en cada milisegundo. Ninguna app puede saltárselo: es la ley.",
+    examples: [
+      { label: "scheduler", icon: "⚖" },
+      { label: "mm", icon: "🧠" },
+      { label: "vfs", icon: "📁" },
+      { label: "net", icon: "📡" },
+    ],
   },
   {
     id: "hardware",
     label: "Hardware",
-    sublabel: "Lo físico",
-    color: "#888780",
-    bg: "#88878012",
-    border: "#88878040",
-    apps: ["CPU", "RAM", "SSD", "NIC", "GPU"],
-    desc: "Los componentes físicos. Solo el kernel puede hablarles, a través de drivers. Las apps nunca ven el hardware real — ven la abstracción que el kernel ofrece.",
+    sublabel: "Física del sistema",
+    color: "#A855F7",
+    height: 82,
+    description: "El substrato físico",
+    detail:
+      "CPU, RAM, disco, red. Son los únicos recursos reales del sistema. Todo lo de arriba es software que los abstrae, comparte y protege. El kernel habla con el hardware a través de drivers.",
+    examples: [
+      { label: "CPU", icon: "⚡" },
+      { label: "RAM", icon: "💾" },
+      { label: "Disco", icon: "💿" },
+      { label: "Red", icon: "📶" },
+    ],
   },
 ];
 
-const SYSCALL_STEPS = [
-  { label: "App llama read(\"datos.txt\")", layer: 0, dir: "down" },
-  { label: "Kernel recibe la syscall", layer: 2, dir: "down" },
-  { label: "Kernel accede al disco", layer: 3, dir: null },
-  { label: "Disco devuelve los datos", layer: 2, dir: "up" },
-  { label: "Kernel entrega datos a la app ✓", layer: 0, dir: null },
-];
+// Compute y positions
+let _y = 0;
+const LAYERS: Layer[] = LAYERS_BASE.map((l) => {
+  const layer = { ...l, y: _y };
+  _y += l.height + GAP;
+  return layer;
+});
+
+const TOTAL_HEIGHT = _y - GAP;
 
 export function LinuxLayers() {
-  const [active, setActive] = useState(null);
-  const [syscallStep, setSyscallStep] = useState(-1);
-  const [running, setRunning] = useState(false);
-  const timerRef = useRef([]);
-
-  function toggleLayer(id) {
-    setActive((prev) => (prev === id ? null : id));
-  }
-
-  function clearTimers() {
-    timerRef.current.forEach(clearTimeout);
-    timerRef.current = [];
-  }
-
-  function runSyscall() {
-    if (running) return;
-    setRunning(true);
-    setSyscallStep(0);
-    clearTimers();
-    SYSCALL_STEPS.forEach((_, i) => {
-      const t = setTimeout(() => {
-        setSyscallStep(i);
-        if (i === SYSCALL_STEPS.length - 1) {
-          const end = setTimeout(() => {
-            setSyscallStep(-1);
-            setRunning(false);
-          }, 1800);
-          timerRef.current.push(end);
-        }
-      }, i * 900);
-      timerRef.current.push(t);
-    });
-  }
-
-  useEffect(() => () => clearTimers(), []);
-
-  const activeLayer = LAYERS.find((l) => l.id === active);
+  const [active, setActive] = useState<Layer | null>(LAYERS[2]);
 
   return (
-    <div style={{
-      fontFamily: "'IBM Plex Mono', monospace",
-      background: "#0d0d0f",
-      minHeight: "100vh",
-      padding: "20px 16px 40px",
-      boxSizing: "border-box",
-      color: "#e0dfd8",
-    }}>
-
-      {/* Header */}
-      <div style={{ marginBottom: 24 }}>
-        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 600, lineHeight: 1.3, color: "#f0efe8" }}>
-          Capas del sistema
-        </h1>
-        <p style={{ margin: "6px 0 0", fontSize: 13, color: "#666", lineHeight: 1.5 }}>
-          Toca cada capa para explorarla
-        </p>
+    <div
+      className="w-full max-w-md mx-auto rounded-xl overflow-hidden"
+      style={{
+        background: "#0d0d14",
+        border: "1px solid rgba(255,255,255,0.07)",
+        boxShadow: "0 16px 40px rgba(0,0,0,0.5)",
+        fontFamily: "'SF Mono', 'Fira Code', monospace",
+      }}
+    >
+      {/* Title bar — sin botón de flujo */}
+      <div
+        className="flex items-center px-4 py-3"
+        style={{ background: "#10101a", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+      >
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FF5C5C" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FFB830" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#00FFBF" }} />
+          <span className="ml-2 text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
+            arquitectura de Linux
+          </span>
+        </div>
       </div>
 
-      {/* Stack */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 28 }}>
-        {LAYERS.map((layer, i) => {
-          const isActive = active === layer.id;
-          const isHighlighted = syscallStep >= 0 && SYSCALL_STEPS[syscallStep]?.layer === i;
-          return (
-            <div key={layer.id}>
+      {/* Diagram */}
+      <div className="px-4 pt-5 pb-2">
+        <div className="relative" style={{ height: TOTAL_HEIGHT }}>
+          {/* Flow rail — siempre activo */}
+          <div
+            className="absolute"
+            style={{
+              left: 10,
+              top: 10,
+              bottom: 10,
+              width: 2,
+              background: "rgba(255,255,255,0.04)",
+              borderRadius: 1,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              className="absolute w-full rounded-full"
+              style={{
+                height: 40,
+                background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.18), transparent)",
+                animation: "flowDown 1.8s linear infinite",
+              }}
+            />
+          </div>
+
+          {/* Layers */}
+          {LAYERS.map((layer, idx) => {
+            const isActive = active?.id === layer.id;
+
+            return (
               <button
-                onClick={() => toggleLayer(layer.id)}
+                key={layer.id}
+                onClick={() => setActive(isActive ? null : layer)}
+                className="absolute w-full transition-all duration-300 rounded-xl text-left"
                 style={{
-                  width: "100%",
-                  background: isHighlighted ? layer.bg.replace("12", "28") : isActive ? layer.bg : "#16161a",
-                  border: `1px solid ${isHighlighted ? layer.color + "80" : isActive ? layer.border : "#2a2a2e"}`,
-                  borderRadius: 10,
-                  padding: "14px 16px",
+                  top: layer.y,
+                  height: layer.height,
+                  left: 0,
+                  right: 0,
+                  background: isActive ? `${layer.color}18` : "rgba(255,255,255,0.03)",
+                  border: `1px solid ${isActive ? layer.color + "55" : "rgba(255,255,255,0.07)"}`,
+                  boxShadow: isActive
+                    ? `0 0 24px ${layer.color}25, inset 0 1px 0 ${layer.color}20`
+                    : "none",
+                  paddingLeft: 28,
+                  paddingRight: 12,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
-                  gap: 14,
-                  transition: "all 0.22s ease",
-                  textAlign: "left",
-                  outline: "none",
-                  transform: isHighlighted ? "scale(1.01)" : "scale(1)",
+                  justifyContent: "space-between",
                 }}
               >
-                {/* Dot */}
-                <div style={{
-                  width: 10, height: 10, borderRadius: "50%",
-                  background: layer.color,
-                  flexShrink: 0,
-                  boxShadow: isHighlighted ? `0 0 10px ${layer.color}` : "none",
-                  transition: "box-shadow 0.3s",
-                }} />
+                {/* Left accent bar */}
+                <div
+                  className="absolute left-0 top-0 bottom-0 rounded-l-xl transition-all duration-300"
+                  style={{
+                    width: isActive ? 4 : 2,
+                    background: isActive ? layer.color : `${layer.color}50`,
+                    boxShadow: isActive ? `0 0 8px ${layer.color}` : "none",
+                  }}
+                />
 
-                {/* Text */}
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "#f0efe8", letterSpacing: "-0.01em" }}>
-                    {layer.label}
+                {/* Content */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="flex items-baseline gap-2 flex-wrap">
+                    <span
+                      className="text-sm font-bold leading-none"
+                      style={{ color: isActive ? layer.color : "rgba(255,255,255,0.7)" }}
+                    >
+                      {layer.label}
+                    </span>
+                    <span
+                      className="text-xs"
+                      style={{ color: isActive ? `${layer.color}99` : "rgba(255,255,255,0.2)" }}
+                    >
+                      {layer.sublabel}
+                    </span>
                   </div>
-                  <div style={{ fontSize: 11, color: "#555", marginTop: 2 }}>{layer.sublabel}</div>
+                  {!isActive && (
+                    <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.2)" }}>
+                      {layer.description}
+                    </p>
+                  )}
                 </div>
 
-                {/* Chips preview */}
-                <div style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end", maxWidth: 120 }}>
-                  {layer.apps.slice(0, 3).map((a) => (
-                    <span key={a} style={{
-                      fontSize: 10,
-                      padding: "2px 7px",
-                      borderRadius: 4,
-                      background: layer.bg,
-                      border: `1px solid ${layer.border}`,
-                      color: layer.color,
-                      whiteSpace: "nowrap",
-                    }}>{a}</span>
+                {/* Chips */}
+                <div className="flex gap-1 flex-wrap justify-end flex-shrink-0 ml-2" style={{ maxWidth: 150 }}>
+                  {layer.examples.map((ex) => (
+                    <span
+                      key={ex.label}
+                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-md"
+                      style={{
+                        background: isActive ? `${layer.color}18` : "rgba(255,255,255,0.04)",
+                        border: `1px solid ${isActive ? layer.color + "30" : "rgba(255,255,255,0.06)"}`,
+                        color: isActive ? layer.color : "rgba(255,255,255,0.3)",
+                        fontSize: 10,
+                      }}
+                    >
+                      <span style={{ fontSize: 12 }}>{ex.icon}</span>
+                      {ex.label}
+                    </span>
                   ))}
                 </div>
 
-                {/* Arrow */}
-                <div style={{
-                  fontSize: 12, color: "#444",
-                  transition: "transform 0.2s",
-                  transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
-                  flexShrink: 0,
-                }}>▾</div>
+                {/* Flow particle */}
+                {idx < LAYERS.length - 1 && (
+                  <div
+                    className="absolute rounded-full"
+                    style={{
+                      width: 6,
+                      height: 6,
+                      background: layer.color,
+                      boxShadow: `0 0 8px ${layer.color}`,
+                      bottom: -3,
+                      left: 10,
+                      transform: "translateX(-50%)",
+                      animation: `particleBounce 1.8s ease-in-out ${idx * 0.36}s infinite`,
+                    }}
+                  />
+                )}
               </button>
-
-              {/* Expand panel */}
-              <div style={{
-                overflow: "hidden",
-                maxHeight: isActive ? 240 : 0,
-                transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1)",
-              }}>
-                <div style={{
-                  background: "#13131a",
-                  border: `1px solid ${layer.border}`,
-                  borderTop: "none",
-                  borderRadius: "0 0 10px 10px",
-                  padding: "14px 16px 16px",
-                }}>
-                  <p style={{ margin: "0 0 12px", fontSize: 13, color: "#999", lineHeight: 1.65 }}>
-                    {layer.desc}
-                  </p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {layer.apps.map((a) => (
-                      <span key={a} style={{
-                        fontSize: 11,
-                        padding: "4px 10px",
-                        borderRadius: 5,
-                        background: layer.bg,
-                        border: `1px solid ${layer.border}`,
-                        color: layer.color,
-                      }}>{a}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Divider */}
-      <div style={{ height: 1, background: "#1e1e24", marginBottom: 28 }} />
-
-      {/* Syscall demo */}
-      <div>
-        <div style={{ fontSize: 11, letterSpacing: "0.1em", color: "#555", textTransform: "uppercase", marginBottom: 12 }}>
-          Simulación · Llamada al sistema
-        </div>
-
-        <p style={{ fontSize: 13, color: "#555", margin: "0 0 18px", lineHeight: 1.5 }}>
-          Cuando una app lee un archivo, el control viaja por las capas y regresa.
-        </p>
-
-        {/* Step list */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 20, position: "relative" }}>
-          {/* Vertical line */}
-          <div style={{
-            position: "absolute", left: 14, top: 14, bottom: 14,
-            width: 1, background: "#1e1e24",
-          }} />
-
-          {SYSCALL_STEPS.map((step, i) => {
-            const done = syscallStep > i;
-            const current = syscallStep === i;
-            const layerColor = LAYERS[step.layer].color;
-            return (
-              <div key={i} style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 16,
-                padding: "10px 0",
-                position: "relative",
-              }}>
-                {/* Circle */}
-                <div style={{
-                  width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
-                  background: current ? layerColor : done ? layerColor + "30" : "#16161a",
-                  border: `1px solid ${current ? layerColor : done ? layerColor + "60" : "#2a2a2e"}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 11, color: current ? "#0d0d0f" : done ? layerColor : "#333",
-                  fontWeight: 700,
-                  transition: "all 0.3s ease",
-                  zIndex: 1,
-                  boxShadow: current ? `0 0 12px ${layerColor}60` : "none",
-                }}>
-                  {done ? "✓" : i + 1}
-                </div>
-
-                {/* Text */}
-                <div style={{
-                  fontSize: 13,
-                  color: current ? "#f0efe8" : done ? "#666" : "#3a3a44",
-                  transition: "color 0.3s",
-                  lineHeight: 1.4,
-                }}>
-                  <span style={{
-                    fontSize: 10, color: LAYERS[step.layer].color,
-                    opacity: current || done ? 1 : 0.3,
-                    marginRight: 6,
-                    transition: "opacity 0.3s",
-                  }}>
-                    [{LAYERS[step.layer].label.split(" ")[0].toLowerCase()}]
-                  </span>
-                  {step.label}
-                </div>
-              </div>
             );
           })}
         </div>
-
-        {/* Button */}
-        <button
-          onClick={runSyscall}
-          disabled={running}
-          style={{
-            width: "100%",
-            padding: "14px",
-            borderRadius: 10,
-            border: running ? "1px solid #2a2a2e" : "1px solid #4A9EFF50",
-            background: running ? "#16161a" : "#4A9EFF10",
-            color: running ? "#333" : "#4A9EFF",
-            fontSize: 13,
-            fontWeight: 600,
-            fontFamily: "'IBM Plex Mono', monospace",
-            cursor: running ? "not-allowed" : "pointer",
-            letterSpacing: "0.05em",
-            transition: "all 0.2s",
-          }}
-        >
-          {running ? "ejecutando syscall..." : "▶  simular read()"}
-        </button>
       </div>
 
+      {/* Detail panel */}
+      <div
+        className="mx-4 mb-4 rounded-xl overflow-hidden transition-all duration-300"
+        style={{
+          border: `1px solid ${active ? active.color + "30" : "rgba(255,255,255,0.05)"}`,
+          background: active ? `${active.color}08` : "rgba(255,255,255,0.02)",
+          minHeight: 90,
+        }}
+      >
+        {active ? (
+          <div key={active.id} style={{ animation: "fadeUp 0.22s ease forwards" }}>
+            <div
+              className="flex items-center gap-2 px-4 py-2"
+              style={{ borderBottom: `1px solid ${active.color}20` }}
+            >
+              <div
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ background: active.color, boxShadow: `0 0 6px ${active.color}` }}
+              />
+              <span className="text-xs font-bold" style={{ color: active.color }}>
+                {active.label}
+              </span>
+              <span className="text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>—</span>
+              <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+                {active.description}
+              </span>
+            </div>
+            <p
+              className="px-4 py-3 text-xs leading-relaxed"
+              style={{ color: "#8888aa" }}
+            >
+              {active.detail}
+            </p>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-full px-4 py-8">
+            <p className="text-xs text-center" style={{ color: "rgba(255,255,255,0.15)" }}>
+              Toca cualquier capa para ver qué hace
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Legend */}
+      <div className="flex px-4 pb-4 gap-1.5">
+        {LAYERS.map((l) => (
+          <button
+            key={l.id}
+            onClick={() => setActive(active?.id === l.id ? null : l)}
+            className="flex-1 h-1 rounded-full transition-all duration-300"
+            style={{
+              background: active?.id === l.id ? l.color : `${l.color}30`,
+              boxShadow: active?.id === l.id ? `0 0 6px ${l.color}` : "none",
+            }}
+          />
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(5px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes flowDown {
+          from { top: -40px; }
+          to   { top: 100%; }
+        }
+        @keyframes particleBounce {
+          0%, 100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+          40% { opacity: 1; }
+          60% { opacity: 1; transform: translateX(-50%) translateY(8px); }
+          80% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+        }
+      `}</style>
     </div>
   );
 }

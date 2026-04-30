@@ -25,6 +25,14 @@ import {
   CircleEllipsis,
   Building2,
   AppWindow,
+  TerminalSquare,
+  DoorOpen,
+  FolderOpen,
+  KeyRound,
+  Users,
+  FlameKindling,
+  Wrench,
+  ArrowRight,
   type LucideIcon,
   type LucideProps,
 } from "lucide-react";
@@ -54,6 +62,14 @@ const icons: Record<string, LucideIcon> = {
   CircleEllipsis,
   Building2,
   AppWindow,
+  TerminalSquare,
+  DoorOpen,
+  FolderOpen,
+  KeyRound,
+  Users,
+  FlameKindling,
+  Wrench,
+  ArrowRight,
 };
 
 type Props = { name: string } & LucideProps;
