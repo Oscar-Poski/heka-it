@@ -36,6 +36,7 @@ import {
   FlameKindling,
   Wrench,
   ArrowRight,
+  Package,
   type LucideIcon,
   type LucideProps,
 } from "lucide-react";
@@ -76,6 +77,7 @@ const icons: Record<string, LucideIcon> = {
   FlameKindling,
   Wrench,
   ArrowRight,
+  Package,
 };
 
 type Props = { name: string } & LucideProps;

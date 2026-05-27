@@ -59,9 +59,6 @@ export function AnatomiaBlock({ seccion }: Props) {
           </AnimatePresence>
         </div>
       </div>
-      <div className="mt-2 text-[11px] text-text-dim px-1">
-        Toca cada una para ver qué guarda.
-      </div>
     </div>
   );
 }

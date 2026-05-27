@@ -1,15 +1,14 @@
 "use client";
 
-import { notFound, useParams, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
-import { ScrollProgress } from "@/components/ScrollProgress";
 import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { QuizBlock } from "@/components/QuizBlock";
-import { RevealSection, Eyebrow } from "@/components/RevealSection";
+import { RevealSection } from "@/components/RevealSection";
 import { temaBySlug } from "@/content/temas";
 import { getCapitulo } from "@/content";
 import { useProgress } from "@/hooks/useProgress";
@@ -17,13 +16,13 @@ import type { SeccionQuiz } from "@/lib/types";
 
 export function CapituloPageClient() {
   const params = useParams<{ slug: string; capitulo: string }>();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const capNum = Number(params.capitulo);
   const tema = temaBySlug(params.slug);
   if (!tema) notFound();
 
   const capitulo = getCapitulo(tema.slug, capNum);
-
   const { setActive, completarCapitulo, hydrated } = useProgress();
 
   useEffect(() => {
@@ -55,10 +54,11 @@ export function CapituloPageClient() {
     );
   }
 
-  const quizSection = capitulo.secciones.find(
-    (s): s is SeccionQuiz => s.tipo === "quiz"
-  );
-  const nonQuizSections = capitulo.secciones.filter((s) => s.tipo !== "quiz");
+  const totalPasos = capitulo.pasos.length;
+  const pasoParam = Number(searchParams.get("paso") ?? "1");
+  const pasoIndex = Math.max(0, Math.min(pasoParam - 1, totalPasos - 1));
+  const pasoActual = capitulo.pasos[pasoIndex];
+  const esUltimoPaso = pasoIndex === totalPasos - 1;
 
   const siguienteCap = capNum < tema.totalCapitulos ? capNum + 1 : null;
   const siguienteHref = siguienteCap
@@ -66,14 +66,19 @@ export function CapituloPageClient() {
     : `/tema/${tema.slug}`;
   const nextLabel = siguienteCap ? "Siguiente capítulo" : "Volver al tema";
 
-  const handleQuizComplete = () => {
-    if (!hydrated) return;
-    completarCapitulo(tema.slug, capNum, tema.totalCapitulos);
+  const handleSiguiente = () => {
+    if (esUltimoPaso) {
+      if (hydrated) completarCapitulo(tema.slug, capNum, tema.totalCapitulos);
+      router.push(siguienteHref);
+    } else {
+      router.push(`?paso=${pasoIndex + 2}`);
+    }
   };
 
-  const handleNext = () => {
-    router.push(siguienteHref);
-  };
+  const quizSection = pasoActual.secciones.find(
+    (s): s is SeccionQuiz => s.tipo === "quiz"
+  );
+  const nonQuizSections = pasoActual.secciones.filter((s) => s.tipo !== "quiz");
 
   return (
     <main className="min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))]">
@@ -81,60 +86,68 @@ export function CapituloPageClient() {
         backHref={`/tema/${tema.slug}`}
         title={`Cap. ${capNum} de ${tema.totalCapitulos}`}
         subtitle={capitulo.titulo}
-        tiempoMin={capitulo.tiempoMin}
       />
-      <ScrollProgress />
 
-      <section className="px-4 pt-6 pb-2">
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-        >
-          {/* Eliminado uppercase + tracking exagerado — sentence case */}
-          <div className="text-[12px] font-medium text-accent">
-            Capítulo {capNum}
-          </div>
-          <h1 className="mt-2 text-[28px] leading-[1.15] font-semibold tracking-tight">
-            {capitulo.titulo}
-          </h1>
-          {capitulo.preguntaGancho ? (
-            // text-[14.5px] → text-base, max-w para líneas de lectura cómodas
-            <p className="mt-3 text-base text-text-muted leading-relaxed max-w-[340px]">
-              {capitulo.preguntaGancho}
-            </p>
-          ) : null}
-        </motion.div>
-      </section>
-
-      <div>
-        {nonQuizSections.map((seccion, i) => (
-          <SectionRenderer key={i} seccion={seccion} index={i} />
-        ))}
+      {/* Step progress bar */}
+      <div className="px-4 pt-3 pb-1">
+        <div className="flex items-center gap-1.5">
+          {capitulo.pasos.map((_, i) => (
+            <div
+              key={i}
+              className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+                i <= pasoIndex ? "bg-accent" : "bg-surface2"
+              }`}
+            />
+          ))}
+        </div>
+        <p className="mt-1.5 text-[11px] text-text-dim">
+          Paso {pasoIndex + 1} de {totalPasos}
+        </p>
       </div>
 
-      {quizSection ? (
-        <RevealSection>
-          <Eyebrow>Verifica</Eyebrow>
-          <QuizBlock
-            quiz={quizSection}
-            onComplete={handleQuizComplete}
-            nextLabel={nextLabel}
-            onNext={handleNext}
-          />
-        </RevealSection>
-      ) : (
-        <RevealSection>
-          <Link
-            href={siguienteHref}
-            onClick={handleQuizComplete}
-            className="w-full flex items-center justify-between gap-3 min-h-[52px] bg-accent text-bg rounded-card px-5 py-3.5 active:scale-[0.98] active:bg-accent/90 transition-all"
-          >
-            <span className="text-[15px] font-semibold">{nextLabel}</span>
-            <ArrowRight size={18} className="shrink-0 opacity-80" />
-          </Link>
-        </RevealSection>
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={pasoIndex}
+          initial={{ opacity: 0, x: 16 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -16 }}
+          transition={{ duration: 0.25 }}
+        >
+
+          {/* Sections for this paso */}
+          <div>
+            {nonQuizSections.map((seccion, i) => (
+              <SectionRenderer key={i} seccion={seccion} index={i} />
+            ))}
+          </div>
+
+          {/* Quiz or next button */}
+          {quizSection ? (
+            <RevealSection>
+              <QuizBlock
+                quiz={quizSection}
+                onComplete={() => {
+                  if (hydrated) completarCapitulo(tema.slug, capNum, tema.totalCapitulos);
+                }}
+                nextLabel={nextLabel}
+                onNext={() => router.push(siguienteHref)}
+              />
+            </RevealSection>
+          ) : (
+            <RevealSection>
+              <button
+                onClick={handleSiguiente}
+                className="w-full flex items-center justify-between gap-3 min-h-[52px] bg-accent text-bg rounded-card px-5 py-3.5 active:scale-[0.98] active:bg-accent/90 transition-all"
+              >
+                <span className="text-[15px] font-semibold">
+                  {esUltimoPaso ? nextLabel : "Siguiente"}
+                </span>
+                <ArrowRight size={18} className="shrink-0 opacity-80" />
+              </button>
+            </RevealSection>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </main>
   );
 }

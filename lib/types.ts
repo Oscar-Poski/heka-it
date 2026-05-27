@@ -54,14 +54,16 @@ export type Seccion =
   | SeccionHighlight
   | SeccionQuiz;
 
+export type Paso = {
+  titulo?: string;
+  secciones: Seccion[];
+};
+
 export type Capitulo = {
   slug: string;
   numero: number;
   titulo: string;
-  descripcion?: string;
-  tiempoMin: number;
-  preguntaGancho?: string;
-  secciones: Seccion[];
+  pasos: Paso[];
 };
 
 export type Tema = {
