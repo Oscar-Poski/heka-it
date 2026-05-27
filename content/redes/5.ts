@@ -4,10 +4,8 @@ const capitulo: Capitulo = {
   slug: "redes",
   numero: 5,
   titulo: "HTTP y HTTPS",
-  descripcion: "El lenguaje que hablan navegadores y servidores.",
-  tiempoMin: 7,
-  preguntaGancho:
-    "Cada vez que abres una página web, tu navegador y el servidor mantienen una conversación muy precisa. ¿Cómo saben ambos qué pedir, qué responder y si algo salió mal?",
+  //preguntaGancho:
+    //"Cada vez que abres una página web, tu navegador y el servidor mantienen una conversación muy precisa. ¿Cómo saben ambos qué pedir, qué responder y si algo salió mal?",
   pasos: [
     {
       titulo: "El problema",

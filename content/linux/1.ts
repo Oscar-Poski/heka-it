@@ -4,11 +4,8 @@ const capitulo: Capitulo = {
   slug: "que-es-linux",
   numero: 1,
   titulo: "Linux: El sistema que mueve el mundo",
-  descripcion:
-    "El sistema operativo que nadie ve pero que mueve todo: servidores, la nube, tu teléfono.",
-  tiempoMin: 7,
-  preguntaGancho:
-    "El 96% de los servidores del mundo, incluyendo los de Google, Netflix y Amazon, corren Linux. Tu teléfono Android también. ¿Cómo es que el sistema operativo más poderoso del planeta lo creó un estudiante universitario en su cuarto?",
+ // preguntaGancho:
+  // "El 96% de los servidores del mundo, incluyendo los de Google, Netflix y Amazon, corren Linux. Tu teléfono Android también. ¿Cómo es que el sistema operativo más poderoso del planeta lo creó un estudiante universitario en su cuarto?",
   pasos: [
     {
       titulo: "El problema",

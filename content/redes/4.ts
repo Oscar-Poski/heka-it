@@ -4,10 +4,8 @@ const capitulo: Capitulo = {
   slug: "redes",
   numero: 4,
   titulo: "TCP vs UDP",
-  descripcion: "¿Velocidad o confiabilidad? Depende del caso.",
-  tiempoMin: 7,
-  preguntaGancho:
-    "Cuando ves un video en YouTube nunca se 'pierde' ningún fotograma, pero en una videollamada a veces se congela la imagen. Ambos usan internet. ¿Por qué se comportan tan diferente?",
+ // preguntaGancho:
+   // "Cuando ves un video en YouTube nunca se 'pierde' ningún fotograma, pero en una videollamada a veces se congela la imagen. Ambos usan internet. ¿Por qué se comportan tan diferente?",
   pasos: [
     {
       titulo: "El problema",

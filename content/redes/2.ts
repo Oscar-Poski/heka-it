@@ -4,10 +4,8 @@ const capitulo: Capitulo = {
   slug: "redes",
   numero: 2,
   titulo: "IP y Direccionamiento",
-  descripcion: "Cómo sabe la red a dónde enviar algo.",
-  tiempoMin: 8,
-  preguntaGancho:
-    "¿Cómo sabe internet exactamente a cuál de los 15,000 millones de dispositivos conectados debe entregar tu mensaje?",
+  //preguntaGancho:
+    //"¿Cómo sabe internet exactamente a cuál de los 15,000 millones de dispositivos conectados debe entregar tu mensaje?",
   pasos: [
     {
       titulo: "El problema",

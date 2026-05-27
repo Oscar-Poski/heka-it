@@ -34,8 +34,6 @@ export function TemaPageClient() {
     return {
       numero,
       titulo: data?.titulo ?? `Capítulo ${numero}`,
-      descripcion: data?.descripcion,
-      tiempoMin: data?.tiempoMin,
     };
   });
 
@@ -130,8 +128,6 @@ export function TemaPageClient() {
               temaSlug={tema.slug}
               numero={c.numero}
               titulo={c.titulo}
-              descripcion={c.descripcion}
-              tiempoMin={c.tiempoMin}
               state={hydrated ? stateOf(c.numero) : "disponible"}
             />
           ))}

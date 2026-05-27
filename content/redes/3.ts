@@ -4,10 +4,8 @@ const capitulo: Capitulo = {
   slug: "redes",
   numero: 3,
   titulo: "DNS: La Agenda del Internet",
-  descripcion: "¿Cómo sabe tu navegador dónde está google.com?",
-  tiempoMin: 7,
-  preguntaGancho:
-    "Escribes 'google.com' y en menos de un segundo tu navegador sabe exactamente a cuál de los millones de servidores del mundo conectarse. ¿Cómo lo hace si nunca le diste ninguna dirección?",
+  //preguntaGancho:
+    //"Escribes 'google.com' y en menos de un segundo tu navegador sabe exactamente a cuál de los millones de servidores del mundo conectarse. ¿Cómo lo hace si nunca le diste ninguna dirección?",
   pasos: [
     {
       titulo: "El problema",

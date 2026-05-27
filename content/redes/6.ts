@@ -4,10 +4,8 @@ const capitulo: Capitulo = {
   slug: "redes",
   numero: 6,
   titulo: "El modelo OSI",
-  descripcion: "El mapa completo de cómo se comunican las redes.",
-  tiempoMin: 8,
-  preguntaGancho:
-    "Ya viste paquetes, IPs, DNS, TCP y HTTP por separado. ¿Cómo encajan todas estas piezas en un solo sistema coherente?",
+  //preguntaGancho:
+    //"Ya viste paquetes, IPs, DNS, TCP y HTTP por separado. ¿Cómo encajan todas estas piezas en un solo sistema coherente?",
   pasos: [
     {
       titulo: "El problema",
