@@ -13,6 +13,8 @@ type Props = {
   state: NodeState;
   capitulosCompletados: number;
   index: number;
+  proximamente?: boolean;
+  onProximamente?: () => void;
 };
 
 function Badge({ state }: { state: NodeState }) {
@@ -44,7 +46,7 @@ function Badge({ state }: { state: NodeState }) {
   );
 }
 
-export function NodeCard({ tema, state, capitulosCompletados, index }: Props) {
+export function NodeCard({ tema, state, capitulosCompletados, index, proximamente, onProximamente }: Props) {
   const active = state === "en-curso";
   const completed = state === "completado";
 
@@ -52,6 +54,55 @@ export function NodeCard({ tema, state, capitulosCompletados, index }: Props) {
     tema.totalCapitulos > 0
       ? (capitulosCompletados / tema.totalCapitulos) * 100
       : 0;
+
+  const cardInner = (
+    <div className="flex items-start gap-3 p-3.5">
+      {/* Icon */}
+      <div
+        className={`shrink-0 w-11 h-11 rounded-lg flex items-center justify-center border ${
+          active
+            ? "bg-accent/10 border-accent/40 text-accent"
+            : completed
+            ? "bg-accent/5 border-accent/20 text-accent"
+            : "bg-surface2 border-border text-text-primary"
+        }`}
+      >
+        <Icon name={tema.iconoLucide} size={20} strokeWidth={1.8} />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-[15px] font-semibold text-text-primary truncate">
+            {tema.nombre}
+          </h3>
+          <Badge state={state} />
+        </div>
+
+        <p className="mt-1 text-[13.5px] text-text-muted leading-relaxed line-clamp-2">
+          {tema.preguntaGancho}
+        </p>
+
+        {/* Footer */}
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <div className="flex-1 flex items-center gap-2">
+            {capitulosCompletados > 0 && !completed && (
+              <div className="flex-1 h-1 rounded-full bg-surface2 overflow-hidden max-w-[80px]">
+                <div
+                  className="h-full bg-accent/60 rounded-full"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            )}
+            <span className="text-[11px] text-text-dim">
+              {capitulosCompletados} / {tema.totalCapitulos} cap.
+            </span>
+          </div>
+          <ChevronRight size={15} className="text-text-muted shrink-0" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <motion.div
@@ -75,60 +126,25 @@ export function NodeCard({ tema, state, capitulosCompletados, index }: Props) {
         </div>
       </div>
 
-      <Link
-        href={`/tema/${tema.slug}`}
-        className={`block rounded-card-lg border bg-surface transition-colors active:bg-surface2 hover:border-border/80 ${
-          active ? "border-accent/50" : "border-border"
-        }`}
-      >
-        <div className="flex items-start gap-3 p-3.5">
-          {/* Icon */}
-          <div
-            className={`shrink-0 w-11 h-11 rounded-lg flex items-center justify-center border ${
-              active
-                ? "bg-accent/10 border-accent/40 text-accent"
-                : completed
-                ? "bg-accent/5 border-accent/20 text-accent"
-                : "bg-surface2 border-border text-text-primary"
-            }`}
-          >
-            <Icon name={tema.iconoLucide} size={20} strokeWidth={1.8} />
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="text-[15px] font-semibold text-text-primary truncate">
-                {tema.nombre}
-              </h3>
-              <Badge state={state} />
-            </div>
-
-            <p className="mt-1 text-[13.5px] text-text-muted leading-relaxed line-clamp-2">
-              {tema.preguntaGancho}
-            </p>
-
-            {/* Footer */}
-            <div className="mt-3 flex items-center justify-between gap-2">
-              <div className="flex-1 flex items-center gap-2">
-                {/* Mini progress bar — solo si hay progreso parcial */}
-                {capitulosCompletados > 0 && !completed && (
-                  <div className="flex-1 h-1 rounded-full bg-surface2 overflow-hidden max-w-[80px]">
-                    <div
-                      className="h-full bg-accent/60 rounded-full"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-                )}
-                <span className="text-[11px] text-text-dim">
-                  {capitulosCompletados} / {tema.totalCapitulos} cap.
-                </span>
-              </div>
-              <ChevronRight size={15} className="text-text-muted shrink-0" />
-            </div>
-          </div>
-        </div>
-      </Link>
+      {proximamente ? (
+        <button
+          onClick={onProximamente}
+          className={`block w-full text-left rounded-card-lg border bg-surface transition-colors opacity-75 cursor-default ${
+            active ? "border-accent/50" : "border-border"
+          }`}
+        >
+          {cardInner}
+        </button>
+      ) : (
+        <Link
+          href={`/tema/${tema.slug}`}
+          className={`block rounded-card-lg border bg-surface transition-colors active:bg-surface2 hover:border-border/80 ${
+            active ? "border-accent/50" : "border-border"
+          }`}
+        >
+          {cardInner}
+        </Link>
+      )}
     </motion.div>
   );
 }

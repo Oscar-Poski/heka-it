@@ -22,9 +22,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hekademos IT — ¿Es IT para ti?",
+  title: "Heka it — IT Academy & Consulting Services",
   description:
-    "Plataforma educativa mobile-first para explorar si una carrera en IT es para ti.",
+    "Plataforma educativa para principiantes en IT y Automatización.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

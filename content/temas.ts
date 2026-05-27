@@ -95,6 +95,39 @@ export const temas: Tema[] = [
   },
 ];
 
+export const temasAutomatizacion: Tema[] = [
+  {
+    slug: "claude-cowork",
+    nombre: "Claude Cowork",
+    preguntaGancho: "¿Y si tu asistente de IA pudiera coordinar todo tu equipo de trabajo?",
+    iconoLucide: "Bot",
+    totalCapitulos: 0,
+    tiempoEstimadoMin: 0,
+    requisitos: "Ninguno",
+    prerrequisitos: "Próximamente disponible.",
+  },
+  {
+    slug: "n8n",
+    nombre: "N8N",
+    preguntaGancho: "¿Cómo automatizar flujos de trabajo complejos sin escribir código?",
+    iconoLucide: "Workflow",
+    totalCapitulos: 0,
+    tiempoEstimadoMin: 0,
+    requisitos: "Ninguno",
+    prerrequisitos: "Próximamente disponible.",
+  },
+  {
+    slug: "zapier",
+    nombre: "Zapier",
+    preguntaGancho: "¿Cómo conectar todas tus apps favoritas para que trabajen solas?",
+    iconoLucide: "Zap",
+    totalCapitulos: 0,
+    tiempoEstimadoMin: 0,
+    requisitos: "Ninguno",
+    prerrequisitos: "Próximamente disponible.",
+  },
+];
+
 export function temaBySlug(slug: string): Tema | undefined {
   return temas.find((t) => t.slug === slug);
 }
