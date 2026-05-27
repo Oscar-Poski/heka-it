@@ -32,7 +32,7 @@ export default function LandingPage() {
             <GraduationCap size={20} strokeWidth={1.8} />
           </div>
           <div className="text-[15px] font-semibold tracking-tight">
-            Heka <span className="text-accent">IT</span>
+            Heka <span className="text-accent">it</span>
           </div>
         </div>
       </header>
@@ -43,7 +43,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-[32px] leading-[1.1] font-semibold tracking-tight"
+          className="font-display text-[36px] leading-[1.1] tracking-tight text-ink"
         >
           ¿Es <span className="text-accent">IT</span> para ti?
         </motion.h1>
