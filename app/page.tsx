@@ -32,7 +32,7 @@ export default function LandingPage() {
             <GraduationCap size={20} strokeWidth={1.8} />
           </div>
           <div className="text-[15px] font-semibold tracking-tight">
-            Hekademos <span className="text-accent">IT</span>
+            Heka <span className="text-accent">IT</span>
           </div>
         </div>
       </header>

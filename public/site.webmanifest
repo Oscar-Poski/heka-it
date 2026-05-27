@@ -1,7 +1,7 @@
 {
   "name": "Hekademos IT",
-  "short_name": "Hekademos IT",
-  "description": "Plataforma educativa para explorar si una carrera en IT es para ti.",
+  "short_name": "Heka IT",
+  "description": "Plataforma educativa.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
