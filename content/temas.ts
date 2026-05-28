@@ -94,6 +94,18 @@ export const temas: Tema[] = [
     prerrequisitos: "Necesitás Docker entendido y al menos haber rozado Cloud.",
   },
   {
+    slug: "prompt-engineering",
+    nombre: "Prompt Engineering",
+    preguntaGancho:
+      "¿Por qué la misma pregunta a una IA da resultados mediocres o brillantes según cómo la escribas?",
+    iconoLucide: "Sparkles",
+    totalCapitulos: 4,
+    tiempoEstimadoMin: 30,
+    requisitos: "Ninguno",
+    prerrequisitos:
+      "Ideal antes de Claude Cowork. No requiere experiencia técnica.",
+  },
+  {
     slug: "claude-cowork",
     nombre: "Claude Cowork",
     preguntaGancho: "Del Chat al Cowork: domina la IA en tu día a día",

@@ -25,6 +25,10 @@ import zapier1 from "./zapier/1";
 import zapier2 from "./zapier/2";
 import zapier3 from "./zapier/3";
 import zapier4 from "./zapier/4";
+import pe1 from "./prompt-engineering/1";
+import pe2 from "./prompt-engineering/2";
+import pe3 from "./prompt-engineering/3";
+import pe4 from "./prompt-engineering/4";
 
 type ContentMap = Record<string, Record<number, Capitulo>>;
 
@@ -44,6 +48,12 @@ export const capitulos: ContentMap = {
     4: linux4,
     5: linux5,
     6: linux6,
+  },
+  "prompt-engineering": {
+    1: pe1,
+    2: pe2,
+    3: pe3,
+    4: pe4,
   },
   "claude-cowork": {
     1: cowork1,

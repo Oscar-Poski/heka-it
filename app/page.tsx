@@ -1,6 +1,7 @@
 "use client";
 
-import { GraduationCap } from "lucide-react";
+import Link from "next/link";
+import { GraduationCap, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { NodeCard, type NodeState } from "@/components/NodeCard";
 import { StickyCTA } from "@/components/StickyCTA";
@@ -35,13 +36,22 @@ export default function LandingPage() {
     <main className="min-h-screen pb-36 pb-[calc(9rem+env(safe-area-inset-bottom))]">
       {/* Header */}
       <header className="px-4 pt-6 pb-4">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-lg bg-accent/10 border border-accent/30 text-accent flex items-center justify-center">
-            <GraduationCap size={20} strokeWidth={1.8} />
+        <div className="flex items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-9 h-9 rounded-lg bg-accent/10 border border-accent/30 text-accent flex items-center justify-center shrink-0">
+              <GraduationCap size={20} strokeWidth={1.8} />
+            </div>
+            <div className="text-[15px] font-semibold tracking-tight truncate">
+              <span className="text-accent">IT</span> Academy & Consulting Services
+            </div>
           </div>
-          <div className="text-[15px] font-semibold tracking-tight">
-            <span className="text-accent">IT</span> Academy & Consulting Services
-          </div>
+          <Link
+            href="/servicios"
+            className="shrink-0 inline-flex items-center gap-1 rounded-full border border-teal/40 text-teal text-[13px] font-semibold px-3.5 py-1.5 active:scale-[0.97] transition-transform"
+          >
+            Servicios
+            <ArrowRight size={13} className="opacity-70" />
+          </Link>
         </div>
       </header>
 
