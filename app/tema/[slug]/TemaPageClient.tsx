@@ -44,7 +44,7 @@ export function TemaPageClient() {
   }
 
   const ctaCap = capitulosList[capActualClamp - 1];
-  const ctaLabel = `Continuar capítulo ${capActualClamp}`;
+  const ctaLabel = `Continuar Nivel ${capActualClamp}`;
   const ctaSub = ctaCap?.titulo ?? "";
   const ctaHref = `/tema/${tema.slug}/${capActualClamp}`;
 

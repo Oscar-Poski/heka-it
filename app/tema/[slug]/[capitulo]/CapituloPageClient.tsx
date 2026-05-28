@@ -64,7 +64,9 @@ export function CapituloPageClient() {
   const siguienteHref = siguienteCap
     ? `/tema/${tema.slug}/${siguienteCap}`
     : `/tema/${tema.slug}`;
-  const nextLabel = siguienteCap ? "Siguiente capítulo" : "Volver al tema";
+  const nextLabel = siguienteCap ? "Siguiente Nivel" : "Volver al tema";
+
+  const esPrimerPaso = pasoIndex === 0;
 
   const handleSiguiente = () => {
     if (esUltimoPaso) {
@@ -73,6 +75,10 @@ export function CapituloPageClient() {
     } else {
       router.push(`?paso=${pasoIndex + 2}`);
     }
+  };
+
+  const handleAnterior = () => {
+    if (!esPrimerPaso) router.push(`?paso=${pasoIndex}`);
   };
 
   const quizSection = pasoActual.secciones.find(
@@ -127,23 +133,45 @@ export function CapituloPageClient() {
               <QuizBlock
                 quiz={quizSection}
                 onComplete={() => {
-                  if (hydrated) completarCapitulo(tema.slug, capNum, tema.totalCapitulos);
+                  if (hydrated && esUltimoPaso) {
+                    completarCapitulo(tema.slug, capNum, tema.totalCapitulos);
+                  }
                 }}
-                nextLabel={nextLabel}
-                onNext={() => router.push(siguienteHref)}
+                nextLabel={esUltimoPaso ? nextLabel : "Siguiente"}
+                onNext={handleSiguiente}
               />
+              {!esPrimerPaso ? (
+                <button
+                  onClick={handleAnterior}
+                  className="mt-3 w-full flex items-center justify-center gap-2 min-h-[52px] border border-border bg-surface text-text-primary rounded-card px-5 py-3.5 active:scale-[0.98] active:bg-surface2 transition-all"
+                >
+                  <ArrowRight size={18} className="shrink-0 rotate-180 opacity-70" />
+                  <span className="text-[15px] font-semibold">Anterior</span>
+                </button>
+              ) : null}
             </RevealSection>
           ) : (
             <RevealSection>
-              <button
-                onClick={handleSiguiente}
-                className="w-full flex items-center justify-between gap-3 min-h-[52px] bg-accent text-bg rounded-card px-5 py-3.5 active:scale-[0.98] active:bg-accent/90 transition-all"
-              >
-                <span className="text-[15px] font-semibold">
-                  {esUltimoPaso ? nextLabel : "Siguiente"}
-                </span>
-                <ArrowRight size={18} className="shrink-0 opacity-80" />
-              </button>
+              <div className="flex items-center gap-3">
+                {!esPrimerPaso ? (
+                  <button
+                    onClick={handleAnterior}
+                    className="flex items-center justify-center gap-2 min-h-[52px] border border-border bg-surface text-text-primary rounded-card px-5 py-3.5 active:scale-[0.98] active:bg-surface2 transition-all"
+                  >
+                    <ArrowRight size={18} className="shrink-0 rotate-180 opacity-70" />
+                    <span className="text-[15px] font-semibold">Anterior</span>
+                  </button>
+                ) : null}
+                <button
+                  onClick={handleSiguiente}
+                  className="flex-1 flex items-center justify-between gap-3 min-h-[52px] bg-accent text-bg rounded-card px-5 py-3.5 active:scale-[0.98] active:bg-accent/90 transition-all"
+                >
+                  <span className="text-[15px] font-semibold">
+                    {esUltimoPaso ? nextLabel : "Siguiente"}
+                  </span>
+                  <ArrowRight size={18} className="shrink-0 opacity-80" />
+                </button>
+              </div>
             </RevealSection>
           )}
         </motion.div>

@@ -127,11 +127,11 @@ export const temas: Tema[] = [
 
 
 export function temaBySlug(slug: string): Tema | undefined {
-  return [...temas].find((t) => t.slug === slug);
+  return temas.find((t) => t.slug === slug);
 }
 
 export function getTemaStaticParams() {
-  return [...temas].map((tema) => ({
+  return temas.map((tema) => ({
     slug: tema.slug,
   }));
 }

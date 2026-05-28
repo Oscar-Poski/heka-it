@@ -45,6 +45,46 @@ export type SeccionQuiz = {
   feedbackIncorrecto: string;
 };
 
+export type SeccionComparacion = {
+  tipo: "comparacion";
+  eyebrow?: string;
+  texto?: string;
+  columnas: [
+    { titulo: string; subtitulo?: string; items: string[]; destacada?: boolean },
+    { titulo: string; subtitulo?: string; items: string[]; destacada?: boolean }
+  ];
+};
+
+export type SeccionChat = {
+  tipo: "chat";
+  eyebrow?: string;
+  texto?: string;
+  mensajes: { rol: "user" | "claude"; texto: string }[];
+};
+
+export type SeccionGrid = {
+  tipo: "grid";
+  eyebrow?: string;
+  texto?: string;
+  nota?: string;
+  items: { titulo: string; descripcion: string; icono?: string }[];
+};
+
+export type SeccionPromptLab = {
+  tipo: "promptlab";
+  eyebrow?: string;
+  texto?: string;
+  ejemplos: {
+    id: string;
+    label: string;
+    icono?: string;
+    rol: string;
+    tarea: string;
+    contexto: string;
+    resultado: string;
+  }[];
+};
+
 export type Seccion =
   | SeccionTexto
   | SeccionAnalogia
@@ -52,7 +92,11 @@ export type Seccion =
   | SeccionPasos
   | SeccionVisual
   | SeccionHighlight
-  | SeccionQuiz;
+  | SeccionQuiz
+  | SeccionComparacion
+  | SeccionChat
+  | SeccionGrid
+  | SeccionPromptLab;
 
 export type Paso = {
   titulo?: string;

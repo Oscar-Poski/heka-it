@@ -7,6 +7,10 @@ import { HighlightBox } from "../HighlightBox";
 import { AnalogiaBlock } from "./AnalogiaBlock";
 import { AnatomiaBlock } from "./AnatomiaBlock";
 import { PasosBlock } from "./PasosBlock";
+import { ComparacionBlock } from "./ComparacionBlock";
+import { ChatBlock } from "./ChatBlock";
+import { GridBlock } from "./GridBlock";
+import { PromptLabBlock } from "./PromptLabBlock";
 import { PacketJourney } from "./PacketJourney";
 import { IPv4Animation } from "./IpDireccion";
 import { DNSLookup } from "./DNSLookup";
@@ -106,6 +110,58 @@ export function SectionRenderer({ seccion, index }: Props) {
             </p>
           ) : null}
           {VisualComponent ? <VisualComponent /> : null}
+        </RevealSection>
+      );
+
+    case "comparacion":
+      return (
+        <RevealSection delay={index * 0.02}>
+          {seccion.eyebrow ? <Eyebrow>{seccion.eyebrow}</Eyebrow> : null}
+          {seccion.texto ? (
+            <p className="text-[14.5px] leading-relaxed text-text-primary mb-3">
+              {seccion.texto}
+            </p>
+          ) : null}
+          <ComparacionBlock seccion={seccion} />
+        </RevealSection>
+      );
+
+    case "chat":
+      return (
+        <RevealSection delay={index * 0.02}>
+          {seccion.eyebrow ? <Eyebrow>{seccion.eyebrow}</Eyebrow> : null}
+          {seccion.texto ? (
+            <p className="text-[14.5px] leading-relaxed text-text-primary mb-3">
+              {seccion.texto}
+            </p>
+          ) : null}
+          <ChatBlock seccion={seccion} />
+        </RevealSection>
+      );
+
+    case "grid":
+      return (
+        <RevealSection delay={index * 0.02}>
+          {seccion.eyebrow ? <Eyebrow>{seccion.eyebrow}</Eyebrow> : null}
+          {seccion.texto ? (
+            <p className="text-[14.5px] leading-relaxed text-text-primary mb-3">
+              {seccion.texto}
+            </p>
+          ) : null}
+          <GridBlock seccion={seccion} />
+        </RevealSection>
+      );
+
+    case "promptlab":
+      return (
+        <RevealSection delay={index * 0.02}>
+          {seccion.eyebrow ? <Eyebrow>{seccion.eyebrow}</Eyebrow> : null}
+          {seccion.texto ? (
+            <p className="text-[14.5px] leading-relaxed text-text-primary mb-3">
+              {seccion.texto}
+            </p>
+          ) : null}
+          <PromptLabBlock seccion={seccion} />
         </RevealSection>
       );
 

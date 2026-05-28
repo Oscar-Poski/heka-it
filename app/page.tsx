@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { GraduationCap, ChevronDown } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
 import { NodeCard, type NodeState } from "@/components/NodeCard";
 import { StickyCTA } from "@/components/StickyCTA";
@@ -19,11 +18,8 @@ function SectionHeader({ title }: { title: string }) {
   );
 }
 
-const PREVIEW = 3;
-
 export default function LandingPage() {
   const { progress, hydrated, capitulosCompletadosDe } = useProgress();
-  const [mostrarTodos, setMostrarTodos] = useState(false);
 
   const activeTema = progress.temaActivo
     ? temas.find((t) => t.slug === progress.temaActivo)
@@ -34,8 +30,6 @@ export default function LandingPage() {
   const ctaLabel = hydrated && activeTema ? "Continuar" : "Empezar";
   const ctaSub = `${ctaTema.nombre} · Cap. ${ctaCap}`;
   const ctaHref = `/tema/${ctaTema.slug}/${ctaCap}`;
-
-  const fundamentosVisibles = mostrarTodos ? temas : temas.slice(0, PREVIEW);
 
   return (
     <main className="min-h-screen pb-36 pb-[calc(9rem+env(safe-area-inset-bottom))]">
@@ -80,7 +74,7 @@ export default function LandingPage() {
               aria-hidden
             />
             <div className="space-y-2.5">
-              {fundamentosVisibles.map((tema, i) => {
+              {temas.map((tema, i) => {
                 const completed = progress.temasCompletados.includes(tema.slug);
                 const isActive =
                   hydrated && progress.temaActivo === tema.slug && !completed;
@@ -107,15 +101,6 @@ export default function LandingPage() {
                 );
               })}
             </div>
-            {!mostrarTodos && (
-              <button
-                onClick={() => setMostrarTodos(true)}
-                className="mt-3 pl-12 flex items-center gap-2 text-[13px] font-medium text-teal"
-              >
-                <ChevronDown size={15} />
-                Mostrar todos ({temas.length - PREVIEW} más)
-              </button>
-            )}
           </div>
         </section>
 

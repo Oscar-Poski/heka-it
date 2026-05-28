@@ -37,6 +37,16 @@ import {
   Wrench,
   ArrowRight,
   Package,
+  FileSpreadsheet,
+  Presentation,
+  Calendar,
+  MessageSquare,
+  Code,
+  Puzzle,
+  Settings,
+  Plug,
+  Sparkles,
+  FolderGit2,
   type LucideIcon,
   type LucideProps,
 } from "lucide-react";
@@ -78,6 +88,16 @@ const icons: Record<string, LucideIcon> = {
   Wrench,
   ArrowRight,
   Package,
+  FileSpreadsheet,
+  Presentation,
+  Calendar,
+  MessageSquare,
+  Code,
+  Puzzle,
+  Settings,
+  Plug,
+  Sparkles,
+  FolderGit2,
 };
 
 type Props = { name: string } & LucideProps;
