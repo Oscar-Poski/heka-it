@@ -93,47 +93,45 @@ export const temas: Tema[] = [
     requisitos: "Docker y Cloud",
     prerrequisitos: "Necesitás Docker entendido y al menos haber rozado Cloud.",
   },
-];
-
-export const temasAutomatizacion: Tema[] = [
   {
     slug: "claude-cowork",
     nombre: "Claude Cowork",
-    preguntaGancho: "¿Y si tu asistente de IA pudiera coordinar todo tu equipo de trabajo?",
+    preguntaGancho: "Del Chat al Cowork: domina la IA en tu día a día",
     iconoLucide: "Bot",
-    totalCapitulos: 0,
-    tiempoEstimadoMin: 0,
+    totalCapitulos: 5,
+    tiempoEstimadoMin: 90,
     requisitos: "Ninguno",
-    prerrequisitos: "Próximamente disponible.",
+    prerrequisitos: "Primer contacto con IA recomendado pero no obligatorio.",
   },
   {
     slug: "n8n",
     nombre: "N8N",
     preguntaGancho: "¿Cómo automatizar flujos de trabajo complejos sin escribir código?",
     iconoLucide: "Workflow",
-    totalCapitulos: 0,
-    tiempoEstimadoMin: 0,
+    totalCapitulos: 4,
+    tiempoEstimadoMin: 35,
     requisitos: "Ninguno",
-    prerrequisitos: "Próximamente disponible.",
+    prerrequisitos: "Independiente. Se puede ver en cualquier momento.",
   },
   {
     slug: "zapier",
     nombre: "Zapier",
     preguntaGancho: "¿Cómo conectar todas tus apps favoritas para que trabajen solas?",
     iconoLucide: "Zap",
-    totalCapitulos: 0,
-    tiempoEstimadoMin: 0,
+    totalCapitulos: 4,
+    tiempoEstimadoMin: 30,
     requisitos: "Ninguno",
-    prerrequisitos: "Próximamente disponible.",
+    prerrequisitos: "Independiente. No se requiere experiencia técnica.",
   },
 ];
 
+
 export function temaBySlug(slug: string): Tema | undefined {
-  return temas.find((t) => t.slug === slug);
+  return [...temas].find((t) => t.slug === slug);
 }
 
 export function getTemaStaticParams() {
-  return temas.map((tema) => ({
+  return [...temas].map((tema) => ({
     slug: tema.slug,
   }));
 }

@@ -92,7 +92,7 @@ export function TemaPageClient() {
         <div className="grid grid-cols-3 gap-5">
           <Stat
             icon={<CircleEllipsis size={20} strokeWidth={1.8} />}
-            label="Capítulos"
+            label="Niveles"
             value={String(tema.totalCapitulos)}
           />
           <Stat
@@ -119,7 +119,7 @@ export function TemaPageClient() {
       <section className="px-4 mt-7">
         {/* Eliminado tracking-[0.15em] y uppercase — sentence case */}
         <div className="text-[12px] font-semibold text-accent mb-3">
-          Capítulos del tema
+          Niveles del tema
         </div>
         <div className="space-y-2">
           {capitulosList.map((c) => (

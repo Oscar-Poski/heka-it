@@ -64,10 +64,22 @@ button {
   }
 }
 
-/* Shell container for mobile-first */
+/* Shell container — mobile-first, expands on wider screens */
 .shell {
   width: 100%;
   max-width: 480px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .shell {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shell {
+    max-width: 960px;
+  }
 }

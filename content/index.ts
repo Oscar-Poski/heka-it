@@ -12,6 +12,19 @@ import linux3 from "./linux/3";
 import linux4 from "./linux/4";
 import linux5 from "./linux/5";
 import linux6 from "./linux/6";
+import cowork1 from "./claude_cowork/1";
+import cowork2 from "./claude_cowork/2";
+import cowork3 from "./claude_cowork/3";
+import cowork4 from "./claude_cowork/4";
+import cowork5 from "./claude_cowork/5";
+import n8n1 from "./n8n/1";
+import n8n2 from "./n8n/2";
+import n8n3 from "./n8n/3";
+import n8n4 from "./n8n/4";
+import zapier1 from "./zapier/1";
+import zapier2 from "./zapier/2";
+import zapier3 from "./zapier/3";
+import zapier4 from "./zapier/4";
 
 type ContentMap = Record<string, Record<number, Capitulo>>;
 
@@ -32,6 +45,25 @@ export const capitulos: ContentMap = {
     5: linux5,
     6: linux6,
   },
+  "claude-cowork": {
+    1: cowork1,
+    2: cowork2,
+    3: cowork3,
+    4: cowork4,
+    5: cowork5,
+  },
+  n8n: {
+    1: n8n1,
+    2: n8n2,
+    3: n8n3,
+    4: n8n4,
+  },
+  zapier: {
+    1: zapier1,
+    2: zapier2,
+    3: zapier3,
+    4: zapier4,
+  },
 };
 
 export function getCapitulo(slug: string, numero: number): Capitulo | undefined {
@@ -39,7 +71,7 @@ export function getCapitulo(slug: string, numero: number): Capitulo | undefined 
 }
 
 export function getCapituloStaticParams() {
-  return temas.flatMap((tema) =>
+  return [...temas].flatMap((tema) =>
     Array.from({ length: tema.totalCapitulos }, (_, index) => ({
       slug: tema.slug,
       capitulo: String(index + 1),
