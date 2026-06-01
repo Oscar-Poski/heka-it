@@ -99,6 +99,46 @@ const capitulo: Capitulo = {
         },
       ],
     },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Tu prompt falla y quieres saber qué ajuste lo arregla. ¿Cuál es la mejor forma de iterar?",
+          opciones: [
+            { texto: "Cambiar varios elementos a la vez para ir más rápido.", correcta: false },
+            { texto: "Ajustar una sola cosa y volver a pedir.", correcta: true },
+            { texto: "Reescribir todo el prompt desde cero cada vez.", correcta: false },
+            { texto: "Repetir el mismo prompt hasta que acierte.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Cambiar un solo elemento por iteración te dice exactamente qué ajuste mejoró el resultado. Cambiar varios a la vez oculta la causa.",
+          feedbackIncorrecto:
+            "La clave es ajustar una cosa a la vez: así sabes qué cambio funcionó. Cambiar varios elementos a la vez mezcla las causas y repetir el mismo prompt no aporta nada nuevo.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "¿Por qué un prompt vago como «escríbeme algo sobre marketing» suele dar malos resultados?",
+          opciones: [
+            { texto: "Porque el modelo de IA no es lo bastante potente.", correcta: false },
+            { texto: "Porque le falta rol, audiencia, contexto y formato.", correcta: true },
+            { texto: "Porque es demasiado largo.", correcta: false },
+            { texto: "Porque la IA no entiende español.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Sin rol, audiencia, contexto ni formato, la IA no tiene nada que la enfoque y responde de forma genérica. La calidad casi nunca está en el modelo, sino en el prompt.",
+          feedbackIncorrecto:
+            "El problema no es el modelo ni el idioma: es que el prompt no aporta rol, audiencia, contexto ni formato. Sin esas piezas, la IA solo puede dar una respuesta genérica.",
+        },
+      ],
+    },
   ],
 };
 

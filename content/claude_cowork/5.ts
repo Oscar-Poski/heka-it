@@ -123,6 +123,22 @@ const capitulo: Capitulo = {
       ],
     },
     {
+      titulo: "Modo dispatch",
+      secciones: [
+        {
+          tipo: "texto",
+          eyebrow: "Dirige a Claude desde el móvil",
+          texto:
+            "El modo dispatch es la forma de trabajar con Cowork desde tu celular, estés donde estés. No necesitas estar frente al ordenador: lanzas tareas, revisas avances y das instrucciones desde el móvil, y Claude trabaja en segundo plano. Cuando termina, recibes el resultado y decides el siguiente paso.",
+        },
+        {
+          tipo: "highlight",
+          texto:
+            "Ideal para aprovechar tiempos muertos: despacha una tarea camino a una reunión y revisa el resultado cuando vuelvas. Tú diriges, Claude ejecuta.",
+        },
+      ],
+    },
+    {
       titulo: "Uso responsable",
       secciones: [
         {
@@ -149,6 +165,68 @@ const capitulo: Capitulo = {
       ],
     },
     {
+      titulo: "Los modelos de Claude",
+      secciones: [
+        {
+          tipo: "grid",
+          eyebrow: "Opus, Sonnet y Haiku",
+          texto:
+            "Claude viene en tres tamaños. Elegir el adecuado equilibra calidad, velocidad y coste.",
+          items: [
+            {
+              titulo: "Opus",
+              descripcion: "El más capaz. Para análisis complejos, razonamiento profundo y tareas críticas donde la calidad manda.",
+              icono: "Brain",
+            },
+            {
+              titulo: "Sonnet",
+              descripcion: "El equilibrado. Rápido y muy capaz: la opción por defecto para el trabajo diario.",
+              icono: "Scale",
+            },
+            {
+              titulo: "Haiku",
+              descripcion: "El más rápido y económico. Para tareas simples, alto volumen o respuestas casi instantáneas.",
+              icono: "Zap",
+            },
+          ],
+          nota:
+            "Regla práctica: empieza con Sonnet. Sube a Opus si la tarea exige más profundidad; baja a Haiku si priorizas velocidad y coste.",
+        },
+      ],
+    },
+    {
+      titulo: "Todo junto: un task completo",
+      secciones: [
+        {
+          tipo: "texto",
+          eyebrow: "Skill + connector + tarea programada",
+          texto:
+            "Aquí se combina todo lo del nivel. La tarea usa un skill de marca (genera el informe con la plantilla y estilo de tu empresa), un connector (lee los datos de una app externa) y se programa para que se repita sola cada semana.",
+        },
+        {
+          tipo: "chat",
+          eyebrow: "Ejemplo de task completo",
+          mensajes: [
+            {
+              rol: "user",
+              texto:
+                "Cada lunes a las 8am, lee las ventas de la semana pasada desde Google Sheets y genera el informe semanal usando el skill de marca de Heka IT. Guárdalo en Drive y envíame el enlace por email.",
+            },
+            {
+              rol: "claude",
+              texto:
+                "Listo. Tarea programada cada lunes 8am. Usaré:\n• Connector Google Sheets → leer ventas\n• Skill de marca Heka IT → informe con tu plantilla y estilo\n• Connector Drive + Gmail → guardar y enviarte el enlace\n\nEjecuto sola cada semana y te aviso al terminar.",
+            },
+          ],
+        },
+        {
+          tipo: "highlight",
+          texto:
+            "Un solo task encadena las tres piezas: el connector trae los datos, el skill les da forma de marca y la programación lo repite sin que tengas que pedirlo otra vez.",
+        },
+      ],
+    },
+    {
       titulo: "Verifica",
       secciones: [
         {
@@ -164,6 +242,46 @@ const capitulo: Capitulo = {
             "Correcto. Un skill es una capacidad específica (ej. crear Word); un connector da acceso a una app; un plugin empaqueta varios skills y connectors en un bundle temático.",
           feedbackIncorrecto:
             "Un skill es una sola capacidad (ej. crear un Word) y un connector da acceso a una app. Un plugin es el bundle que combina varios skills y connectors en un paquete temático.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Tienes que analizar un caso complejo con razonamiento profundo y la calidad es lo más importante. ¿Qué modelo eliges?",
+          opciones: [
+            { texto: "Haiku, porque es el más rápido.", correcta: false },
+            { texto: "Opus, el más capaz para análisis complejos.", correcta: true },
+            { texto: "Sonnet, porque es gratis.", correcta: false },
+            { texto: "Da igual, todos rinden lo mismo.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Opus es el modelo más capaz: para análisis complejos y razonamiento profundo donde la calidad manda, es la mejor opción.",
+          feedbackIncorrecto:
+            "Para análisis complejos donde la calidad manda, Opus es el indicado. Haiku prioriza velocidad y coste; Sonnet es el equilibrio para el día a día.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Estás fuera de la oficina y quieres lanzar una tarea a Claude y revisar su avance desde el móvil. ¿Qué usas?",
+          opciones: [
+            { texto: "El modo dispatch, que dirige a Claude desde el celular.", correcta: true },
+            { texto: "Una tarea programada para cada lunes.", correcta: false },
+            { texto: "Un connector de Gmail.", correcta: false },
+            { texto: "Esperar a volver al ordenador.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. El modo dispatch te deja dirigir a Claude desde el móvil, estés donde estés: lanzas la tarea, Claude trabaja en segundo plano y revisas el resultado cuando puedas.",
+          feedbackIncorrecto:
+            "Para dirigir a Claude desde el celular estando fuera está el modo dispatch. Las tareas programadas sirven para recurrencia automática, no para trabajar desde el móvil al momento.",
         },
       ],
     },

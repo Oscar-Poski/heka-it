@@ -6,7 +6,12 @@ import { ChevronRight, Check } from "lucide-react";
 import { Icon } from "./Icon";
 import type { Tema } from "@/lib/types";
 
-export type NodeState = "bloqueado" | "explorar" | "en-curso" | "completado";
+export type NodeState =
+  | "bloqueado"
+  | "explorar"
+  | "en-curso"
+  | "completado"
+  | "proximamente";
 
 type Props = {
   tema: Tema;
@@ -33,6 +38,10 @@ function Badge({ state }: { state: NodeState }) {
     },
     bloqueado: {
       label: "Bloqueado",
+      cls: "bg-surface2 text-text-dim border-border",
+    },
+    proximamente: {
+      label: "Próximamente",
       cls: "bg-surface2 text-text-dim border-border",
     },
   };
@@ -95,7 +104,9 @@ export function NodeCard({ tema, state, capitulosCompletados, index, proximament
               </div>
             )}
             <span className="text-[11px] text-text-dim">
-              {capitulosCompletados} / {tema.totalCapitulos} cap.
+              {tema.totalCapitulos > 0
+                ? `${capitulosCompletados} / ${tema.totalCapitulos} cap.`
+                : "En preparación"}
             </span>
           </div>
           <ChevronRight size={15} className="text-text-muted shrink-0" />

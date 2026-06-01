@@ -64,7 +64,7 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "anatomia",
-          eyebrow: "Rol · Tarea · Contexto · Resultado",
+          eyebrow: "Rol · Tarea · Contexto · Formato",
           texto:
             "El patrón que multiplica tus resultados. Toca cada pieza para ver qué responde.",
           partes: [
@@ -90,8 +90,8 @@ const capitulo: Capitulo = {
                 "¿Para quién, por qué, con qué datos? Ej: «para anunciar el cambio de sede a 50 empleados».",
             },
             {
-              id: "resultado",
-              label: "Resultado",
+              id: "formato",
+              label: "Formato",
               color: "#8B5CF6",
               detalle:
                 "¿Cómo quieres el resultado? Ej: «Asunto + cuerpo. Tono formal pero cercano».",
@@ -112,7 +112,7 @@ const capitulo: Capitulo = {
           tipo: "promptlab",
           eyebrow: "El patrón, departamento por departamento",
           texto:
-            "Elige un área y descubre un prompt real. Fíjate cómo cada uno separa el Rol, la Tarea, el Contexto y el Resultado.",
+            "Elige un área y descubre un prompt real. Fíjate cómo cada uno separa el Rol, la Tarea, el Contexto y el Formato.",
           ejemplos: [
             {
               id: "finanzas",
@@ -123,7 +123,7 @@ const capitulo: Capitulo = {
                 "Redacta el comentario ejecutivo del informe de resultados del Q2 para presentar al Comité de Dirección.",
               contexto:
                 "Ingresos Q2: €4.2M (+12% vs Q1). Margen EBITDA: 22% (objetivo era 25%). El desvío se debe principalmente al incremento de costos de personal (+18%) por las nuevas contrataciones. Pipeline para Q3: €6.1M.",
-              resultado:
+              formato:
                 "Máximo 200 palabras. Estructura: resultados clave → análisis de desvíos → outlook Q3. Tono ejecutivo, directo y sin eufemismos. Incluir 2-3 cifras clave destacadas.",
             },
             {
@@ -135,7 +135,7 @@ const capitulo: Capitulo = {
                 "Crea el asunto y el cuerpo de un email de campaña para el lanzamiento de nuestro nuevo producto.",
               contexto:
                 "Dirigido a directores de IT de empresas de 200+ empleados en España. Lanzamos una integración nativa con Salesforce. El cliente ya conoce nuestra herramienta pero no ha renovado en los últimos 6 meses.",
-              resultado:
+              formato:
                 "Asunto (máx. 8 palabras) + cuerpo de 150 palabras. Tono profesional pero cercano. Incluye una llamada a la acción clara al final.",
             },
             {
@@ -147,7 +147,7 @@ const capitulo: Capitulo = {
                 "Redacta un plan de bienvenida de 30 días para un nuevo empleado que se incorpora al equipo de ventas.",
               contexto:
                 "La empresa tiene 80 empleados, cultura colaborativa y trabaja en remoto híbrido (3 días oficina). El nuevo empleado viene de una empresa grande y necesita adaptarse a la dinámica más ágil.",
-              resultado:
+              formato:
                 "Documento Word estructurado: semana 1, semana 2-3 y semana 4. Para cada fase: objetivo, actividades clave y quién es responsable. Tono cálido y motivador.",
             },
             {
@@ -159,7 +159,7 @@ const capitulo: Capitulo = {
                 "Crea un informe de análisis de los cuellos de botella en nuestro proceso de aprobación de facturas.",
               contexto:
                 "El proceso actual tarda 12 días de media. Participan 4 departamentos: Compras, Finanzas, Legal y Dirección. Los retrasos suelen producirse entre Legal y Dirección. El equipo de finanzas usa SAP.",
-              resultado:
+              formato:
                 "Informe ejecutivo de 1 página: diagnóstico (2-3 causas raíz), impacto en costos estimado y 3 recomendaciones priorizadas por facilidad de implementación. Sin jerga técnica.",
             },
           ],
@@ -177,12 +177,12 @@ const capitulo: Capitulo = {
             { texto: "Tarea", correcta: false },
             { texto: "Rol", correcta: true },
             { texto: "Contexto", correcta: false },
-            { texto: "Resultado", correcta: false },
+            { texto: "Formato", correcta: false },
           ],
           feedbackCorrecto:
-            "Correcto. El Rol define qué experto debe ser Claude. La Tarea es qué hace, el Contexto es para quién y por qué, y el Resultado es el formato de salida.",
+            "Correcto. El Rol define qué experto debe ser Claude. La Tarea es qué hace, el Contexto es para quién y por qué, y el Formato es el formato de salida.",
           feedbackIncorrecto:
-            "Esa frase define qué experto debe ser Claude — eso es el Rol. La Tarea sería «escribe un email», el Contexto «para 50 empleados» y el Resultado «tono formal, asunto + cuerpo».",
+            "Esa frase define qué experto debe ser Claude — eso es el Rol. La Tarea sería «escribe un email», el Contexto «para 50 empleados» y el Formato «tono formal, asunto + cuerpo».",
         },
       ],
     },

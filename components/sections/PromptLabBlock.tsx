@@ -11,7 +11,7 @@ const SEGMENTOS = [
   { key: "rol", label: "Rol", color: "#3A8DFF" },
   { key: "tarea", label: "Tarea", color: "#00A896" },
   { key: "contexto", label: "Contexto", color: "#FF6B35" },
-  { key: "resultado", label: "Resultado", color: "#8B5CF6" },
+  { key: "formato", label: "Formato", color: "#8B5CF6" },
 ] as const;
 
 export function PromptLabBlock({ seccion }: Props) {

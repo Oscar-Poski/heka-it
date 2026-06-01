@@ -63,7 +63,7 @@ const capitulo: Capitulo = {
               tarea: "Resume el documento adjunto.",
               contexto:
                 "Es un contrato de arrendamiento de 12 páginas. El lector decide si firmar hoy. Le importan plazo, precio, penalizaciones y cláusulas de salida.",
-              resultado:
+              formato:
                 "5 viñetas máximo, lenguaje claro sin jerga legal, marca en negrita cualquier riesgo o coste oculto.",
             },
             {
@@ -74,7 +74,7 @@ const capitulo: Capitulo = {
               tarea: "Traduce el siguiente eslogan del español al inglés.",
               contexto:
                 "Es para una campaña dirigida a startups en EE. UU. La marca es juvenil y directa. El eslogan original juega con una rima.",
-              resultado:
+              formato:
                 "Da 3 opciones, cada una con una nota de una línea sobre el matiz que conserva o sacrifica.",
             },
             {
@@ -85,7 +85,7 @@ const capitulo: Capitulo = {
               tarea: "Clasifica cada mensaje en una categoría.",
               contexto:
                 "Categorías: Facturación, Bug técnico, Solicitud de función, Otro. Los mensajes vienen de usuarios no técnicos y a veces mezclan temas.",
-              resultado:
+              formato:
                 "Devuelve una tabla: mensaje | categoría | confianza (alta/media/baja). Sin explicaciones extra.",
             },
           ],
@@ -109,6 +109,46 @@ const capitulo: Capitulo = {
             "Correcto. Longitud, estructura y tono definen cómo quieres la salida: eso es el Formato. El Rol sería «actúa como…», la Tarea el verbo de acción y el Contexto el para quién y por qué.",
           feedbackIncorrecto:
             "Esa frase describe la forma de la respuesta (longitud, estructura, tono) — eso es el Formato. El Rol enfoca la experiencia, la Tarea es la acción, el Contexto aporta datos y audiencia.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "«Actúa como abogado laboralista con 10 años de experiencia». ¿Qué componente del prompt es?",
+          opciones: [
+            { texto: "Rol", correcta: true },
+            { texto: "Tarea", correcta: false },
+            { texto: "Contexto", correcta: false },
+            { texto: "Formato", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Indicar desde qué experiencia debe responder la IA es el Rol. Enfoca el tono y el conocimiento de la respuesta.",
+          feedbackIncorrecto:
+            "«Actúa como…» define desde qué experiencia responde la IA: eso es el Rol. La Tarea es el verbo de acción, el Contexto los datos y el Formato la forma de la salida.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "De las cuatro piezas, ¿cuál suele subir más la calidad del resultado cuando la añades?",
+          opciones: [
+            { texto: "El Rol", correcta: false },
+            { texto: "La Tarea", correcta: false },
+            { texto: "El Contexto", correcta: true },
+            { texto: "El Formato", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. El Contexto (audiencia, datos, restricciones, ejemplos) es lo que más sube la calidad: le da a la IA la información concreta que necesita.",
+          feedbackIncorrecto:
+            "El que más mueve la aguja es el Contexto: audiencia, datos, restricciones y ejemplos. Sin él, la IA responde de forma genérica aunque el Rol y el Formato estén bien.",
         },
       ],
     },

@@ -81,7 +81,7 @@ export type SeccionPromptLab = {
     rol: string;
     tarea: string;
     contexto: string;
-    resultado: string;
+    formato: string;
   }[];
 };
 
@@ -119,6 +119,14 @@ export type Tema = {
   tiempoEstimadoMin: number;
   requisitos: string;
   prerrequisitos: string;
+};
+
+export type Path = {
+  slug: string;
+  nombre: string;
+  descripcion: string;
+  iconoLucide: string;
+  temaSlugs: string[];
 };
 
 export type ProgresoUsuario = {

@@ -51,13 +51,13 @@ export function TemaPageClient() {
   return (
     // pb-36 + safe area para el StickyCTA con home indicator
     <main className="min-h-screen pb-[calc(9rem+env(safe-area-inset-bottom))]">
-      <TopBar backHref="/" title="Inicio → Tema" subtitle={tema.nombre} />
+      <TopBar backHref="/academy" title="Academy → Tema" subtitle={tema.nombre} />
 
       <section className="px-4 pt-5">
         {/* Breadcrumb — text-xs en lugar de text-[11px] */}
         <div className="text-xs text-text-dim mb-3">
-          <Link href="/" className="hover:text-text-muted transition-colors">
-            Inicio
+          <Link href="/academy" className="hover:text-text-muted transition-colors">
+            Academy
           </Link>
           <span className="mx-1.5 opacity-40">/</span>
           <span className="text-text-muted">{tema.nombre}</span>
