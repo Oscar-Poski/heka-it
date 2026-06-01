@@ -45,9 +45,9 @@ const capitulo: Capitulo = {
             "Dos personas le piden a la misma IA «escribe un email». Una obtiene algo útil, la otra algo genérico. ¿Cuál es la causa más probable?",
           opciones: [
             { texto: "La IA tuvo un buen día con una y mal día con la otra.", correcta: false },
-            { texto: "Una escribió un prompt más específico y con más contexto.", correcta: true },
             { texto: "Usaron modelos distintos sin saberlo.", correcta: false },
             { texto: "El azar: la IA responde aleatoriamente.", correcta: false },
+            { texto: "Una escribió un prompt más específico y con más contexto.", correcta: true },
           ],
           feedbackCorrecto:
             "Correcto. El modelo solo trabaja con lo que le das. Más contexto y especificidad en el prompt = resultado más útil. Es la variable que tú controlas.",

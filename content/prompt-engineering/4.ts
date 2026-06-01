@@ -88,9 +88,9 @@ const capitulo: Capitulo = {
             "Tu prompt devolvió algo casi bueno pero demasiado largo y formal. ¿Cuál es el mejor siguiente paso?",
           opciones: [
             { texto: "Empezar una conversación nueva desde cero.", correcta: false },
-            { texto: "Pedir en el mismo hilo: «más corto y en tono cercano».", correcta: true },
             { texto: "Cambiar de modelo de IA.", correcta: false },
             { texto: "Aceptarlo: la IA ya no va a mejorar.", correcta: false },
+            { texto: "Pedir en el mismo hilo: «más corto y en tono cercano».", correcta: true },
           ],
           feedbackCorrecto:
             "Correcto. La IA recuerda el contexto del hilo. Pedir un ajuste concreto («más corto, tono cercano») refina el resultado sin reescribir todo el prompt.",
@@ -128,8 +128,8 @@ const capitulo: Capitulo = {
             "¿Por qué un prompt vago como «escríbeme algo sobre marketing» suele dar malos resultados?",
           opciones: [
             { texto: "Porque el modelo de IA no es lo bastante potente.", correcta: false },
-            { texto: "Porque le falta rol, audiencia, contexto y formato.", correcta: true },
             { texto: "Porque es demasiado largo.", correcta: false },
+            { texto: "Porque le falta rol, audiencia, contexto y formato.", correcta: true },
             { texto: "Porque la IA no entiende español.", correcta: false },
           ],
           feedbackCorrecto:

@@ -141,8 +141,8 @@ const capitulo: Capitulo = {
             "Necesitas que la IA devuelva siempre datos en un formato muy específico y difícil de explicar con palabras. ¿Qué técnica usas?",
           opciones: [
             { texto: "Zero-shot: pídelo directo y ya.", correcta: false },
-            { texto: "Few-shot: muéstrale 2-3 ejemplos del formato exacto.", correcta: true },
             { texto: "Chain-of-thought: pídele que razone paso a paso.", correcta: false },
+            { texto: "Few-shot: muéstrale 2-3 ejemplos del formato exacto.", correcta: true },
             { texto: "Role prompting: asígnale un rol experto.", correcta: false },
           ],
           feedbackCorrecto:

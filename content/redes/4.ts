@@ -3,106 +3,102 @@ import type { Capitulo } from "@/lib/types";
 const capitulo: Capitulo = {
   slug: "redes",
   numero: 4,
-  titulo: "TCP vs UDP",
- // preguntaGancho:
-   // "Cuando ves un video en YouTube nunca se 'pierde' ningún fotograma, pero en una videollamada a veces se congela la imagen. Ambos usan internet. ¿Por qué se comportan tan diferente?",
+  titulo: "Nivel 4 · TCP vs UDP",
   pasos: [
     {
       titulo: "El problema",
       secciones: [
         {
           tipo: "texto",
-          eyebrow: "El problema",
+          eyebrow: "Dos formas de mover paquetes",
           texto:
-            "Internet entrega paquetes, pero no garantiza que lleguen todos, ni en orden, ni sin errores. A veces un paquete se pierde en el camino. Para algunas aplicaciones eso es catastrófico —imagina descargar un archivo donde faltan bytes—. Para otras, no importa tanto —si en una videollamada se pierde un fotograma, prefieres seguir en tiempo real que esperar a recibirlo tarde—. TCP y UDP son dos protocolos que resuelven este problema de maneras opuestas.",
+            "Internet entrega paquetes, pero no garantiza que lleguen todos, ni en orden, ni sin errores. Algunas aplicaciones no toleran ni un byte perdido (descargar un archivo). Otras prefieren velocidad aunque se pierda algo (una videollamada). TCP y UDP son los dos protocolos que resuelven este problema de maneras opuestas.",
         },
         {
           tipo: "analogia",
-          eyebrow: "La analogía",
+          eyebrow: "Mensajería certificada vs llamada telefónica",
           texto:
-            "Imagina que tienes que enviar documentos importantes versus hablar por teléfono. Para los documentos, usas mensajería certificada: confirmas que llegaron, y si no, los reenvías. Por teléfono, no puedes 'reenviar' lo que ya dijiste —la conversación sigue aunque se haya cortado un segundo—.",
+            "Para documentos importantes usas mensajería con acuse de recibo. Por teléfono no puedes «reenviar» lo que ya dijiste: la conversación sigue.",
           items: [
-            { label: "Mensajería certificada", valor: "TCP", icono: "PackageCheck" },
-            { label: "Llamada telefónica", valor: "UDP", icono: "Phone" },
+            { label: "Mensajería certificada", valor: "TCP — confiable, más lento", icono: "PackageCheck" },
+            { label: "Llamada telefónica", valor: "UDP — rápido, sin reenvíos", icono: "Phone" },
           ],
         },
       ],
     },
     {
-      titulo: "TCP y UDP",
+      titulo: "Qué garantiza cada uno",
       secciones: [
         {
-          tipo: "anatomia",
-          eyebrow: "¿Qué garantiza cada uno?",
+          tipo: "comparacion",
+          eyebrow: "Compromisos opuestos",
           texto:
-            "TCP y UDP tienen compromisos distintos. Toca cada uno para entender qué ofrece.",
-          partes: [
+            "Cada protocolo elige un trade-off distinto entre integridad y velocidad.",
+          columnas: [
             {
-              id: "tcp",
-              label: "TCP",
-              color: "#3A8DFF",
-              detalle:
-                "Transmission Control Protocol. Establece una conexión antes de enviar datos (el famoso 'handshake' de tres pasos). Garantiza que todos los paquetes lleguen, en orden y sin errores. Si uno se pierde, lo pide de nuevo. A cambio, es más lento y consume más recursos.",
+              titulo: "TCP",
+              subtitulo: "Confiable y ordenado",
+              destacada: true,
+              items: [
+                "Establece conexión antes de enviar (handshake)",
+                "Confirma cada paquete con un ACK",
+                "Reenvía si se pierde algo",
+                "Reordena al llegar",
+                "Más lento, más overhead, garantiza entrega",
+              ],
             },
             {
-              id: "udp",
-              label: "UDP",
-              color: "#00A896",
-              detalle:
-                "User Datagram Protocol. No establece conexión previa: simplemente dispara paquetes y no verifica si llegaron. No garantiza orden ni entrega. A cambio, es mucho más rápido y tiene menos latencia. La aplicación decide qué hacer si falta algo.",
+              titulo: "UDP",
+              subtitulo: "Rápido y sin garantías",
+              items: [
+                "Sin conexión previa: dispara y olvida",
+                "No confirma ni reenvía",
+                "No reordena: lo que llega, llega",
+                "Mucho menos overhead",
+                "Más rápido, app decide qué hacer si falta algo",
+              ],
             },
           ],
         },
         {
           tipo: "pasos",
-          eyebrow: "El handshake de TCP",
+          eyebrow: "El handshake TCP",
           texto:
-            "Antes de enviar un solo byte de datos, TCP realiza un ritual de tres pasos para asegurarse de que ambos extremos estén listos.",
+            "Antes de mandar un solo byte de datos, TCP hace un ritual de 3 pasos para asegurarse de que ambos extremos están listos.",
           pasos: [
             {
               titulo: "SYN",
               descripcion:
-                "Tu dispositivo envía un paquete SYN (synchronize) al servidor: 'Quiero conectarme, ¿estás disponible?'",
+                "Tu dispositivo manda un paquete SYN (synchronize): «Quiero conectarme, ¿estás disponible?».",
             },
             {
               titulo: "SYN-ACK",
               descripcion:
-                "El servidor responde con SYN-ACK (synchronize-acknowledge): 'Sí, estoy aquí. Confirmo que recibí tu solicitud.'",
+                "El servidor responde SYN-ACK (synchronize-acknowledge): «Sí, recibí tu solicitud, listo».",
             },
             {
               titulo: "ACK",
               descripcion:
-                "Tu dispositivo responde con ACK (acknowledge): 'Confirmado. Empecemos.' La conexión está establecida y los datos pueden fluir.",
+                "Tu dispositivo confirma con ACK (acknowledge): «Confirmado, empecemos». A partir de aquí fluyen los datos.",
             },
           ],
         },
       ],
     },
     {
-      titulo: "Visualización",
+      titulo: "Pruébalo con paquetes perdidos",
       secciones: [
         {
           tipo: "visual",
-          eyebrow: "Visualización",
+          eyebrow: "Comportamiento bajo pérdida",
           texto:
-            "Compara cómo TCP y UDP manejan la pérdida de un paquete en tiempo real.",
+            "Envía paquetes uno a uno. Prueba el botón «Perder paquete» y mira cómo reacciona cada protocolo.",
           componente: "tcp-udp-compare",
         },
-      ],
-    },
-    {
-      titulo: "Cuándo usar cada uno",
-      secciones: [
         {
           tipo: "highlight",
           texto:
-            "TCP no es 'mejor' que UDP ni viceversa. Son herramientas distintas para problemas distintos. HTTP, los correos y las descargas usan TCP porque no pueden permitirse perder ni un byte. El streaming en vivo, los videojuegos online y las videollamadas usan UDP porque prefieren velocidad sobre perfección.",
-        },
-        {
-          tipo: "texto",
-          eyebrow: "¿Cuándo usar cada uno?",
-          texto:
-            "La elección entre TCP y UDP depende de qué importa más para tu aplicación: integridad o velocidad. Si perder datos rompe la experiencia —una página web incompleta, un archivo corrupto, una transacción bancaria a medias— usas TCP. Si el retraso rompe la experiencia más que la pérdida ocasional de datos —un juego online que congela, una videollamada con eco— usas UDP.",
+            "TCP no es «mejor» que UDP ni al revés. HTTP, correo y descargas usan TCP porque no pueden permitirse perder bytes. Streaming en vivo, videojuegos online y videollamadas usan UDP porque prefieren velocidad sobre perfección.",
         },
       ],
     },
@@ -111,20 +107,57 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "quiz",
-          pregunta: "¿Qué protocolo usaría una aplicación de videollamadas y por qué?",
+          pregunta: "¿Qué protocolo usaría una app de videollamadas y por qué?",
           opciones: [
-            { texto: "TCP, porque garantiza que el audio llegue sin errores.", correcta: false },
-            {
-              texto: "UDP, porque es más importante tener baja latencia que recibir cada paquete.",
-              correcta: true,
-            },
-            { texto: "TCP, porque establece una conexión segura antes de hablar.", correcta: false },
-            { texto: "UDP, porque cifra los datos mejor que TCP.", correcta: false },
+            { texto: "TCP, porque garantiza que el audio llegue completo.", correcta: false },
+            { texto: "UDP, porque importa más la baja latencia que recibir cada paquete.", correcta: true },
+            { texto: "TCP, porque establece una conexión segura primero.", correcta: false },
+            { texto: "UDP, porque cifra los datos automáticamente.", correcta: false },
           ],
           feedbackCorrecto:
-            "Exacto. En una videollamada, si un paquete de audio llega tarde es peor que si simplemente no llega. UDP permite que la conversación siga fluyendo sin esperar reenvíos de paquetes perdidos. La pequeña pérdida ocasional es imperceptible para el oído humano.",
+            "Exacto. Si un paquete de audio llega tarde, es peor que si simplemente no llega. UDP permite que la conversación siga fluyendo sin esperar reenvíos. Una pérdida ocasional es imperceptible para el oído.",
           feedbackIncorrecto:
-            "TCP reenvía paquetes perdidos, lo que introduce retrasos. En una videollamada, escuchar audio de hace dos segundos porque 'llegó tarde' es peor que un leve corte. El cifrado tampoco es función de TCP ni UDP —eso lo maneja TLS por encima de ambos—.",
+            "TCP reenvía paquetes perdidos, lo que añade retraso. Escuchar audio de hace 2 segundos por «llegar tarde» es peor que un microcorte. El cifrado no lo hace ninguno de los dos: eso es TLS por encima.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Estás descargando un archivo ZIP. ¿Qué protocolo usa y por qué?",
+          opciones: [
+            { texto: "TCP, porque un archivo con bytes faltantes está corrupto: necesitas entrega completa.", correcta: true },
+            { texto: "UDP, porque es más rápido.", correcta: false },
+            { texto: "Ninguno: las descargas no usan protocolos.", correcta: false },
+            { texto: "Cualquiera de los dos, da igual.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Una descarga exige integridad total: si falta un byte en medio del ZIP, el archivo no abre. TCP garantiza que todos los paquetes llegan y en orden, reenviando los perdidos.",
+          feedbackIncorrecto:
+            "Velocidad no compensa archivos corruptos. Las descargas siempre usan TCP (vía HTTP/HTTPS) porque exigen integridad: cada byte debe llegar exactamente como salió del servidor.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "¿Cuántos paquetes intercambia TCP antes de enviar el primer byte de datos?",
+          opciones: [
+            { texto: "Ninguno: empieza directamente.", correcta: false },
+            { texto: "Uno: solo SYN.", correcta: false },
+            { texto: "Tres: SYN, SYN-ACK, ACK.", correcta: true },
+            { texto: "Cinco: hace un ping completo antes.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Es el famoso «three-way handshake»: SYN del cliente, SYN-ACK del servidor, ACK del cliente. Establece que ambos están listos antes de enviar datos. Por eso TCP añade latencia al inicio de cada conexión.",
+          feedbackIncorrecto:
+            "TCP siempre hace el three-way handshake antes del primer byte: SYN → SYN-ACK → ACK. Tres paquetes ida y vuelta. Es lo que añade latencia al abrir una conexión TCP y es el motivo por el que se reutilizan conexiones (keep-alive).",
         },
       ],
     },

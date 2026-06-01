@@ -3,27 +3,25 @@ import type { Capitulo } from "@/lib/types";
 const capitulo: Capitulo = {
   slug: "redes",
   numero: 6,
-  titulo: "El modelo OSI",
-  //preguntaGancho:
-    //"Ya viste paquetes, IPs, DNS, TCP y HTTP por separado. ¿Cómo encajan todas estas piezas en un solo sistema coherente?",
+  titulo: "Nivel 6 · El modelo OSI",
   pasos: [
     {
-      titulo: "El problema",
+      titulo: "Por qué dividir en capas",
       secciones: [
         {
           tipo: "texto",
-          eyebrow: "El problema",
+          eyebrow: "Un problema gigante partido en 7 pequeños",
           texto:
-            "Construir una red de comunicaciones es un problema enorme. Hay que manejar cables físicos, señales eléctricas, direcciones, rutas, errores, cifrado y aplicaciones, todo al mismo tiempo. En los años 80, la ISO propuso dividir ese problema en siete capas independientes. Cada capa resuelve un problema específico y solo habla con la capa de arriba y la de abajo. A ese modelo se le llama OSI.",
+            "Construir una red de comunicaciones es enorme: hay que manejar cables físicos, señales eléctricas, direcciones, rutas, errores, cifrado y aplicaciones, todo a la vez. En los 80, la ISO propuso dividirlo en 7 capas independientes. Cada capa resuelve un problema concreto y solo habla con la capa de arriba y la de abajo. Ese modelo se llama OSI.",
         },
         {
           tipo: "analogia",
-          eyebrow: "La analogía",
+          eyebrow: "Como mandar una carta internacional",
           texto:
-            "Imagina enviar una carta por mensajería internacional. Tú escribes el contenido (aplicación). Alguien la mete en un sobre con tu nombre (presentación). La ponen en una caja con número de rastreo (sesión). La caja sube a un camión que sabe la ruta (transporte). El camión toma autopistas y carreteras (red). Llega a la paquetería local que gestiona la entrega de último kilómetro (enlace). Finalmente, el repartidor toca tu puerta (físico).",
+            "Tú escribes el contenido. Alguien lo mete en un sobre. La paquetería le pone un código de rastreo. Sube a un camión. Toma autopistas. Llega a la oficina local. El repartidor toca tu puerta. Cada paso lo resuelve un especialista distinto.",
           items: [
-            { label: "Tu carta", valor: "Datos de la aplicación", icono: "FileText" },
-            { label: "Sistema de mensajería", valor: "Las 7 capas OSI", icono: "Layers" },
+            { label: "Tu carta", valor: "Los datos de la aplicación", icono: "FileText" },
+            { label: "La cadena de logística", valor: "Las 7 capas OSI", icono: "Layers" },
           ],
         },
       ],
@@ -33,118 +31,144 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "anatomia",
-          eyebrow: "Las 7 capas del modelo OSI",
+          eyebrow: "Capas superiores (cerca del usuario)",
           texto:
-            "De arriba hacia abajo: las capas superiores están cerca del usuario, las inferiores cerca del hardware. Toca cada una.",
+            "Las capas altas son las que tocas cuando programas o configuras una app. Toca cada una.",
           partes: [
             {
               id: "capa7",
-              label: "7 Aplicación",
+              label: "L7 Aplicación",
               color: "#3A8DFF",
               detalle:
-                "La capa con la que interactúa el usuario. Define los protocolos que usan las apps: HTTP para la web, SMTP para el correo, FTP para archivos, DNS para resolver nombres. Es el punto de entrada de los datos.",
+                "Define los protocolos de las apps: HTTP para web, SMTP para correo, FTP para archivos, DNS para resolver nombres. Es el punto de entrada de tus datos.",
             },
             {
               id: "capa6",
-              label: "6 Presentación",
-              color: "#5bb8ff",
+              label: "L6 Presentación",
+              color: "#5BB8FF",
               detalle:
-                "Traduce los datos a un formato que ambos extremos entiendan. Maneja cifrado (TLS), compresión y codificación de caracteres (UTF-8). Es el intérprete entre aplicaciones.",
+                "Traduce los datos a un formato común: cifrado (TLS), compresión (gzip) y codificación de caracteres (UTF-8). El «intérprete» entre apps.",
             },
             {
               id: "capa5",
-              label: "5 Sesión",
-              color: "#00A896",
+              label: "L5 Sesión",
+              color: "#7FB8E6",
               detalle:
-                "Gestiona el inicio, mantenimiento y cierre de sesiones entre dos dispositivos. Permite que una conexión se reanude si se interrumpe. Los tokens de sesión y los checkpoints viven aquí.",
+                "Abre, mantiene y cierra sesiones entre dos dispositivos. Permite reanudar una conexión si se interrumpe. Tokens de sesión y checkpoints viven aquí.",
             },
           ],
         },
         {
           tipo: "anatomia",
-          eyebrow: "",
-          texto: "",
+          eyebrow: "Capas inferiores (cerca del hardware)",
+          texto:
+            "Las capas bajas mueven bits por cables y aire. Toca cada una.",
           partes: [
             {
               id: "capa4",
-              label: "4 Transporte",
-              color: "#94d400",
+              label: "L4 Transporte",
+              color: "#00A896",
               detalle:
-                "Segmenta los datos en unidades manejables y garantiza (o no) su entrega. Aquí viven TCP y UDP. Gestiona el control de flujo, la corrección de errores y los números de puerto.",
+                "Segmenta los datos y garantiza (o no) su entrega. Aquí viven TCP y UDP. Maneja control de flujo, corrección de errores y números de puerto.",
             },
             {
               id: "capa3",
-              label: "3 Red",
-              color: "#FFD700",
+              label: "L3 Red",
+              color: "#FF9F43",
               detalle:
-                "Decide el camino que toman los datos de origen a destino a través de múltiples redes. Aquí vive el protocolo IP y los routers. Los paquetes y las direcciones IP son conceptos de esta capa.",
+                "Decide el camino de los datos entre redes. Aquí vive el protocolo IP y los routers. Los paquetes y las IPs son conceptos de esta capa.",
             },
             {
               id: "capa2",
-              label: "2 Enlace",
-              color: "#FF9F43",
+              label: "L2 Enlace",
+              color: "#FF7F50",
               detalle:
-                "Gestiona la transferencia de datos entre dos nodos directamente conectados. Detecta y corrige errores del nivel físico. Aquí viven Ethernet, Wi-Fi y las direcciones MAC.",
+                "Transfiere datos entre nodos directamente conectados. Detecta errores físicos. Aquí viven Ethernet, Wi-Fi y las direcciones MAC.",
             },
             {
               id: "capa1",
-              label: "1 Física",
+              label: "L1 Física",
               color: "#FF5C5C",
               detalle:
-                "Transmite bits crudos a través del medio físico: cable de cobre, fibra óptica o señales de radio. Define voltajes, frecuencias, conectores y velocidades de transmisión. No entiende de paquetes ni direcciones.",
+                "Bits crudos por el medio físico: cobre, fibra o radio. Define voltajes, frecuencias y velocidades. No entiende de paquetes ni direcciones.",
             },
           ],
+        },
+        {
+          tipo: "highlight",
+          texto:
+            "Truco para memorizar de arriba a abajo: «All People Seem To Need Data Processing». De abajo a arriba: «Please Do Not Throw Sausage Pizza Away». Es feo pero funciona.",
         },
       ],
     },
     {
-      titulo: "Encapsulación",
+      titulo: "Encapsulación y desencapsulación",
       secciones: [
         {
-          tipo: "highlight",
-          texto:
-            "Un truco para recordar las capas de arriba hacia abajo: 'All People Seem To Need Data Processing' (Application, Presentation, Session, Transport, Network, Data Link, Physical). De abajo hacia arriba: 'Please Do Not Throw Sausage Pizza Away'.",
-        },
-        {
           tipo: "pasos",
-          eyebrow: "¿Qué pasa cuando envías un mensaje?",
+          eyebrow: "Cada capa pone (o quita) una etiqueta",
           texto:
-            "Los datos descienden por las capas en el origen, y ascienden por las capas en el destino. Cada capa añade su propio encabezado al bajar, y lo retira al subir.",
+            "Los datos descienden por las capas en el origen y ascienden en el destino. Cada capa añade su cabecera al bajar y la quita al subir.",
           pasos: [
             {
               titulo: "Encapsulación (origen)",
               descripcion:
-                "Tu mensaje baja de la capa 7 a la capa 1. En cada nivel, la capa añade su propia cabecera con información de control: puerto TCP, IP de destino, dirección MAC. Al final son bits que viajan por el cable.",
+                "Tu mensaje baja de L7 a L1. En cada capa se añade una cabecera con info de control: número de puerto (L4), IP destino (L3), dirección MAC (L2). Al final, son bits que viajan por el cable.",
             },
             {
               titulo: "Transmisión física",
               descripcion:
-                "Los bits viajan como señales eléctricas, ópticas o de radio por el medio físico. Routers y switches intermedios solo procesan las capas que necesitan: un router trabaja hasta la capa 3.",
+                "Los bits viajan como señales eléctricas, ópticas o de radio. Routers y switches intermedios solo procesan las capas que necesitan: un router trabaja hasta L3, un switch hasta L2.",
             },
             {
               titulo: "Desencapsulación (destino)",
               descripcion:
-                "El dispositivo receptor sube por las capas de 1 a 7. Cada capa lee y retira su cabecera. Al llegar a la capa 7, la aplicación recibe exactamente el mensaje original.",
+                "El receptor sube de L1 a L7. Cada capa lee y retira su cabecera. Cuando llega a L7, la aplicación recibe exactamente el mensaje original.",
             },
           ],
+        },
+        {
+          tipo: "visual",
+          eyebrow: "Velo en vivo",
+          texto:
+            "Pulsa «Siguiente» para ver bajar el mensaje capa por capa, y luego subir en el destino. Cada cabecera se ilumina al añadirse o retirarse.",
+          componente: "osi-encapsulation",
         },
       ],
     },
     {
-      titulo: "Visualización",
+      titulo: "OSI vs TCP/IP",
       secciones: [
         {
-          tipo: "visual",
-          eyebrow: "Visualización",
+          tipo: "comparacion",
+          eyebrow: "Marco teórico vs implementación real",
           texto:
-            "Observa cómo los datos se encapsulan capa por capa al salir y se desencapsulan al llegar.",
-          componente: "osi-encapsulation",
-        },
-        {
-          tipo: "texto",
-          eyebrow: "OSI vs TCP/IP",
-          texto:
-            "En la práctica, internet no usa OSI directamente. Usa el modelo TCP/IP, que colapsa las 7 capas en 4: Acceso a red (capas 1-2), Internet (capa 3), Transporte (capa 4) y Aplicación (capas 5-7). El modelo OSI sigue siendo el marco conceptual de referencia para entender y diagnosticar redes, aunque el modelo TCP/IP sea el que realmente se implementa.",
+            "OSI es el modelo conceptual. En la práctica, internet usa el modelo TCP/IP, más simple.",
+          columnas: [
+            {
+              titulo: "OSI (7 capas)",
+              subtitulo: "Marco didáctico",
+              items: [
+                "L7 Aplicación / L6 Presentación / L5 Sesión",
+                "L4 Transporte",
+                "L3 Red",
+                "L2 Enlace / L1 Física",
+                "Útil para diagnosticar: «esto falla en capa N»",
+              ],
+            },
+            {
+              titulo: "TCP/IP (4 capas)",
+              subtitulo: "Lo que realmente corre internet",
+              destacada: true,
+              items: [
+                "Aplicación (colapsa L5-L7 de OSI)",
+                "Transporte (= L4)",
+                "Internet (= L3)",
+                "Acceso a red (colapsa L1-L2)",
+                "Más práctico, menos jerarquía",
+              ],
+            },
+          ],
         },
       ],
     },
@@ -153,7 +177,7 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "quiz",
-          pregunta: "Un ingeniero dice que encontró un problema en 'capa 3'. ¿Dónde está el fallo?",
+          pregunta: "Un ingeniero dice que encontró un problema en «capa 3». ¿Dónde está el fallo?",
           opciones: [
             { texto: "En el cable físico o la señal de radio.", correcta: false },
             { texto: "En el enrutamiento IP entre redes.", correcta: true },
@@ -161,9 +185,49 @@ const capitulo: Capitulo = {
             { texto: "En la gestión de sesiones entre dispositivos.", correcta: false },
           ],
           feedbackCorrecto:
-            "Correcto. La capa 3 es la capa de Red, donde vive el protocolo IP y los routers. Un problema en capa 3 implica fallos de enrutamiento, direccionamiento IP o fragmentación de paquetes.",
+            "Correcto. L3 es la capa de Red, donde vive IP y los routers. Un problema en L3 implica fallos de enrutamiento, direccionamiento IP o fragmentación de paquetes.",
           feedbackIncorrecto:
-            "La capa 1 es la física (cables y señales), la capa 7 es la de aplicación (HTTP, DNS) y la capa 5 gestiona sesiones. La capa 3 —Red— es donde los routers deciden cómo llevar los paquetes de un punto a otro usando direcciones IP.",
+            "L1 es física (cables), L7 es aplicación (HTTP, DNS), L5 gestiona sesiones. L3 — Red — es donde los routers deciden el camino de los paquetes usando direcciones IP.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Un router típicamente trabaja hasta la capa…",
+          opciones: [
+            { texto: "L1 (Física).", correcta: false },
+            { texto: "L2 (Enlace).", correcta: false },
+            { texto: "L3 (Red).", correcta: true },
+            { texto: "L7 (Aplicación).", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Un router opera hasta L3 porque su trabajo es leer la IP destino y decidir el siguiente salto. No le importa el contenido del paquete (capas superiores) ni cómo viaja por el cable (capa física). Los switches solo llegan a L2.",
+          feedbackIncorrecto:
+            "Cada dispositivo de red opera hasta cierta capa. Un switch llega a L2 (lee direcciones MAC). Un router llega a L3 (lee IPs y enruta). Para procesar contenido de aplicación necesitarías un proxy o un firewall L7.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "¿Qué hace la encapsulación cuando un mensaje baja por las capas?",
+          opciones: [
+            { texto: "Cifra el contenido en cada capa.", correcta: false },
+            { texto: "Cada capa borra parte del mensaje para hacerlo más pequeño.", correcta: false },
+            { texto: "Nada: el mensaje pasa intacto por las 7 capas.", correcta: false },
+            { texto: "Cada capa añade su propia cabecera con información de control antes de pasarlo a la capa de abajo.", correcta: true },
+          ],
+          feedbackCorrecto:
+            "Correcto. Cada capa envuelve los datos de la capa de arriba con su propia cabecera. Al final, lo que viaja por el cable es: cabecera L2 + cabecera L3 + cabecera L4 + datos de aplicación. El receptor desempaca en orden inverso.",
+          feedbackIncorrecto:
+            "Encapsular = envolver. Cada capa añade su cabecera con info de control (puerto, IP, MAC) antes de pasar a la siguiente. El paquete final lleva todas las cabeceras anidadas, y el destino las desempaca de abajo a arriba.",
         },
       ],
     },

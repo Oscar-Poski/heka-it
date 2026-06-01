@@ -175,8 +175,8 @@ const capitulo: Capitulo = {
             "En el patrón, «Actúa como especialista en comunicación corporativa» corresponde a…",
           opciones: [
             { texto: "Tarea", correcta: false },
-            { texto: "Rol", correcta: true },
             { texto: "Contexto", correcta: false },
+            { texto: "Rol", correcta: true },
             { texto: "Formato", correcta: false },
           ],
           feedbackCorrecto:

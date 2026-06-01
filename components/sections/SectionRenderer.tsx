@@ -23,6 +23,12 @@ import { FilesystemTree } from "./FilesystemTree"
 import { PermissionsDecoder } from "./PermissionsDecoder"
 import { ProcessTree } from "./ProcessTree"
 import { PipelineFlow } from "./PipelineFlow"
+import { Tokenizer } from "./Tokenizer";
+import { ContextWindowMeter } from "./ContextWindowMeter";
+import { TemperatureSlider } from "./TemperatureSlider";
+import { EmbeddingSimilarity } from "./EmbeddingSimilarity";
+import { RagPipeline } from "./RagPipeline";
+import { ChunkingDemo } from "./ChunkingDemo";
 
 const COMPONENT_MAP: Record<string, ComponentType> = {
   "packet-journey": PacketJourney,
@@ -37,6 +43,12 @@ const COMPONENT_MAP: Record<string, ComponentType> = {
   "permissions-decoder": PermissionsDecoder,
   "process-tree": ProcessTree,
   "pipeline-flow": PipelineFlow,
+  "tokenizer-demo": Tokenizer,
+  "context-window-meter": ContextWindowMeter,
+  "temperature-slider": TemperatureSlider,
+  "embedding-similarity": EmbeddingSimilarity,
+  "rag-pipeline": RagPipeline,
+  "chunking-demo": ChunkingDemo,
 };
 
 type Props = {

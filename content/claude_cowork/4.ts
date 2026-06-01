@@ -173,7 +173,7 @@ const capitulo: Capitulo = {
           opciones: [
             { texto: "Chat", correcta: false },
             { texto: "Cowork", correcta: false },
-            { texto: "Chat + Research Mode", correcta: false },
+            { texto: "Chat + Research Mode", correcta: true },
             { texto: "Cowork + Research Mode", correcta: true },
           ],
           feedbackCorrecto:

@@ -234,9 +234,9 @@ const capitulo: Capitulo = {
           pregunta: "¿Cuál es la diferencia entre un Skill y un Plugin?",
           opciones: [
             { texto: "Son lo mismo con distinto nombre.", correcta: false },
-            { texto: "Un skill es una capacidad concreta; un plugin es un bundle que junta skills y connectors.", correcta: true },
             { texto: "Un skill conecta apps externas; un plugin crea archivos.", correcta: false },
             { texto: "Un plugin es gratis y un skill se paga.", correcta: false },
+            { texto: "Un skill es una capacidad concreta; un plugin es un bundle que junta skills y connectors.", correcta: true },
           ],
           feedbackCorrecto:
             "Correcto. Un skill es una capacidad específica (ej. crear Word); un connector da acceso a una app; un plugin empaqueta varios skills y connectors en un bundle temático.",

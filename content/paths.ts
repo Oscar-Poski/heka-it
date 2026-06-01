@@ -27,12 +27,11 @@ export const paths: Path[] = [
     iconoLucide: "Sparkles",
     temaSlugs: [
 
-
-      "llm",
       "prompt-engineering",
+      "llm",
+      "claude-cowork",
       "rag",
       "mcp",
-      "claude-cowork",
       "zapier",
       "make",
       "n8n",

@@ -7,10 +7,10 @@ export const temas: Tema[] = [
     preguntaGancho: "¿Cómo llega un video de YouTube a tu pantalla en menos de un segundo?",
     iconoLucide: "Network",
     totalCapitulos: 6,
-    tiempoEstimadoMin: 45,
+    tiempoEstimadoMin: 60,
     requisitos: "Ninguno",
     prerrequisitos:
-      "No necesitas saber nada antes. Solo ganas de entender cómo funciona internet por dentro.",
+      "Cero experiencia técnica requerida. Solo ganas de entender cómo viajan los datos por internet, paso a paso.",
   },
   {
     slug: "linux",
@@ -99,10 +99,11 @@ export const temas: Tema[] = [
     nombre: "LLMs",
     preguntaGancho: "¿Cómo funciona realmente un modelo de lenguaje por dentro?",
     iconoLucide: "Brain",
-    totalCapitulos: 0,
-    tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
-    prerrequisitos: "Contenido en preparación.",
+    totalCapitulos: 5,
+    tiempoEstimadoMin: 50,
+    requisitos: "Ninguno",
+    prerrequisitos:
+      "Ideal venir con Prompt Engineering primero, pero no obligatorio. Cero supuestos técnicos.",
   },
   {
     slug: "prompt-engineering",
@@ -121,10 +122,11 @@ export const temas: Tema[] = [
     nombre: "RAG",
     preguntaGancho: "¿Cómo darle a la IA acceso a tus propios documentos?",
     iconoLucide: "BookOpen",
-    totalCapitulos: 0,
-    tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
-    prerrequisitos: "Contenido en preparación.",
+    totalCapitulos: 5,
+    tiempoEstimadoMin: 55,
+    requisitos: "Ninguno",
+    prerrequisitos:
+      "Ideal venir con LLMs y Prompt Engineering primero. Sin requisitos técnicos profundos.",
   },
   {
     slug: "mcp",

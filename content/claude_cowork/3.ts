@@ -111,9 +111,9 @@ const capitulo: Capitulo = {
           pregunta: "¿Qué es un Connector (MCP) en Claude?",
           opciones: [
             { texto: "Un archivo real que Claude crea en tu computadora.", correcta: false },
-            { texto: "Un acceso directo de Claude a una app externa como Gmail o Slack.", correcta: true },
             { texto: "Un espacio de trabajo con memoria persistente.", correcta: false },
             { texto: "Una plantilla de prompt prediseñada.", correcta: false },
+            { texto: "Un acceso directo de Claude a una app externa como Gmail o Slack.", correcta: true },
           ],
           feedbackCorrecto:
             "Correcto. Un Connector conecta a Claude con tus herramientas externas (Gmail, Drive, Slack…). Un artefacto, en cambio, es un archivo que Claude crea; un Proyecto es el espacio con memoria.",

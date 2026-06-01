@@ -3,24 +3,22 @@ import type { Capitulo } from "@/lib/types";
 const capitulo: Capitulo = {
   slug: "redes",
   numero: 3,
-  titulo: "DNS: La Agenda del Internet",
-  //preguntaGancho:
-    //"Escribes 'google.com' y en menos de un segundo tu navegador sabe exactamente a cuál de los millones de servidores del mundo conectarse. ¿Cómo lo hace si nunca le diste ninguna dirección?",
+  titulo: "Nivel 3 · DNS, la agenda de internet",
   pasos: [
     {
       titulo: "El problema",
       secciones: [
         {
           tipo: "texto",
-          eyebrow: "El problema",
+          eyebrow: "Humanos recuerdan nombres, máquinas usan IPs",
           texto:
-            "Las computadoras se comunican con números: IPs como 142.250.80.46. Pero los humanos recordamos nombres: google.com, wikipedia.org, youtube.com. Alguien tiene que traducir entre estos dos mundos. Ese alguien es el DNS.",
+            "Las computadoras se hablan con números (142.250.80.46). Los humanos recordamos nombres (google.com). Alguien tiene que traducir entre los dos mundos. Ese alguien es el DNS: el Domain Name System.",
         },
         {
           tipo: "analogia",
-          eyebrow: "La analogía",
+          eyebrow: "Una agenda telefónica gigante",
           texto:
-            "El DNS funciona exactamente como una agenda telefónica. Antes de los smartphones, si querías llamarle a alguien, buscabas su nombre en la agenda y encontrabas su número. El DNS hace lo mismo: buscas un nombre de dominio y te devuelve su dirección IP.",
+            "Como buscar un contacto por nombre y obtener su número, DNS busca un dominio y devuelve su IP.",
           items: [
             { label: "Agenda telefónica", valor: "Nombre → Número", icono: "BookOpen" },
             { label: "DNS", valor: "Dominio → IP", icono: "Globe" },
@@ -29,97 +27,86 @@ const capitulo: Capitulo = {
       ],
     },
     {
-      titulo: "Consulta DNS",
+      titulo: "Cómo se resuelve un dominio",
       secciones: [
         {
           tipo: "pasos",
-          eyebrow: "¿Cómo funciona una consulta DNS?",
+          eyebrow: "Cinco preguntas en milisegundos",
           texto:
-            "Cuando escribes una URL, ocurre una cadena de preguntas y respuestas en milisegundos.",
+            "Cuando escribes una URL y presionas Enter, ocurre una cadena de preguntas y respuestas. Si nadie tiene la respuesta cacheada, se recorren todas.",
           pasos: [
             {
               titulo: "Caché local",
               descripcion:
-                "Tu computadora primero revisa si ya tiene guardada la respuesta de una consulta anterior. Si la tiene, termina aquí. Si no, empieza el viaje.",
+                "Tu sistema operativo revisa si ya tiene la respuesta guardada de una consulta reciente. Si sí, termina aquí en <1ms.",
             },
             {
               titulo: "Resolver del ISP",
               descripcion:
-                "Tu dispositivo le pregunta al servidor DNS de tu proveedor de internet. Este también puede tener la respuesta en caché y devolvértela al instante.",
+                "Tu dispositivo pregunta al DNS de tu proveedor de internet. Este suele tener caché propia y resuelve la mayoría de consultas sin pasar a las siguientes etapas.",
             },
             {
               titulo: "Servidor raíz",
               descripcion:
-                "Si nadie tiene la respuesta, el resolver consulta a uno de los 13 servidores raíz del mundo. Estos no conocen la IP, pero saben quién sí: el servidor TLD.",
+                "Si nadie tiene la respuesta, el resolver consulta a uno de los 13 conjuntos de servidores raíz del mundo. No conocen IPs, pero saben quién maneja cada TLD.",
             },
             {
               titulo: "Servidor TLD",
               descripcion:
-                "El servidor de dominio de nivel superior (TLD) maneja extensiones como .com, .org o .mx. Sabe qué servidor autoritativo es responsable del dominio que buscas.",
+                "El TLD (Top-Level Domain) sabe quién es el dueño autoritativo del dominio. .com lo maneja Verisign; .mx lo maneja NIC México.",
             },
             {
               titulo: "Servidor autoritativo",
               descripcion:
-                "Este es el servidor que realmente tiene la respuesta definitiva. Devuelve la IP exacta del dominio, que viaja de regreso hasta tu navegador.",
+                "Aquí vive la respuesta definitiva. Devuelve la IP exacta y un TTL (cuánto tiempo cachearla). La respuesta sube de vuelta hasta tu navegador.",
             },
           ],
         },
-      ],
-    },
-    {
-      titulo: "Visualización",
-      secciones: [
         {
           tipo: "visual",
-          eyebrow: "Visualización",
+          eyebrow: "Sigue el viaje",
           texto:
-            "Así viaja tu consulta DNS hasta encontrar la IP del dominio. Escribe un dominio y avanza paso a paso para verlo.",
+            "Avanza por las 5 etapas y mira qué pregunta y qué responde cada servidor en una consulta DNS real.",
           componente: "dns-lookup",
         },
       ],
     },
     {
-      titulo: "TTL y estructura",
+      titulo: "Anatomía de un dominio",
       secciones: [
         {
-          tipo: "highlight",
-          texto:
-            "Todo este proceso —caché local, resolver, servidor raíz, TLD, autoritativo— suele ocurrir en menos de 100 milisegundos. Es una de las infraestructuras más rápidas y críticas de internet, y la mayoría de la gente nunca sabe que existe.",
-        },
-        {
           tipo: "anatomia",
-          eyebrow: "Anatomía de un dominio",
+          eyebrow: "Se lee de derecha a izquierda",
           texto:
-            "Un nombre de dominio no es una cadena aleatoria. Tiene una jerarquía que se lee de derecha a izquierda. Ejemplo: maps.google.com",
+            "Toma maps.google.com. Cada pieza tiene un dueño y una jerarquía. Toca cada parte.",
           partes: [
             {
               id: "tld",
               label: ".com",
-              color: "#0088ff",
+              color: "#3A8DFF",
               detalle:
-                "El TLD (Top-Level Domain) es la extensión. Puede ser genérico (.com, .org, .net) o geográfico (.mx, .es, .uk). Lo administra la ICANN.",
+                "El TLD (Top-Level Domain). Puede ser genérico (.com, .org, .net) o geográfico (.mx, .es, .uk). Lo administra la ICANN a través de registradores como Verisign.",
             },
             {
               id: "dominio",
               label: "google",
-              color: "#00ddff",
+              color: "#00A896",
               detalle:
-                "El dominio de segundo nivel es el nombre que registra una empresa o persona. Google pagó para tener este nombre y nadie más puede usarlo mientras lo renueve.",
+                "El dominio de segundo nivel. Es el nombre que registra una empresa o persona. Google paga anualmente para mantenerlo y nadie más puede usarlo mientras renueve.",
             },
             {
               id: "subdominio",
               label: "maps",
-              color: "#00A896",
+              color: "#FF9F43",
               detalle:
-                "El subdominio es opcional y lo controla el dueño del dominio. maps.google.com, mail.google.com y drive.google.com pueden apuntar a servidores completamente distintos.",
+                "El subdominio. El dueño del dominio decide cuántos crear y a dónde apuntan. maps.google.com, mail.google.com y drive.google.com pueden apuntar a servidores totalmente distintos.",
             },
           ],
         },
         {
-          tipo: "texto",
-          eyebrow: "TTL y caché",
+          tipo: "highlight",
           texto:
-            "Cada respuesta DNS viene con un TTL (Time To Live): un número en segundos que indica cuánto tiempo puede guardarse en caché esa respuesta. Un TTL de 3600 significa que durante una hora no hace falta preguntar de nuevo. Esto reduce la carga en los servidores y acelera la experiencia para los usuarios.",
+            "El TTL (Time To Live) en DNS es cuánto tiempo puede cachearse una respuesta. Un TTL de 3600 = 1 hora sin volver a preguntar. Por eso a veces un cambio de dominio tarda en propagarse: hasta que vencen los TTLs en las cachés.",
         },
       ],
     },
@@ -133,12 +120,52 @@ const capitulo: Capitulo = {
             { texto: "Cifrar la conexión entre tu navegador y el servidor.", correcta: false },
             { texto: "Traducir nombres de dominio en direcciones IP.", correcta: true },
             { texto: "Asignar IPs privadas a los dispositivos de tu red.", correcta: false },
-            { texto: "Dividir los datos en paquetes para su transmisión.", correcta: false },
+            { texto: "Dividir los datos en paquetes.", correcta: false },
           ],
           feedbackCorrecto:
-            "Exacto. El DNS es el sistema que convierte nombres legibles por humanos (google.com) en direcciones numéricas legibles por máquinas (142.250.80.46). Sin él, tendrías que memorizar IPs para navegar.",
+            "Correcto. El DNS convierte nombres legibles por humanos (google.com) en direcciones legibles por máquinas (142.250.80.46). Sin él, tendrías que memorizar IPs para navegar.",
           feedbackIncorrecto:
-            "El cifrado lo maneja TLS/HTTPS, las IPs privadas las asigna tu router con DHCP, y los paquetes los gestiona el protocolo IP. El DNS tiene una sola misión: traducir nombres en IPs.",
+            "El cifrado lo maneja TLS/HTTPS, las IPs privadas las asigna DHCP en tu router, los paquetes los gestiona IP. El DNS tiene una sola misión: nombre → IP.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Cambias la IP de un servidor y aunque ya actualizaste el DNS, algunos usuarios siguen yendo a la IP vieja durante horas. ¿Por qué?",
+          opciones: [
+            { texto: "Tu cambio aún no se guardó.", correcta: false },
+            { texto: "El navegador está roto.", correcta: false },
+            { texto: "Hay que reiniciar todos los routers del mundo.", correcta: false },
+            { texto: "Sus resolvers y dispositivos tienen la respuesta cacheada y el TTL no ha vencido.", correcta: true },
+          ],
+          feedbackCorrecto:
+            "Correcto. Las respuestas DNS se cachean según su TTL. Si el TTL era 24 horas, hasta que venza, los clientes seguirán usando la IP vieja. Por eso, antes de migrar un servidor, conviene bajar el TTL del registro.",
+          feedbackIncorrecto:
+            "El motivo es el caché DNS. Cada respuesta lleva un TTL: hasta que vence, resolvers y dispositivos siguen usando la IP cacheada. Bajar el TTL antes de una migración acelera la propagación.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "En el dominio mail.empresa.mx, ¿cuál es el TLD?",
+          opciones: [
+            { texto: ".mx", correcta: true },
+            { texto: "mail", correcta: false },
+            { texto: "empresa", correcta: false },
+            { texto: "empresa.mx", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. El TLD (Top-Level Domain) es la parte más a la derecha: .mx en este caso. «empresa» es el dominio de segundo nivel y «mail» es un subdominio.",
+          feedbackIncorrecto:
+            "El TLD es siempre la parte más a la derecha del dominio: .com, .org, .mx, .es. «empresa» es el dominio de segundo nivel y «mail» es un subdominio dentro de empresa.mx.",
         },
       ],
     },

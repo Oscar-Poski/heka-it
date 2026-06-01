@@ -29,6 +29,16 @@ import pe1 from "./prompt-engineering/1";
 import pe2 from "./prompt-engineering/2";
 import pe3 from "./prompt-engineering/3";
 import pe4 from "./prompt-engineering/4";
+import llm1 from "./llm/1";
+import llm2 from "./llm/2";
+import llm3 from "./llm/3";
+import llm4 from "./llm/4";
+import llm5 from "./llm/5";
+import rag1 from "./rag/1";
+import rag2 from "./rag/2";
+import rag3 from "./rag/3";
+import rag4 from "./rag/4";
+import rag5 from "./rag/5";
 
 type ContentMap = Record<string, Record<number, Capitulo>>;
 
@@ -73,6 +83,20 @@ export const capitulos: ContentMap = {
     2: zapier2,
     3: zapier3,
     4: zapier4,
+  },
+  llm: {
+    1: llm1,
+    2: llm2,
+    3: llm3,
+    4: llm4,
+    5: llm5,
+  },
+  rag: {
+    1: rag1,
+    2: rag2,
+    3: rag3,
+    4: rag4,
+    5: rag5,
   },
 };
 

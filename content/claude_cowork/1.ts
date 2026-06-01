@@ -75,8 +75,8 @@ const capitulo: Capitulo = {
           pregunta:
             "Necesitas que Claude genere un documento Word real, guardado en tu computadora. ¿Qué modo usas?",
           opciones: [
-            { texto: "Chat", correcta: false },
             { texto: "Cowork", correcta: true },
+            { texto: "Chat", correcta: false },
             { texto: "Code", correcta: false },
             { texto: "Ninguno: Claude solo devuelve texto en pantalla.", correcta: false },
           ],
