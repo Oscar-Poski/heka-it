@@ -39,6 +39,11 @@ import rag2 from "./rag/2";
 import rag3 from "./rag/3";
 import rag4 from "./rag/4";
 import rag5 from "./rag/5";
+import mcp1 from "./mcp/1";
+import mcp2 from "./mcp/2";
+import mcp3 from "./mcp/3";
+import mcp4 from "./mcp/4";
+import mcp5 from "./mcp/5";
 import git1 from "./git/1";
 import git2 from "./git/2";
 import git3 from "./git/3";
@@ -108,6 +113,13 @@ export const capitulos: ContentMap = {
     3: rag3,
     4: rag4,
     5: rag5,
+  },
+  mcp: {
+    1: mcp1,
+    2: mcp2,
+    3: mcp3,
+    4: mcp4,
+    5: mcp5,
   },
   git: {
     1: git1,

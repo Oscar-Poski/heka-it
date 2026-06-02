@@ -134,10 +134,11 @@ export const temas: Tema[] = [
     nombre: "MCP",
     preguntaGancho: "El protocolo que conecta modelos de IA con herramientas reales.",
     iconoLucide: "PlugZap",
-    totalCapitulos: 0,
-    tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
-    prerrequisitos: "Contenido en preparación.",
+    totalCapitulos: 5,
+    tiempoEstimadoMin: 50,
+    requisitos: "Ninguno",
+    prerrequisitos:
+      "Ideal venir con LLMs y Claude Cowork vistos. No requiere experiencia de programación profunda.",
   },
   {
     slug: "claude-cowork",

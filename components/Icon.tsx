@@ -97,6 +97,13 @@ import {
   Wifi,
   RefreshCw,
   HardDrive,
+  CableCar,
+  Cable,
+  Share2,
+  Github,
+  Hammer,
+  ListChecks,
+  PlugZap,
   type LucideIcon,
   type LucideProps,
 } from "lucide-react";
@@ -198,6 +205,13 @@ const icons: Record<string, LucideIcon> = {
   Wifi,
   RefreshCw,
   HardDrive,
+  CableCar,
+  Cable,
+  Share2,
+  Github,
+  Hammer,
+  ListChecks,
+  PlugZap,
 };
 
 type Props = { name: string } & LucideProps;

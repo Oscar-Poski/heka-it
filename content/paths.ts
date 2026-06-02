@@ -2,24 +2,6 @@ import type { Path } from "@/lib/types";
 
 export const paths: Path[] = [
   {
-    slug: "fundamentos-it",
-    nombre: "Fundamentos IT",
-    descripcion:
-      "Los cimientos del mundo técnico: redes, sistemas, infraestructura y nube.",
-    iconoLucide: "Server",
-    temaSlugs: [
-      "redes",
-      "linux",
-      "git",
-      "seguridad",
-      "bases-de-datos",
-      "docker",
-      "cloud",
-      "terraform",
-      "kubernetes",
-    ],
-  },
-  {
     slug: "inteligencia-artificial",
     nombre: "Inteligencia Artificial",
     descripcion:
@@ -38,6 +20,24 @@ export const paths: Path[] = [
       "microsoft-copilot",
       "gemini",
       "agentforce",
+    ],
+  },
+  {
+    slug: "fundamentos-it",
+    nombre: "Fundamentos IT",
+    descripcion:
+      "Los cimientos del mundo técnico: redes, sistemas, infraestructura y nube.",
+    iconoLucide: "Server",
+    temaSlugs: [
+      "redes",
+      "linux",
+      "git",
+      "seguridad",
+      "bases-de-datos",
+      "docker",
+      "cloud",
+      "terraform",
+      "kubernetes",
     ],
   },
   {
