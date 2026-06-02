@@ -1,119 +1,112 @@
 import type { Capitulo } from "@/lib/types";
 
 const capitulo: Capitulo = {
-  slug: "que-es-linux",
+  slug: "linux",
   numero: 1,
-  titulo: "Linux: El sistema que mueve el mundo",
- // preguntaGancho:
-  // "El 96% de los servidores del mundo, incluyendo los de Google, Netflix y Amazon, corren Linux. Tu teléfono Android también. ¿Cómo es que el sistema operativo más poderoso del planeta lo creó un estudiante universitario en su cuarto?",
+  titulo: "Nivel 1 · Linux, el sistema que mueve el mundo",
   pasos: [
     {
-      titulo: "El problema",
+      titulo: "Cómo nació",
       secciones: [
         {
           tipo: "texto",
-          eyebrow: "El problema",
+          eyebrow: "Un hobby que se comió el mundo",
           texto:
-            "En los años 90, los sistemas operativos serios —los que corrían en servidores y universidades— eran caros y cerrados. Unix costaba miles de dólares en licencias. Un estudiante finlandés llamado Linus Torvalds quería un sistema así para su computadora personal, pero no podía pagarlo. Así que decidió construir uno desde cero.",
+            "En los 90, los sistemas operativos «serios» costaban miles de dólares en licencias. Unix era caro y cerrado. Un estudiante finlandés llamado Linus Torvalds quería uno para su PC, no podía pagarlo y decidió escribirlo él mismo. En 1991 publicó la primera versión con un mensaje en un foro: «Solo un hobby, no será grande ni profesional». Hoy corre el 96% de los servidores del mundo, todos los Androids, Netflix, Google y Amazon.",
         },
         {
           tipo: "analogia",
-          eyebrow: "La analogía",
+          eyebrow: "El gerente del edificio",
           texto:
-            "Un sistema operativo es como el gerente de un edificio. Las aplicaciones son los inquilinos: cada uno necesita electricidad, agua, acceso al elevador. El gerente coordina todo para que nadie se pise los cables. Linux es ese gerente, solo que además es de código abierto: cualquiera puede leer el manual, proponer mejoras o construir su propia versión.",
+            "Un sistema operativo es el coordinador entre las apps y el hardware. Linux es ese coordinador, pero de código abierto: cualquiera puede leerlo, mejorarlo o adaptarlo.",
           items: [
             { label: "Gerente del edificio", valor: "Sistema operativo", icono: "Building2" },
-            { label: "Inquilinos", valor: "Aplicaciones", icono: "AppWindow" },
+            { label: "Inquilinos", valor: "Aplicaciones que piden recursos", icono: "AppWindow" },
           ],
         },
       ],
     },
     {
-      titulo: "Anatomía de Linux",
+      titulo: "Las capas de Linux",
       secciones: [
         {
           tipo: "anatomia",
-          eyebrow: "Anatomía de Linux",
+          eyebrow: "De lo más cercano al hardware a lo más cercano al usuario",
           texto:
-            "Linux no es un solo bloque. Tiene capas. Toca cada una para entender qué hace.",
+            "Linux no es un solo bloque. Tiene capas que solo hablan con su vecina. Toca cada una.",
           partes: [
             {
               id: "kernel",
               label: "Kernel",
               color: "#FF5C5C",
               detalle:
-                "Es el núcleo real: el código que Linus Torvalds escribió. Habla directamente con el hardware — CPU, memoria, discos. Ninguna aplicación puede tocar el hardware sin pasar por él.",
+                "El núcleo. Es el código que escribió Linus. Habla directamente con CPU, memoria y disco. Ninguna app toca el hardware sin pasar por él.",
             },
             {
               id: "shell",
               label: "Shell",
-              color: "#4A9EFF",
+              color: "#3A8DFF",
               detalle:
-                "Es la terminal que ves cuando usas Linux. Interpreta los comandos que escribes y se los pasa al kernel. Bash, Zsh y Fish son ejemplos de shells distintos.",
+                "La terminal que ves cuando usas Linux. Interpreta tus comandos y los traduce en llamadas al kernel. Bash, Zsh y Fish son shells distintos.",
             },
             {
               id: "userspace",
               label: "Espacio de usuario",
               color: "#00A896",
               detalle:
-                "Todo lo demás: aplicaciones, herramientas, la interfaz gráfica. Aquí viven tu navegador, tu editor de texto y los servicios del servidor. Se ejecutan en un espacio separado del kernel por seguridad.",
+                "Todo lo demás: apps, herramientas, interfaz gráfica. Vive aislado del kernel por seguridad: si una app se cae, el sistema sigue.",
             },
           ],
+        },
+        {
+          tipo: "visual",
+          eyebrow: "Toca cada capa",
+          texto:
+            "Mira qué hace cada nivel y por qué nada salta capas en Linux.",
+          componente: "linux-layers",
         },
         {
           tipo: "highlight",
           texto:
-            "El kernel de Linux tiene hoy más de 30 millones de líneas de código y más de 15,000 desarrolladores lo han tocado. Linus Torvalds lo lanzó en 1991 con un mensaje en un foro: 'Estoy haciendo un sistema operativo (libre), solo un hobby, no será grande ni profesional'. Fue el hobby más influyente de la historia.",
+            "El kernel de Linux tiene más de 30 millones de líneas de código y 15.000+ desarrolladores lo han tocado. Empezó como hobby en 1991 y se convirtió en el software más usado del planeta.",
         },
       ],
     },
     {
-      titulo: "Arranque del sistema",
+      titulo: "Qué pasa al arrancar",
       secciones: [
         {
           tipo: "pasos",
-          eyebrow: "¿Qué pasa cuando enciendes un servidor Linux?",
+          eyebrow: "De pulsar el botón a tu app corriendo",
           texto:
-            "En segundos, ocurren varias capas de arranque antes de que tu aplicación pueda correr.",
+            "En segundos pasan cinco etapas. Saber cuáles son te ayuda a diagnosticar problemas de arranque.",
           pasos: [
             {
-              titulo: "BIOS / UEFI",
+              titulo: "1. BIOS / UEFI",
               descripcion:
-                "El firmware del hardware hace una prueba básica de los componentes y busca dónde está el sistema operativo para arrancarlo.",
+                "El firmware prueba los componentes (POST) y busca dónde está el bootloader del sistema operativo.",
             },
             {
-              titulo: "Bootloader",
+              titulo: "2. Bootloader (GRUB)",
               descripcion:
-                "Un pequeño programa (generalmente GRUB) carga el kernel de Linux en la memoria y le pasa el control.",
+                "Un pequeño programa carga el kernel de Linux en memoria y le pasa el control. Aquí eliges qué versión arrancar si tienes varias.",
             },
             {
-              titulo: "Kernel se inicializa",
+              titulo: "3. Inicialización del kernel",
               descripcion:
-                "El kernel detecta el hardware disponible, monta el sistema de archivos raíz y prepara el entorno para que puedan correr procesos.",
+                "El kernel detecta hardware, monta el sistema de archivos raíz y prepara el entorno para procesos.",
             },
             {
-              titulo: "PID 1: el primer proceso",
+              titulo: "4. PID 1 (systemd)",
               descripcion:
-                "El kernel lanza el primer proceso de usuario, generalmente systemd. Este se encarga de arrancar todos los demás servicios del sistema.",
+                "El primer proceso de usuario. Arranca todos los servicios del sistema: red, SSH, base de datos, web. Cualquier otro proceso desciende de él.",
             },
             {
-              titulo: "Tu aplicación corre",
+              titulo: "5. Tu app corre",
               descripcion:
-                "Una vez que el sistema está listo, tus aplicaciones —un servidor web, una base de datos, una API— arrancan y quedan a la escucha.",
+                "Cuando systemd termina de levantar servicios, las aplicaciones quedan a la escucha y el sistema está listo.",
             },
           ],
-        },
-      ],
-    },
-    {
-      titulo: "Visualización",
-      secciones: [
-        {
-          tipo: "visual",
-          eyebrow: "Visualización",
-          texto:
-            "Así se relacionan el hardware, el kernel y las aplicaciones en Linux.",
-          componente: "linux-layers",
         },
       ],
     },
@@ -125,21 +118,54 @@ const capitulo: Capitulo = {
           pregunta: "¿Cuál es la función del kernel en Linux?",
           opciones: [
             { texto: "Mostrar la interfaz gráfica al usuario.", correcta: false },
-            {
-              texto: "Interpretar los comandos que escribe el usuario en la terminal.",
-              correcta: false,
-            },
-            {
-              texto:
-                "Gestionar el acceso al hardware y coordinar los recursos entre los procesos.",
-              correcta: true,
-            },
-            { texto: "Instalar y actualizar las aplicaciones del sistema.", correcta: false },
+            { texto: "Interpretar los comandos de la terminal.", correcta: false },
+            { texto: "Gestionar el acceso al hardware y coordinar recursos entre procesos.", correcta: true },
+            { texto: "Instalar y actualizar aplicaciones.", correcta: false },
           ],
           feedbackCorrecto:
-            "Correcto. El kernel es la capa más baja: habla con el hardware directamente y decide qué proceso puede usar la CPU, la memoria o el disco en cada momento. Todo lo demás —la terminal, las apps— opera sobre él.",
+            "Correcto. El kernel es la capa más baja: habla con el hardware directamente y decide qué proceso usa CPU, memoria o disco en cada momento. Todo lo demás opera sobre él.",
           feedbackIncorrecto:
-            "La interfaz gráfica y la terminal son partes del espacio de usuario, no del kernel. El kernel trabaja por debajo de todo eso: es el árbitro entre el software y el hardware, invisible pero esencial.",
+            "La interfaz gráfica y la terminal son espacio de usuario, no kernel. El kernel trabaja por debajo: es el árbitro entre el software y el hardware.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Estás en Linux y ejecutas un comando en bash. ¿Quién termina hablándole al hardware?",
+          opciones: [
+            { texto: "Tu app directamente.", correcta: false },
+            { texto: "Bash habla directamente con el disco y la CPU.", correcta: false },
+            { texto: "El kernel. Bash le pide al kernel y el kernel ejecuta sobre el hardware.", correcta: true },
+            { texto: "El BIOS interviene en cada comando.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Ningún programa toca hardware directamente en Linux. Bash hace syscalls (llamadas al sistema) y el kernel ejecuta esas operaciones sobre el hardware en su lugar. Es lo que protege al sistema de procesos rotos o maliciosos.",
+          feedbackIncorrecto:
+            "Por seguridad, en Linux solo el kernel toca el hardware. Bash (y cualquier app) hace syscalls que delegan en el kernel. Si una app pudiera tocar memoria o disco directamente, un bug podría romper todo el sistema.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "¿Qué proceso tiene siempre PID 1 en Linux moderno?",
+          opciones: [
+            { texto: "bash", correcta: false },
+            { texto: "init / systemd: el primer proceso que arranca, padre de todos los demás.", correcta: true },
+            { texto: "El kernel mismo.", correcta: false },
+            { texto: "GRUB", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. PID 1 es systemd (o init en sistemas antiguos). Es el primer proceso de usuario, lo lanza el kernel y de él descienden todos los demás. Si systemd muere, el sistema cae.",
+          feedbackIncorrecto:
+            "PID 1 lo ocupa el primer proceso de usuario, que arranca el kernel. En distros modernas es systemd. De ahí cuelga todo el árbol de procesos: cuando un proceso queda huérfano, systemd lo adopta.",
         },
       ],
     },

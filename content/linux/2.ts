@@ -1,29 +1,27 @@
 import type { Capitulo } from "@/lib/types";
 
 const capitulo: Capitulo = {
-  slug: "la-terminal",
+  slug: "linux",
   numero: 2,
-  titulo: "La terminal",
-  //preguntaGancho:
-    //"¿Por qué los mejores programadores del mundo prefieren escribir comandos en lugar de hacer clic en botones?",
+  titulo: "Nivel 2 · La terminal",
   pasos: [
     {
-      titulo: "El problema",
+      titulo: "Por qué usar terminal",
       secciones: [
         {
           tipo: "texto",
-          eyebrow: "El problema",
+          eyebrow: "Donde los botones se quedan cortos",
           texto:
-            "Las interfaces gráficas son cómodas, pero tienen un límite. Cuando necesitas renombrar mil archivos de golpe, conectarte a un servidor remoto o automatizar una tarea repetitiva, los botones y menús se quedan cortos. La terminal existe para hacer exactamente eso: darte control total sobre el sistema sin restricciones.",
+            "Las interfaces gráficas son cómodas pero limitadas. Cuando necesitas renombrar mil archivos, conectarte a un servidor remoto o automatizar una tarea repetitiva, los botones se quedan cortos. La terminal te da control total: cada operación es un comando, cada comando se puede combinar y todo se puede automatizar.",
         },
         {
           tipo: "analogia",
-          eyebrow: "La analogía",
+          eyebrow: "Menú fijo vs cocina",
           texto:
-            "Usar una interfaz gráfica es como pedir comida en un restaurante con menú fijo: rápido y fácil, pero solo puedes elegir lo que alguien ya decidió por ti. La terminal es la cocina: puedes pedir exactamente lo que quieres, combinarlo como quieras y hacerlo a cualquier escala. Más curva de aprendizaje, poder infinitamente mayor.",
+            "Una interfaz gráfica es como pedir de un menú: rápido y simple, pero limitado a lo que alguien ya decidió. La terminal es la cocina: pides exactamente lo que quieres, combinas como quieras y escalas a lo que necesites.",
           items: [
             { label: "Menú fijo", valor: "Interfaz gráfica (GUI)", icono: "AppWindow" },
-            { label: "La cocina", valor: "Terminal (CLI)", icono: "TerminalSquare" },
+            { label: "La cocina entera", valor: "Terminal (CLI)", icono: "TerminalSquare" },
           ],
         },
       ],
@@ -33,37 +31,39 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "anatomia",
-          eyebrow: "Anatomía de un comando",
+          eyebrow: "Tres piezas",
           texto:
-            "Cada línea que escribes en la terminal tiene una estructura. Toca cada parte para entender qué hace.",
+            "Cada línea que escribes en la terminal tiene la misma estructura. Toca cada parte.",
           partes: [
             {
               id: "comando",
               label: "Comando",
               color: "#FF5C5C",
               detalle:
-                "Es el programa que quieres ejecutar. Por ejemplo, `ls` lista archivos, `cp` copia, `grep` busca texto. Son ejecutables que viven en directorios como /usr/bin.",
+                "El programa que vas a ejecutar. Ej: ls lista archivos, cp copia, grep busca. Son ejecutables que viven en /usr/bin, /bin u otros directorios del PATH.",
             },
             {
               id: "opciones",
               label: "Opciones / Flags",
-              color: "#4A9EFF",
+              color: "#3A8DFF",
               detalle:
-                "Modifican el comportamiento del comando. Suelen empezar con `-` o `--`. Por ejemplo, `ls -la` activa el modo largo (`-l`) y muestra archivos ocultos (`-a`).",
+                "Modifican el comportamiento. Empiezan con - (cortas) o -- (largas). Ej: ls -la combina -l (formato largo) y -a (incluye ocultos).",
             },
             {
               id: "argumentos",
               label: "Argumentos",
               color: "#00A896",
               detalle:
-                "Son los datos sobre los que opera el comando: un archivo, una ruta, un texto. En `cp archivo.txt /tmp/`, los argumentos son el origen y el destino.",
+                "Los datos sobre los que opera el comando: un archivo, una ruta, un patrón. En cp origen.txt /tmp/, los argumentos son origen y destino.",
             },
           ],
         },
         {
-          tipo: "highlight",
+          tipo: "visual",
+          eyebrow: "Velo en acción",
           texto:
-            "La terminal no es solo para expertos. Es para cualquiera que quiera dejar de depender de que alguien más diseñe el botón correcto. Con diez comandos bien aprendidos, puedes automatizar tareas que a mano te tomarían horas.",
+            "Sigue paso a paso qué pasa desde que escribes ls -la /etc hasta que ves la salida en pantalla.",
+          componente: "terminal-flow",
         },
       ],
     },
@@ -71,49 +71,47 @@ const capitulo: Capitulo = {
       titulo: "Comandos esenciales",
       secciones: [
         {
-          tipo: "pasos",
-          eyebrow: "Comandos esenciales para empezar",
+          tipo: "grid",
+          eyebrow: "El 80/20 de la terminal",
           texto:
-            "Estos son los comandos que usarás el 80% del tiempo desde el primer día.",
-          pasos: [
+            "Con estos cinco comandos resuelves la mayoría de tareas diarias.",
+          items: [
             {
               titulo: "pwd — ¿Dónde estoy?",
               descripcion:
-                "Print Working Directory. Te dice en qué carpeta estás parado en este momento. Es tu punto de referencia siempre.",
+                "Print Working Directory. Te dice en qué carpeta estás parado. Tu punto de referencia siempre.",
+              icono: "MapPin",
             },
             {
               titulo: "ls — ¿Qué hay aquí?",
               descripcion:
-                "Lista los archivos y carpetas del directorio actual. Con `ls -la` ves también los archivos ocultos y los permisos de cada uno.",
+                "Lista archivos y carpetas. ls -la muestra detalles, permisos y archivos ocultos.",
+              icono: "List",
             },
             {
               titulo: "cd — Moverse",
               descripcion:
-                "Change Directory. Te mueve entre carpetas. `cd ..` sube un nivel, `cd ~` te lleva a tu carpeta de usuario, `cd /ruta/exacta` va directo.",
+                "Change Directory. cd .. sube un nivel, cd ~ va a tu home, cd /ruta va directo.",
+              icono: "ArrowRightLeft",
             },
             {
-              titulo: "man — El manual",
+              titulo: "man — Manual",
               descripcion:
-                "Manual. `man ls` te abre la documentación completa del comando `ls`. Si alguna vez no sabes qué hace una opción, aquí está la respuesta.",
+                "man ls abre la documentación completa del comando ls. Tu primera parada cuando no sabes una opción.",
+              icono: "BookOpen",
             },
             {
-              titulo: "Ctrl+C y Ctrl+Z",
+              titulo: "Ctrl+C / Ctrl+Z",
               descripcion:
-                "Ctrl+C detiene un proceso en ejecución. Ctrl+Z lo pausa y lo manda al fondo. Son tus frenos de emergencia cuando algo no va como esperabas.",
+                "Ctrl+C detiene un proceso. Ctrl+Z lo pausa y lo manda al fondo. Tus frenos de emergencia.",
+              icono: "Square",
             },
           ],
         },
-      ],
-    },
-    {
-      titulo: "Visualización",
-      secciones: [
         {
-          tipo: "visual",
-          eyebrow: "Visualización",
+          tipo: "highlight",
           texto:
-            "Así fluye una instrucción desde que la escribes hasta que el sistema la ejecuta.",
-          componente: "terminal-flow",
+            "La terminal no es solo para expertos. Con diez comandos bien aprendidos puedes automatizar tareas que a mano te llevarían horas. Y todo lo que aprendes funciona idéntico en cualquier servidor Linux del mundo.",
         },
       ],
     },
@@ -122,17 +120,57 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "quiz",
-          pregunta: "¿Qué parte de un comando como `ls -la /home` son las opciones?",
+          pregunta: "En el comando `ls -la /home`, ¿qué parte son las opciones?",
           opciones: [
             { texto: "`ls`", correcta: false },
             { texto: "`-la`", correcta: true },
             { texto: "`/home`", correcta: false },
-            { texto: "Todo junto es una sola unidad sin partes.", correcta: false },
+            { texto: "Todo junto es una sola pieza.", correcta: false },
           ],
           feedbackCorrecto:
-            "Correcto. `-la` son dos flags combinados: `-l` activa el formato largo con permisos y tamaños, y `-a` incluye los archivos ocultos (los que empiezan con punto). `ls` es el comando y `/home` es el argumento sobre el que opera.",
+            "Correcto. -la son dos flags combinados: -l (formato largo) y -a (incluye ocultos). ls es el comando y /home es el argumento.",
           feedbackIncorrecto:
-            "Un comando tiene tres partes: el programa (`ls`), las opciones que modifican su comportamiento (`-la`) y los argumentos sobre los que opera (`/home`). Las opciones casi siempre empiezan con un guión.",
+            "Un comando tiene tres partes: programa (ls), opciones que modifican comportamiento (-la), argumentos (/home). Las opciones casi siempre empiezan con guión.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Estás perdido en la terminal y no sabes en qué carpeta estás. ¿Qué comando usas?",
+          opciones: [
+            { texto: "ls", correcta: false },
+            { texto: "cd", correcta: false },
+            { texto: "pwd", correcta: true },
+            { texto: "man", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. pwd (Print Working Directory) imprime la ruta absoluta de la carpeta actual. Es lo primero que ejecutas cuando te desorientas.",
+          feedbackIncorrecto:
+            "ls lista archivos, cd te mueve, man abre manuales. Para saber tu ubicación actual: pwd. Imprime la ruta absoluta como /home/oscar/proyectos.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Lanzaste un proceso por error y la terminal queda colgada. ¿Cómo lo detienes?",
+          opciones: [
+            { texto: "Cerrando la ventana de la terminal.", correcta: false },
+            { texto: "Ctrl+S", correcta: false },
+            { texto: "Reiniciando el equipo.", correcta: false },
+            { texto: "Ctrl+C: envía SIGINT al proceso en primer plano para que termine.", correcta: true },
+          ],
+          feedbackCorrecto:
+            "Correcto. Ctrl+C manda SIGINT al proceso en primer plano y normalmente lo termina limpiamente. Si no responde, prueba Ctrl+\\ (SIGQUIT) o kill -9 PID desde otra terminal.",
+          feedbackIncorrecto:
+            "Cerrar la ventana mata todo sin limpiar; reiniciar es extremo. Ctrl+C envía SIGINT al proceso en primer plano y lo termina de forma controlada en la mayoría de casos.",
         },
       ],
     },

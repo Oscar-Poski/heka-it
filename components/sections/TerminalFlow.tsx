@@ -1,295 +1,169 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import {
+  Keyboard,
+  TerminalSquare,
+  Search,
+  Split,
+  Cpu,
+  CheckCircle2,
+  ChevronRight,
+  RotateCcw,
+} from "lucide-react";
 
-const STEPS = [
+const COMANDO = "ls -la /etc";
+
+type Stage = {
+  id: string;
+  label: string;
+  icon: typeof Keyboard;
+  color: string;
+  detalle: string;
+  output: string;
+};
+
+const STAGES: Stage[] = [
   {
-    id: "input",
-    label: "Entrada del usuario",
-    code: "ls -la /var/log",
-    description: "Escribes el comando en el prompt. La shell espera en stdin.",
-    color: "#4A9EFF",
-    icon: "⌨",
+    id: "type",
+    label: "1. Escribes el comando",
+    icon: Keyboard,
+    color: "text-blue-600",
+    detalle:
+      "Tu teclado emite cada tecla como un evento que llega al shell activo en la terminal. Aún no se ejecuta nada: solo entrada de texto.",
+    output: "$ ls -la /etc█",
   },
   {
-    id: "shell",
-    label: "Shell (Bash/Zsh)",
-    code: "parse → fork() → exec()",
-    description: "La shell analiza el comando, crea un proceso hijo con fork() y lo reemplaza con el ejecutable usando exec().",
-    color: "#FFB830",
-    icon: "$",
+    id: "parse",
+    label: "2. El shell parsea",
+    icon: TerminalSquare,
+    color: "text-accent",
+    detalle:
+      "Al presionar Enter, bash parte la línea en partes: comando, opciones y argumentos. Resuelve variables ($HOME, $PATH), expande comodines (*) y comillas.",
+    output:
+      "comando = ls\nflags   = -la\narg     = /etc",
+  },
+  {
+    id: "lookup",
+    label: "3. Busca el ejecutable",
+    icon: Search,
+    color: "text-amber-600",
+    detalle:
+      "Bash recorre los directorios listados en $PATH (/usr/local/bin, /usr/bin, /bin…) hasta encontrar un archivo ejecutable llamado «ls».",
+    output:
+      "$ which ls\n/usr/bin/ls  ← encontrado",
+  },
+  {
+    id: "fork",
+    label: "4. fork() + exec()",
+    icon: Split,
+    color: "text-purple-600",
+    detalle:
+      "Bash hace fork() para crear un proceso hijo, y el hijo llama a exec() para reemplazarse con el programa /usr/bin/ls. Bash queda esperando.",
+    output:
+      "PID 1843 (bash) → fork() → PID 4521 (ls)",
   },
   {
     id: "kernel",
-    label: "Kernel",
-    code: "syscall: openat, getdents64",
-    description: "El proceso llama al kernel mediante syscalls. El kernel accede al hardware de forma segura.",
-    color: "#FF5C5C",
-    icon: "⚙",
+    label: "5. Kernel ejecuta",
+    icon: Cpu,
+    color: "text-red-600",
+    detalle:
+      "El kernel le da a «ls» tiempo de CPU, abre el directorio /etc desde el sistema de archivos, lee sus entradas y devuelve los datos al proceso.",
+    output:
+      "syscall: openat(\"/etc\")\nsyscall: getdents() → [hosts, ssh, fstab, …]",
   },
   {
-    id: "hardware",
-    label: "Hardware",
-    code: "disk I/O → inode table",
-    description: "El disco lee la tabla de inodos y devuelve los metadatos del directorio al kernel.",
-    color: "#A855F7",
-    icon: "💾",
-  },
-  {
-    id: "stdout",
-    label: "stdout → terminal",
-    code: "drwxr-xr-x  syslog\n-rw-r--r--  auth.log",
-    description: "El resultado viaja de vuelta por stdout y la shell lo imprime en tu terminal.",
-    color: "#00FFBF",
-    icon: "▶",
+    id: "out",
+    label: "6. Salida en pantalla",
+    icon: CheckCircle2,
+    color: "text-teal",
+    detalle:
+      "«ls» formatea la salida y la escribe en stdout, que por defecto es tu terminal. El proceso termina, bash recibe el código de salida y vuelve a mostrar el prompt.",
+    output:
+      "drwxr-xr-x  3 root root  4096 hosts\n-rw-r--r--  1 root root   513 fstab\n-rw-r--r--  1 root root  2347 passwd\n…\n$ ",
   },
 ];
 
 export function TerminalFlow() {
-  const [active, setActive] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const [typed, setTyped] = useState("");
-
-  useEffect(() => {
-    const command = STEPS[0].code;
-    let i = 0;
-    const interval = setInterval(() => {
-      setTyped(command.slice(0, i + 1));
-      i++;
-      if (i >= command.length) clearInterval(interval);
-    }, 60);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleStep = (idx: number) => {
-    if (animating || idx === active) return;
-    setAnimating(true);
-    setActive(idx);
-    setTimeout(() => setAnimating(false), 400);
-  };
-
-  const step = STEPS[active];
+  const [step, setStep] = useState(0);
+  const stage = STAGES[step];
+  const Icon = stage.icon;
 
   return (
-    <div className="w-full max-w-md mx-auto select-none" style={{ fontFamily: "'SF Mono', 'Fira Code', monospace" }}>
-      {/* Terminal window */}
-      <div
-        className="rounded-xl overflow-hidden border"
-        style={{
-          background: "#0d0d14",
-          borderColor: "rgba(255,255,255,0.08)",
-          boxShadow: "0 0 0 1px rgba(0,0,0,0.5), 0 24px 48px rgba(0,0,0,0.6)",
-        }}
-      >
-        {/* Title bar */}
-        <div
-          className="flex items-center gap-2 px-4 py-3"
-          style={{ background: "#16161f", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-        >
-          <span className="w-3 h-3 rounded-full" style={{ background: "#FF5C5C" }} />
-          <span className="w-3 h-3 rounded-full" style={{ background: "#FFB830" }} />
-          <span className="w-3 h-3 rounded-full" style={{ background: "#00FFBF" }} />
-          <span className="ml-3 text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-            bash — terminal
-          </span>
+    <div className="rounded-card border border-border bg-surface p-4">
+      <div className="rounded-card border border-accent/40 bg-accent/5 p-3 mb-3">
+        <div className="text-[11px] font-semibold text-accent uppercase tracking-wide mb-0.5">
+          Comando a ejecutar
         </div>
+        <div className="font-mono text-[14px] text-text-primary">$ {COMANDO}</div>
+      </div>
 
-        {/* Terminal body */}
-        <div className="p-4 min-h-36">
-          {/* Prompt */}
-          <div className="flex items-center gap-2 mb-3">
-            <span style={{ color: "#00FFBF" }}>user@server</span>
-            <span style={{ color: "rgba(255,255,255,0.3)" }}>:</span>
-            <span style={{ color: "#4A9EFF" }}>~</span>
-            <span style={{ color: "rgba(255,255,255,0.3)" }}>$</span>
-            <span className="ml-1" style={{ color: "#e0e0f0" }}>
-              {active === 0 ? typed : STEPS[0].code}
-            </span>
-            <span
-              className="inline-block w-2 h-4 ml-px"
-              style={{
-                background: "#e0e0f0",
-                animation: "blink 1.1s step-end infinite",
-              }}
-            />
+      <div className="flex items-center justify-between gap-1 mb-3 overflow-x-auto">
+        {STAGES.map((s, i) => (
+          <div key={s.id} className="flex items-center gap-1 shrink-0">
+            <div
+              className={`w-7 h-7 rounded-full border flex items-center justify-center text-[11px] font-semibold transition-colors ${
+                i === step
+                  ? "bg-accent text-bg border-accent"
+                  : i < step
+                  ? "bg-accent/20 text-accent border-accent/40"
+                  : "bg-surface2 text-text-dim border-border"
+              }`}
+            >
+              {i + 1}
+            </div>
+            {i < STAGES.length - 1 && (
+              <ChevronRight size={12} className="text-text-dim shrink-0" />
+            )}
           </div>
+        ))}
+      </div>
 
-          {/* Output area */}
-          {active === 4 && (
-            <div
-              className="text-xs leading-relaxed"
-              style={{
-                color: "#a0a0c0",
-                animation: "fadeUp 0.35s ease forwards",
-              }}
-            >
-              <div style={{ color: "#4A9EFF" }}>total 128</div>
-              <div>
-                <span style={{ color: "#00FFBF" }}>drwxr-xr-x</span>
-                {"  2 root  root  4096 Apr 30 "}
-                <span style={{ color: "#e0e0f0" }}>syslog</span>
-              </div>
-              <div>
-                <span style={{ color: "#FFB830" }}>-rw-r-----</span>
-                {"  1 syslog adm  89482 Apr 30 "}
-                <span style={{ color: "#e0e0f0" }}>auth.log</span>
-              </div>
-              <div>
-                <span style={{ color: "#FF5C5C" }}>-rw-r-----</span>
-                {"  1 syslog adm  12771 Apr 30 "}
-                <span style={{ color: "#e0e0f0" }}>kern.log</span>
-              </div>
-            </div>
-          )}
-
-          {active !== 4 && active !== 0 && (
-            <div
-              className="text-xs"
-              style={{ color: "rgba(255,255,255,0.2)", animation: "fadeUp 0.35s ease forwards" }}
-            >
-              procesando...
-            </div>
-          )}
+      <div className="rounded-card border border-border bg-bg p-4 min-h-[220px]">
+        <div className={`flex items-center gap-2 mb-2 ${stage.color}`}>
+          <Icon size={18} strokeWidth={1.8} />
+          <span className="text-[13.5px] font-semibold">{stage.label}</span>
         </div>
+        <p className="text-[13px] text-text-primary leading-relaxed mb-3">
+          {stage.detalle}
+        </p>
+        <pre className="rounded-card border border-border bg-surface2 p-2.5 text-[12px] font-mono text-text-primary whitespace-pre-wrap leading-relaxed">
+          {stage.output}
+        </pre>
       </div>
 
-      {/* Flow steps */}
-      <div className="mt-5 flex flex-col gap-1">
-        {STEPS.map((s, idx) => {
-          const isActive = idx === active;
-          const isPast = idx < active;
-
-          return (
-            <button
-              key={s.id}
-              onClick={() => handleStep(idx)}
-              className="flex items-start gap-3 p-3 rounded-lg text-left transition-all duration-300"
-              style={{
-                background: isActive
-                  ? `${s.color}12`
-                  : "transparent",
-                border: `1px solid ${isActive ? s.color + "40" : "transparent"}`,
-                cursor: "pointer",
-              }}
-            >
-              {/* Icon + connector */}
-              <div className="flex flex-col items-center gap-1 mt-0.5">
-                <div
-                  className="w-7 h-7 rounded-md flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all duration-300"
-                  style={{
-                    background: isActive ? s.color : isPast ? `${s.color}30` : "rgba(255,255,255,0.05)",
-                    color: isActive ? "#0a0a0f" : isPast ? s.color : "rgba(255,255,255,0.3)",
-                    boxShadow: isActive ? `0 0 16px ${s.color}60` : "none",
-                  }}
-                >
-                  {s.icon}
-                </div>
-                {idx < STEPS.length - 1 && (
-                  <div
-                    className="w-px flex-grow"
-                    style={{
-                      height: 16,
-                      background: isPast
-                        ? `linear-gradient(to bottom, ${s.color}80, ${STEPS[idx + 1].color}40)`
-                        : "rgba(255,255,255,0.08)",
-                    }}
-                  />
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span
-                    className="text-xs font-semibold tracking-wide uppercase"
-                    style={{
-                      color: isActive ? s.color : isPast ? `${s.color}90` : "rgba(255,255,255,0.3)",
-                    }}
-                  >
-                    {s.label}
-                  </span>
-                </div>
-
-                {isActive && (
-                  <div style={{ animation: "fadeUp 0.3s ease forwards" }}>
-                    <div
-                      className="mt-1 text-xs px-2 py-1 rounded"
-                      style={{
-                        background: "rgba(0,0,0,0.4)",
-                        color: s.color,
-                        fontFamily: "inherit",
-                        whiteSpace: "pre",
-                      }}
-                    >
-                      {s.code}
-                    </div>
-                    <p className="mt-1.5 text-xs leading-relaxed" style={{ color: "#a0a0c0" }}>
-                      {s.description}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Navigation */}
-      <div className="flex items-center justify-between mt-4">
+      <div className="mt-3 flex items-center justify-between gap-2">
         <button
-          onClick={() => handleStep(Math.max(0, active - 1))}
-          disabled={active === 0}
-          className="text-xs px-3 py-1.5 rounded-lg transition-all"
-          style={{
-            background: active === 0 ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.07)",
-            color: active === 0 ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.6)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            cursor: active === 0 ? "not-allowed" : "pointer",
-          }}
+          type="button"
+          onClick={() => setStep((s) => Math.max(0, s - 1))}
+          disabled={step === 0}
+          className="text-[12.5px] px-3 py-2 rounded-card border border-border bg-bg text-text-primary disabled:opacity-40 disabled:cursor-not-allowed hover:border-accent/40 transition-colors"
         >
           ← Anterior
         </button>
-
-        <div className="flex gap-1.5">
-          {STEPS.map((s, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleStep(idx)}
-              className="rounded-full transition-all duration-300"
-              style={{
-                width: idx === active ? 20 : 6,
-                height: 6,
-                background: idx === active ? s.color : idx < active ? `${s.color}50` : "rgba(255,255,255,0.1)",
-              }}
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={() => handleStep(Math.min(STEPS.length - 1, active + 1))}
-          disabled={active === STEPS.length - 1}
-          className="text-xs px-3 py-1.5 rounded-lg transition-all"
-          style={{
-            background: active === STEPS.length - 1 ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.07)",
-            color: active === STEPS.length - 1 ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.6)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            cursor: active === STEPS.length - 1 ? "not-allowed" : "pointer",
-          }}
-        >
-          Siguiente →
-        </button>
+        <span className="text-[11px] text-text-dim">
+          Paso {step + 1} de {STAGES.length}
+        </span>
+        {step < STAGES.length - 1 ? (
+          <button
+            type="button"
+            onClick={() => setStep((s) => Math.min(STAGES.length - 1, s + 1))}
+            className="text-[12.5px] px-3 py-2 rounded-card border border-accent bg-accent text-bg hover:bg-accent/90 transition-colors"
+          >
+            Siguiente →
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setStep(0)}
+            className="inline-flex items-center gap-1.5 text-[12.5px] px-3 py-2 rounded-card border border-border bg-surface2 text-text-muted hover:text-text-primary transition-colors"
+          >
+            <RotateCcw size={13} strokeWidth={1.8} />
+            Reiniciar
+          </button>
+        )}
       </div>
-
-      <style>{`
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }

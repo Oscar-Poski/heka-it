@@ -29,6 +29,12 @@ import { TemperatureSlider } from "./TemperatureSlider";
 import { EmbeddingSimilarity } from "./EmbeddingSimilarity";
 import { RagPipeline } from "./RagPipeline";
 import { ChunkingDemo } from "./ChunkingDemo";
+import { GitThreeStates } from "./GitThreeStates";
+import { GitGraph } from "./GitGraph";
+import { GitConflict } from "./GitConflict";
+import { PasswordStrength } from "./PasswordStrength";
+import { CifradoDemo } from "./CifradoDemo";
+import { AttackFlow } from "./AttackFlow";
 
 const COMPONENT_MAP: Record<string, ComponentType> = {
   "packet-journey": PacketJourney,
@@ -49,6 +55,12 @@ const COMPONENT_MAP: Record<string, ComponentType> = {
   "embedding-similarity": EmbeddingSimilarity,
   "rag-pipeline": RagPipeline,
   "chunking-demo": ChunkingDemo,
+  "git-three-states": GitThreeStates,
+  "git-graph": GitGraph,
+  "git-conflict": GitConflict,
+  "password-strength": PasswordStrength,
+  "cifrado-demo": CifradoDemo,
+  "attack-flow": AttackFlow,
 };
 
 type Props = {

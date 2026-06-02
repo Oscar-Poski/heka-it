@@ -1,28 +1,26 @@
 import type { Capitulo } from "@/lib/types";
 
 const capitulo: Capitulo = {
-  slug: "pipes-y-redireccionamiento",
+  slug: "linux",
   numero: 6,
-  titulo: "Pipes y redireccionamiento",
- // preguntaGancho:
-   // "¿Y si pudieras combinar comandos simples como piezas de Lego para resolver problemas complejos en una sola línea?",
+  titulo: "Nivel 6 · Pipes y redireccionamiento",
   pasos: [
     {
-      titulo: "El problema",
+      titulo: "La filosofía Unix",
       secciones: [
         {
           tipo: "texto",
-          eyebrow: "El problema",
+          eyebrow: "Una herramienta, una tarea, bien hecha",
           texto:
-            "La filosofía original de Unix —y por extensión Linux— dice que cada herramienta debe hacer una sola cosa y hacerla bien. `grep` busca texto. `sort` ordena líneas. `wc` cuenta palabras. Ninguno por sí solo es espectacular. El poder está en conectarlos: la salida de uno se convierte en la entrada del siguiente, formando cadenas que pueden procesar millones de líneas en segundos sin escribir ni una línea de código.",
+            "La filosofía original de Unix dice que cada herramienta debe hacer una sola cosa y hacerla bien. grep busca texto. sort ordena. wc cuenta. Ninguna por sí sola es espectacular. El poder está en conectarlas: la salida de una se convierte en la entrada de la siguiente, formando cadenas que procesan millones de líneas en segundos sin escribir código.",
         },
         {
           tipo: "analogia",
-          eyebrow: "La analogía",
+          eyebrow: "Línea de ensamblaje",
           texto:
-            "Imagina una línea de ensamblaje en una fábrica. La primera estación toma la materia prima, le hace algo y pasa el resultado a la siguiente. Cada estación es especialista en su tarea. El pipe (`|`) es la cinta transportadora que conecta las estaciones. Puedes reorganizar las estaciones, agregar nuevas o sacar las que no necesitas, sin rediseñar la fábrica entera.",
+            "Imagina una fábrica con estaciones especialistas. Cada estación toma lo que llega, hace su parte y lo pasa a la siguiente. El pipe (`|`) es la cinta transportadora.",
           items: [
-            { label: "Estación de ensamblaje", valor: "Comando individual", icono: "Wrench" },
+            { label: "Estación especialista", valor: "Un comando (grep, sort, wc)", icono: "Wrench" },
             { label: "Cinta transportadora", valor: "Pipe `|`", icono: "ArrowRight" },
           ],
         },
@@ -33,86 +31,87 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "anatomia",
-          eyebrow: "Los tres flujos estándar",
+          eyebrow: "Stdin, stdout, stderr",
           texto:
-            "Todo proceso en Linux nace con tres canales de comunicación abiertos. Toca cada uno para entender qué hace.",
+            "Todo proceso en Linux nace con tres canales de comunicación abiertos. Toca cada uno.",
           partes: [
             {
               id: "stdin",
               label: "stdin (0)",
-              color: "#4A9EFF",
+              color: "#3A8DFF",
               detalle:
-                "Standard Input. El canal por donde un proceso recibe datos. Por defecto es el teclado. Puedes redirigirlo desde un archivo con `<` o desde otro proceso con `|`. Es la entrada de la fábrica.",
+                "Standard Input. Por donde el proceso recibe datos. Por defecto, el teclado. Redirígelo desde un archivo con `<` o desde otro proceso con `|`.",
             },
             {
               id: "stdout",
               label: "stdout (1)",
               color: "#00A896",
               detalle:
-                "Standard Output. El canal por donde un proceso manda sus resultados. Por defecto aparece en la terminal. Puedes redirigirlo a un archivo con `>` (sobreescribe) o `>>` (agrega al final).",
+                "Standard Output. Por donde el proceso emite resultados. Por defecto, la terminal. Redirígelo a archivo con `>` (sobrescribe) o `>>` (añade al final).",
             },
             {
               id: "stderr",
               label: "stderr (2)",
               color: "#FF5C5C",
               detalle:
-                "Standard Error. Un canal separado solo para mensajes de error. Por defecto también aparece en la terminal, mezclado con stdout. Puedes redirigirlo de forma independiente con `2>` para separar errores de resultados normales.",
+                "Standard Error. Un canal separado solo para errores. Por defecto se mezcla con stdout en la terminal. Redirígelo independiente con `2>` para separar errores de resultados normales.",
             },
           ],
+        },
+        {
+          tipo: "visual",
+          eyebrow: "Velo en un pipeline real",
+          texto:
+            "Sigue cómo viajan los datos a través de tres comandos encadenados con pipes.",
+          componente: "pipeline-flow",
         },
         {
           tipo: "highlight",
           texto:
-            "Un pipeline bien construido puede reemplazar un script de 50 líneas. `cat access.log | grep '404' | awk '{print $7}' | sort | uniq -c | sort -rn | head -10` — esa única línea lee un log de servidor, filtra los errores 404, extrae las URLs fallidas, las cuenta, las ordena por frecuencia y muestra las diez peores. Todo sin abrir un editor.",
+            "Un pipeline bien construido reemplaza scripts de 50 líneas. `cat access.log | grep '404' | awk '{print $7}' | sort | uniq -c | sort -rn | head -10` lee un log, filtra 404s, extrae URLs, las cuenta, ordena por frecuencia y muestra las 10 peores. Una línea, ningún script.",
         },
       ],
     },
     {
-      titulo: "Operadores de redirección",
+      titulo: "Operadores esenciales",
       secciones: [
         {
-          tipo: "pasos",
-          eyebrow: "Operadores esenciales de redirección",
+          tipo: "grid",
+          eyebrow: "Cinco símbolos que cambian todo",
           texto:
-            "Estos son los símbolos que conectan comandos y controlan hacia dónde van los datos.",
-          pasos: [
+            "Memorízalos: aparecen en cada script y cada terminal de producción.",
+          items: [
             {
-              titulo: "`|` — El pipe",
+              titulo: "| (pipe)",
               descripcion:
-                "Conecta la salida estándar de un comando con la entrada estándar del siguiente. `ls -la | grep '.log'` lista archivos y filtra solo los que terminan en `.log`.",
+                "Conecta stdout de un comando con stdin del siguiente. ls | grep log lista archivos y filtra los que contienen «log».",
+              icono: "ArrowRight",
             },
             {
-              titulo: "`>` — Redirigir a archivo (sobreescribir)",
+              titulo: "> (sobrescribir)",
               descripcion:
-                "`echo 'hola' > saludo.txt` crea el archivo o lo sobreescribe completamente. Cuidado: si el archivo tenía contenido, desaparece sin advertencia.",
+                "Redirige stdout a un archivo, borrando lo que había. echo hola > saludo.txt crea o sobrescribe. Cuidado: el contenido previo desaparece.",
+              icono: "FilePlus",
             },
             {
-              titulo: "`>>` — Redirigir a archivo (agregar)",
+              titulo: ">> (añadir)",
               descripcion:
-                "`echo 'nueva línea' >> log.txt` agrega el contenido al final del archivo sin borrar lo que había. Ideal para logs y registros acumulativos.",
+                "Redirige stdout a un archivo añadiendo al final. echo línea >> log.txt acumula. Ideal para logs.",
+              icono: "Plus",
             },
             {
-              titulo: "`2>&1` — Unir stderr y stdout",
+              titulo: "2>&1",
               descripcion:
-                "Redirige stderr al mismo destino que stdout. `comando > salida.txt 2>&1` captura tanto los resultados como los errores en un solo archivo. Imprescindible para logs de procesos automatizados.",
+                "Une stderr con stdout. comando > salida.txt 2>&1 captura tanto resultados como errores en el mismo archivo. Imprescindible en scripts automatizados.",
+              icono: "Combine",
             },
             {
-              titulo: "`/dev/null` — El agujero negro",
+              titulo: "/dev/null",
               descripcion:
-                "`comando > /dev/null 2>&1` descarta absolutamente toda la salida del comando. Útil cuando quieres ejecutar algo sin que llene la terminal de output que no te importa.",
+                "Agujero negro. comando > /dev/null 2>&1 descarta toda la salida. Útil para ejecutar algo sin ensuciar la terminal.",
+              icono: "Trash2",
             },
           ],
-        },
-      ],
-    },
-    {
-      titulo: "Visualización",
-      secciones: [
-        {
-          tipo: "visual",
-          eyebrow: "Visualización",
-          texto: "Así fluyen los datos a través de un pipeline de tres comandos.",
-          componente: "pipeline-flow",
         },
       ],
     },
@@ -121,30 +120,57 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "quiz",
-          pregunta: "¿Qué hace el comando `cat errores.log | grep 'FATAL' | wc -l`?",
+          pregunta: "¿Qué hace `cat errores.log | grep 'FATAL' | wc -l`?",
           opciones: [
-            {
-              texto: "Abre el archivo, busca la palabra FATAL y borra esas líneas.",
-              correcta: false,
-            },
-            {
-              texto:
-                "Lee el archivo, filtra las líneas que contienen 'FATAL' y cuenta cuántas hay.",
-              correcta: true,
-            },
-            {
-              texto: "Copia las líneas con 'FATAL' a un nuevo archivo llamado `wc`.",
-              correcta: false,
-            },
-            {
-              texto: "Muestra el archivo completo e indica en qué líneas aparece 'FATAL'.",
-              correcta: false,
-            },
+            { texto: "Abre el archivo, busca FATAL y borra esas líneas.", correcta: false },
+            { texto: "Lee el archivo, filtra líneas con «FATAL» y cuenta cuántas hay.", correcta: true },
+            { texto: "Copia las líneas con FATAL a un archivo llamado wc.", correcta: false },
+            { texto: "Muestra el archivo e indica en qué líneas aparece FATAL.", correcta: false },
           ],
           feedbackCorrecto:
-            "Correcto. `cat` lee el archivo y lo manda por stdout. `grep 'FATAL'` recibe eso por stdin y filtra solo las líneas que contienen esa palabra. `wc -l` recibe esas líneas y las cuenta. Tres herramientas especializadas, un resultado preciso.",
+            "Correcto. cat lee y emite; grep filtra solo líneas con FATAL; wc -l cuenta. Tres herramientas especializadas, un resultado preciso. Ningún paso modifica el archivo: solo procesan en memoria.",
           feedbackIncorrecto:
-            "Sigue el flujo de datos: `cat` lee y emite, `grep` filtra las líneas que contienen 'FATAL', `wc -l` cuenta las líneas resultantes. Ningún paso modifica ni copia archivos: solo procesan datos en memoria y muestran el resultado.",
+            "Sigue el flujo: cat emite todas las líneas, grep filtra las que contienen FATAL, wc -l cuenta las resultantes. Nada modifica ni copia archivos. El número final es cuántas líneas FATAL hay.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Quieres añadir una línea a un log existente sin borrar lo que ya tenía. ¿Qué operador usas?",
+          opciones: [
+            { texto: "`>`", correcta: false },
+            { texto: "`>>`", correcta: true },
+            { texto: "`|`", correcta: false },
+            { texto: "`2>`", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. `>>` añade al final del archivo sin borrar. `>` sobrescribiría todo el contenido previo, lo que es desastroso para logs. Para logs, siempre `>>`.",
+          feedbackIncorrecto:
+            "`>` sobrescribe (borra lo que había). `>>` añade al final preservando el contenido previo. Para logs, scripts de auditoría o cualquier acumulación, usa `>>`.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Ejecutas un cron job y quieres capturar TANTO la salida normal COMO los errores en el mismo archivo. ¿Cómo?",
+          opciones: [
+            { texto: "comando > log.txt", correcta: false },
+            { texto: "comando 2> log.txt", correcta: false },
+            { texto: "comando > log.txt 2>&1", correcta: true },
+            { texto: "comando | log.txt", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. > log.txt redirige stdout al archivo. 2>&1 redirige stderr al mismo destino que stdout (que ya apunta al archivo). Resultado: ambos se capturan juntos. Es el patrón clásico para logs de cron y servicios.",
+          feedbackIncorrecto:
+            "stdout y stderr son canales separados. > log.txt solo captura stdout. 2> log.txt solo captura stderr. Para juntar ambos: > log.txt 2>&1 (primero redirige stdout al archivo, luego stderr al mismo destino que stdout).",
         },
       ],
     },

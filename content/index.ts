@@ -39,6 +39,17 @@ import rag2 from "./rag/2";
 import rag3 from "./rag/3";
 import rag4 from "./rag/4";
 import rag5 from "./rag/5";
+import git1 from "./git/1";
+import git2 from "./git/2";
+import git3 from "./git/3";
+import git4 from "./git/4";
+import git5 from "./git/5";
+import seg1 from "./seguridad/1";
+import seg2 from "./seguridad/2";
+import seg3 from "./seguridad/3";
+import seg4 from "./seguridad/4";
+import seg5 from "./seguridad/5";
+import seg6 from "./seguridad/6";
 
 type ContentMap = Record<string, Record<number, Capitulo>>;
 
@@ -97,6 +108,21 @@ export const capitulos: ContentMap = {
     3: rag3,
     4: rag4,
     5: rag5,
+  },
+  git: {
+    1: git1,
+    2: git2,
+    3: git3,
+    4: git4,
+    5: git5,
+  },
+  seguridad: {
+    1: seg1,
+    2: seg2,
+    3: seg3,
+    4: seg4,
+    5: seg5,
+    6: seg6,
   },
 };
 

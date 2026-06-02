@@ -1,30 +1,27 @@
 import type { Capitulo } from "@/lib/types";
 
 const capitulo: Capitulo = {
-  slug: "usuarios-y-permisos",
+  slug: "linux",
   numero: 4,
-  titulo: "Usuarios y permisos",
-  //preguntaGancho:
-    //"¿Alguna vez borraste algo que no debías? En Linux existe un sistema que evita exactamente eso — y entenderlo te hace mejor profesional.",
+  titulo: "Nivel 4 · Usuarios y permisos",
   pasos: [
     {
       titulo: "El problema",
       secciones: [
         {
           tipo: "texto",
-          eyebrow: "El problema",
+          eyebrow: "Quién puede hacer qué",
           texto:
-            "En un servidor real, no hay un solo usuario: hay aplicaciones corriendo como procesos, administradores con acceso total, desarrolladores que solo deberían tocar ciertas carpetas y usuarios finales que no deberían ver nada de lo anterior. Linux resuelve esto con un sistema de permisos que lleva décadas siendo el estándar: cada archivo tiene un dueño, un grupo, y reglas claras sobre quién puede hacer qué.",
+            "En un servidor real conviven aplicaciones, administradores, desarrolladores y usuarios finales. Cada uno necesita acceso a cosas distintas y cero acceso al resto. Linux resuelve esto con un sistema que lleva décadas siendo el estándar: cada archivo tiene un dueño, un grupo y reglas claras sobre quién puede leer, escribir o ejecutar.",
         },
         {
           tipo: "analogia",
-          eyebrow: "La analogía",
+          eyebrow: "Llaves maestras, de piso y de habitación",
           texto:
-            "Imagina un edificio de oficinas. Hay llaves maestras (root), llaves de piso (grupos) y llaves de habitación individual (usuario propietario). Cada puerta tiene tres cerraduras independientes. Linux funciona igual: para cada archivo defines qué puede hacer su dueño, qué puede hacer su grupo, y qué puede hacer cualquier otro.",
+            "Imagina un edificio de oficinas con tres niveles de acceso. Cada puerta tiene tres cerraduras independientes que se abren según qué tipo de llave tienes.",
           items: [
             { label: "Llave maestra", valor: "Usuario root", icono: "KeyRound" },
-            { label: "Llave de piso", valor: "Grupo", icono: "Users" },
-            { label: "Llave individual", valor: "Usuario propietario", icono: "User" },
+            { label: "Llave de habitación", valor: "Usuario propietario", icono: "User" },
           ],
         },
       ],
@@ -34,44 +31,51 @@ const capitulo: Capitulo = {
       secciones: [
         {
           tipo: "anatomia",
-          eyebrow: "Anatomía de los permisos",
+          eyebrow: "Cuatro piezas en `-rwxr-xr--`",
           texto:
             "Cuando ejecutas `ls -la`, cada línea empieza con algo como `-rwxr-xr--`. Toca cada parte para decodificarla.",
           partes: [
             {
               id: "tipo",
-              label: "Tipo de archivo",
+              label: "Tipo",
               color: "#FF5C5C",
               detalle:
-                "El primer carácter indica qué es: `-` es un archivo regular, `d` es un directorio, `l` es un enlace simbólico, `c` es un dispositivo de caracteres. Este carácter es fundamental antes de asumir qué tienes enfrente.",
+                "Primer carácter: `-` archivo regular, `d` directorio, `l` enlace simbólico, `c` dispositivo de caracteres, `b` de bloques.",
             },
             {
               id: "owner",
-              label: "Permisos del dueño",
-              color: "#4A9EFF",
+              label: "Dueño",
+              color: "#3A8DFF",
               detalle:
-                "Los siguientes tres caracteres (`rwx`) son los permisos del propietario del archivo: `r` para leer, `w` para escribir, `x` para ejecutar. Un `-` significa que ese permiso no está activo.",
+                "Tres caracteres siguientes: permisos del propietario. r=leer, w=escribir, x=ejecutar. Un guión significa permiso desactivado.",
             },
             {
               id: "group",
-              label: "Permisos del grupo",
-              color: "#FFB830",
+              label: "Grupo",
+              color: "#FF9F43",
               detalle:
-                "Los tres caracteres del medio aplican a cualquier usuario que pertenezca al grupo asignado al archivo. Útil para dar acceso a un equipo sin abrir el archivo a todo el mundo.",
+                "Siguientes tres: permisos para cualquier miembro del grupo asignado. Útil para dar acceso a un equipo sin abrir el archivo a todos.",
             },
             {
               id: "others",
-              label: "Permisos de otros",
+              label: "Otros",
               color: "#00A896",
               detalle:
-                "Los últimos tres caracteres aplican a cualquier usuario del sistema que no sea el dueño ni miembro del grupo. En servidores de producción, esta sección suele ser `---` por seguridad.",
+                "Últimos tres: permisos para cualquier otro usuario del sistema. En producción suelen ser `---` por seguridad.",
             },
           ],
         },
         {
+          tipo: "visual",
+          eyebrow: "Pruébalo",
+          texto:
+            "Cambia los bits o usa los presets. Mira cómo cambia la cadena de permisos y su equivalente octal para chmod.",
+          componente: "permissions-decoder",
+        },
+        {
           tipo: "highlight",
           texto:
-            "Root no es solo otro usuario con muchos permisos. Root puede hacer literalmente cualquier cosa: borrar archivos del sistema, leer correos privados, detener servicios críticos. Por eso los profesionales usan `sudo` para elevar privilegios solo cuando es necesario, en lugar de trabajar siempre como root. El menor privilegio posible es el principio de seguridad más básico.",
+            "Root no es solo un usuario con muchos permisos: puede hacer literalmente cualquier cosa, incluido romper el sistema. Por eso los profesionales usan `sudo` para elevar privilegios solo cuando es necesario. Principio del menor privilegio: por defecto, lo mínimo.",
         },
       ],
     },
@@ -79,43 +83,36 @@ const capitulo: Capitulo = {
       titulo: "Comandos clave",
       secciones: [
         {
-          tipo: "pasos",
-          eyebrow: "Comandos clave para gestionar permisos",
+          tipo: "grid",
+          eyebrow: "Cuatro herramientas para gestionar permisos",
           texto:
-            "Con estos cuatro comandos controlas quién puede hacer qué en cualquier archivo o directorio.",
-          pasos: [
+            "Con estas controlas todo el modelo de seguridad de archivos en Linux.",
+          items: [
             {
-              titulo: "chmod — Cambiar permisos",
+              titulo: "chmod",
               descripcion:
-                "`chmod 755 script.sh` da permisos de ejecución al dueño y lectura/ejecución al resto. También puedes usar notación simbólica: `chmod u+x script.sh` agrega ejecución solo al dueño.",
+                "Cambia permisos. chmod 755 script.sh (notación octal) o chmod u+x script.sh (notación simbólica).",
+              icono: "Settings",
             },
             {
-              titulo: "chown — Cambiar propietario",
+              titulo: "chown",
               descripcion:
-                "`chown usuario:grupo archivo.txt` cambia quién es el dueño del archivo y a qué grupo pertenece. Necesitas privilegios de root para cambiar el dueño de un archivo que no es tuyo.",
+                "Cambia propietario y grupo. chown oscar:devs archivo.txt. Solo root puede cambiar dueños de archivos ajenos.",
+              icono: "UserCog",
             },
             {
-              titulo: "sudo — Ejecutar como root",
+              titulo: "sudo",
               descripcion:
-                "`sudo comando` ejecuta ese comando con privilegios de superusuario. Linux registra cada uso de sudo en los logs. Es un mecanismo de poder con trazabilidad.",
+                "Ejecuta un comando como root. Cada uso se registra en logs (/var/log/auth.log). Trazable y reversible.",
+              icono: "ShieldCheck",
             },
             {
-              titulo: "id — ¿Quién soy?",
+              titulo: "id",
               descripcion:
-                "`id` muestra tu usuario actual, tu UID numérico y los grupos a los que perteneces. Es el primer comando a ejecutar cuando algo falla por permisos.",
+                "Muestra tu usuario, UID y grupos. El primer comando cuando algo falla por permisos.",
+              icono: "Fingerprint",
             },
           ],
-        },
-      ],
-    },
-    {
-      titulo: "Visualización",
-      secciones: [
-        {
-          tipo: "visual",
-          eyebrow: "Visualización",
-          texto: "Así se lee una cadena de permisos completa en Linux.",
-          componente: "permissions-decoder",
         },
       ],
     },
@@ -127,15 +124,55 @@ const capitulo: Capitulo = {
           pregunta:
             "Un archivo tiene permisos `rw-r--r--`. ¿Qué puede hacer un usuario que no es el dueño ni está en el grupo?",
           opciones: [
-            { texto: "Leer y escribir el archivo.", correcta: false },
-            { texto: "Solo leer el archivo.", correcta: true },
-            { texto: "Ejecutar el archivo.", correcta: false },
-            { texto: "No puede hacer nada con el archivo.", correcta: false },
+            { texto: "Leer y escribir.", correcta: false },
+            { texto: "Solo leer.", correcta: true },
+            { texto: "Ejecutar.", correcta: false },
+            { texto: "Nada.", correcta: false },
           ],
           feedbackCorrecto:
-            "Correcto. Los últimos tres caracteres (`r--`) son los permisos para 'otros': `r` permite leer, el primer `-` niega escritura y el segundo `-` niega ejecución. Solo pueden leer.",
+            "Correcto. Los últimos tres caracteres (`r--`) son los permisos para «otros»: r permite leer, los guiones niegan escritura y ejecución. Solo lectura.",
           feedbackIncorrecto:
-            "Lee los permisos en bloques de tres: dueño (`rw-`), grupo (`r--`), otros (`r--`). Para 'otros', solo el primer carácter es `r`, los demás son `-`. Eso significa solo lectura.",
+            "Lee en bloques de tres: dueño (rw-), grupo (r--), otros (r--). Para «otros», solo r está activo: solo lectura.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "Quieres que un script sea ejecutable por todos. ¿Qué comando usas?",
+          opciones: [
+            { texto: "chmod 644 script.sh", correcta: false },
+            { texto: "chmod +x script.sh (añade ejecución para todos)", correcta: true },
+            { texto: "chown +x script.sh", correcta: false },
+            { texto: "sudo script.sh", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. chmod +x añade el bit de ejecución a todos los bloques (dueño, grupo, otros). Equivalente a chmod 755 si los permisos previos eran rw-r--r--. chown cambia dueño, sudo eleva privilegios pero no cambia permisos.",
+          feedbackIncorrecto:
+            "Para cambiar permisos: chmod. +x significa «añadir bit de ejecución». chown es para cambiar dueño, sudo es para elevar privilegios al ejecutar. 644 significaría rw-r--r--, que NO es ejecutable.",
+        },
+      ],
+    },
+    {
+      titulo: "Verifica",
+      secciones: [
+        {
+          tipo: "quiz",
+          pregunta:
+            "¿Por qué se recomienda NO trabajar siempre como root?",
+          opciones: [
+            { texto: "Porque root no puede ejecutar la mayoría de comandos.", correcta: false },
+            { texto: "Porque cualquier error o comando malicioso ejecutado como root puede romper el sistema entero sin pedir confirmación.", correcta: true },
+            { texto: "Porque root no tiene acceso a la terminal.", correcta: false },
+            { texto: "Porque root no puede instalar software.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. Root puede hacer literalmente cualquier cosa: borrar /, leer secretos, detener servicios críticos. Un comando mal escrito o un script malicioso ejecutado como root puede destruir todo. Por eso se usa sudo solo cuando es necesario.",
+          feedbackIncorrecto:
+            "Root puede ejecutar todo y tiene acceso completo: ese es justo el problema. Cualquier error, comando mal escrito o script malicioso ejecutado como root hace daño total. Principio del menor privilegio: trabaja como usuario normal y eleva solo cuando hace falta.",
         },
       ],
     },

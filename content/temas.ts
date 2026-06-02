@@ -18,10 +18,10 @@ export const temas: Tema[] = [
     preguntaGancho: "La base de todos los servidores del mundo. También de Google, Netflix y Amazon.",
     iconoLucide: "Terminal",
     totalCapitulos: 6,
-    tiempoEstimadoMin: 60,
+    tiempoEstimadoMin: 70,
     requisitos: "Ninguno",
     prerrequisitos:
-      "Ideal si ya jugaste con Redes, pero no obligatorio. Se asume cero experiencia con la terminal.",
+      "Cero experiencia con la terminal requerida. Va bien después de Internet, pero no obligatorio.",
   },
   {
     slug: "git",
@@ -29,9 +29,9 @@ export const temas: Tema[] = [
     preguntaGancho: "¿Cómo trabajan 50 personas sobre el mismo código sin estropearlo?",
     iconoLucide: "GitBranch",
     totalCapitulos: 5,
-    tiempoEstimadoMin: 35,
+    tiempoEstimadoMin: 55,
     requisitos: "Familiaridad con la terminal ayuda",
-    prerrequisitos: "Recomendado haber visto Linux Admin primero.",
+    prerrequisitos: "Recomendado haber visto Linux Admin primero, pero no obligatorio.",
   },
   {
     slug: "seguridad",
@@ -39,9 +39,10 @@ export const temas: Tema[] = [
     preguntaGancho: "¿Qué tiene que pasar para que alguien robe una contraseña?",
     iconoLucide: "ShieldCheck",
     totalCapitulos: 6,
-    tiempoEstimadoMin: 50,
+    tiempoEstimadoMin: 65,
     requisitos: "Conceptos básicos de Redes",
-    prerrequisitos: "Se construye sobre lo visto en Redes.",
+    prerrequisitos:
+      "Se construye sobre Internet (DNS, HTTPS, TCP). Recomendado verlo después.",
   },
   {
     slug: "bases-de-datos",
