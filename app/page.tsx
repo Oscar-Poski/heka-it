@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check, GraduationCap } from "lucide-react";
+import { ArrowRight, Check, GraduationCap, Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { Icon } from "@/components/Icon";
 
 const CONTACTO =
   "https://wa.me/523312890864?text=Hola%2C%20quiero%20automatizar%20los%20procesos%20de%20mi%20empresa";
+const CONTACTO_EMAIL = "oscar@heka-it.org";
+const CONTACTO_MAILTO = `mailto:${CONTACTO_EMAIL}?subject=Quiero%20automatizar%20los%20procesos%20de%20mi%20empresa`;
 
 function WhatsAppIcon({ size = 18 }: { size?: number }) {
   return (
@@ -105,15 +107,6 @@ export default function LandingPage() {
         >
           Aprende a diseñar flujos de trabajo automatizados para tu empresa usando herramientas modernas. Contenido práctico, resultados reales.
         </motion.p>
-        <a
-          href={CONTACTO}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-5 inline-flex items-center justify-center gap-2.5 min-h-[52px] bg-accent text-bg rounded-card px-5 py-3.5 active:scale-[0.98] transition-transform w-full sm:w-auto"
-        >
-          <WhatsAppIcon size={20} />
-          <span className="text-[15px] font-semibold">Agenda un diagnóstico gratis</span>
-        </a>
       </section>
 
       {/* Servicios */}
@@ -188,17 +181,108 @@ export default function LandingPage() {
           <p className="mt-2 text-[14px] text-blanco/70 leading-relaxed">
             Cuéntanos qué tarea te quita más horas. El diagnóstico inicial no tiene costo.
           </p>
-          <a
-            href={CONTACTO}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center justify-center gap-2 min-h-[48px] bg-accent text-bg rounded-card px-6 py-3 font-semibold text-[15px] active:scale-[0.98] transition-transform"
-          >
-            <WhatsAppIcon size={18} />
-            Escríbenos por WhatsApp
-          </a>
+          <div className="mt-4 flex flex-col sm:flex-row sm:justify-center gap-2.5">
+            <a
+              href={CONTACTO}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] bg-accent text-bg rounded-card px-6 py-3 font-semibold text-[15px] active:scale-[0.98] transition-transform"
+            >
+              <WhatsAppIcon size={18} />
+              +52 33 1289 0864
+            </a>
+            <a
+              href={CONTACTO_MAILTO}
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] bg-transparent border border-blanco/40 text-blanco rounded-card px-6 py-3 font-semibold text-[14px] active:scale-[0.98] transition-transform"
+            >
+              <Mail size={18} strokeWidth={2} />
+              <span className="break-all">{CONTACTO_EMAIL}</span>
+            </a>
+          </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="px-4 pt-10 pb-4">
+        <div className="rounded-card border border-border bg-surface px-5 py-6">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-lg bg-accent/10 border border-accent/30 text-accent flex items-center justify-center shrink-0">
+              <GraduationCap size={20} strokeWidth={1.8} />
+            </div>
+            <div>
+              <div className="text-[15px] font-semibold tracking-tight text-text-primary">
+                Heka <span className="text-accent">it</span>
+              </div>
+              <div className="text-[12px] text-text-muted leading-tight">
+                IT Academy &amp; Consulting Services
+              </div>
+            </div>
+          </div>
+
+          <p className="mt-4 text-[13px] text-text-muted leading-relaxed">
+            Automatización, IA y formación práctica para empresas que quieren recuperar su tiempo.
+          </p>
+
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <div className="text-[11px] font-semibold tracking-[0.08em] text-teal uppercase mb-2">
+                Contacto
+              </div>
+              <ul className="space-y-2 text-[13px] text-text-primary">
+                <li>
+                  <a
+                    href={CONTACTO_MAILTO}
+                    className="inline-flex items-center gap-2 hover:text-accent transition-colors break-all"
+                  >
+                    <Mail size={14} strokeWidth={2} className="shrink-0 text-teal" />
+                    {CONTACTO_EMAIL}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={CONTACTO}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 hover:text-accent transition-colors"
+                  >
+                    <span className="shrink-0 text-teal">
+                      <WhatsAppIcon size={14} />
+                    </span>
+                    +52 33 1289 0864
+                  </a>
+                </li>
+                <li className="inline-flex items-center gap-2 text-text-muted">
+                  <MapPin size={14} strokeWidth={2} className="shrink-0 text-teal" />
+                  Guadalajara, México
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div className="text-[11px] font-semibold tracking-[0.08em] text-teal uppercase mb-2">
+                Explora
+              </div>
+              <ul className="space-y-2 text-[13px] text-text-primary">
+                <li>
+                  <Link href="/academy" className="hover:text-accent transition-colors">
+                    Academy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="hover:text-accent transition-colors">
+                    Servicios
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[12px] text-text-muted">
+            <div>© {new Date().getFullYear()} Heka IT. Todos los derechos reservados.</div>
+            <div>Hecho con foco en resultados, no en buzzwords.</div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
