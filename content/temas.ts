@@ -8,7 +8,7 @@ export const temas: Tema[] = [
     iconoLucide: "Network",
     totalCapitulos: 6,
     tiempoEstimadoMin: 60,
-    requisitos: "Ninguno",
+    nivel: "Básico",
     prerrequisitos:
       "Cero experiencia técnica requerida. Solo ganas de entender cómo viajan los datos por internet, paso a paso.",
   },
@@ -19,9 +19,9 @@ export const temas: Tema[] = [
     iconoLucide: "Terminal",
     totalCapitulos: 6,
     tiempoEstimadoMin: 70,
-    requisitos: "Ninguno",
+    nivel: "Básico",
     prerrequisitos:
-      "Cero experiencia con la terminal requerida. Va bien después de Internet, pero no obligatorio.",
+      "Va bien después de Internet, pero no obligatorio.",
   },
   {
     slug: "git",
@@ -30,8 +30,8 @@ export const temas: Tema[] = [
     iconoLucide: "GitBranch",
     totalCapitulos: 5,
     tiempoEstimadoMin: 55,
-    requisitos: "Familiaridad con la terminal ayuda",
-    prerrequisitos: "Recomendado haber visto Linux Admin primero, pero no obligatorio.",
+    nivel: "Básico",
+    prerrequisitos: "Familiaridad con la terminal ayuda.",
   },
   {
     slug: "seguridad",
@@ -40,9 +40,9 @@ export const temas: Tema[] = [
     iconoLucide: "ShieldCheck",
     totalCapitulos: 6,
     tiempoEstimadoMin: 65,
-    requisitos: "Conceptos básicos de Redes",
+    nivel: "Intermedio",
     prerrequisitos:
-      "Se construye sobre Internet (DNS, HTTPS, TCP). Recomendado verlo después.",
+      "Conceptos básicos de Redes necesarios. Se construye sobre Internet (DNS, HTTPS, TCP).",
   },
   {
     slug: "bases-de-datos",
@@ -51,7 +51,7 @@ export const temas: Tema[] = [
     iconoLucide: "Database",
     totalCapitulos: 5,
     tiempoEstimadoMin: 40,
-    requisitos: "Ninguno",
+    nivel: "Ninguno",
     prerrequisitos: "Independiente. Se puede ver en cualquier momento.",
   },
   {
@@ -61,7 +61,7 @@ export const temas: Tema[] = [
     iconoLucide: "Container",
     totalCapitulos: 5,
     tiempoEstimadoMin: 40,
-    requisitos: "Linux Admin recomendado",
+    nivel: "Linux Admin recomendado",
     prerrequisitos: "Conviene venir con Linux fresco en la cabeza.",
   },
   {
@@ -71,7 +71,7 @@ export const temas: Tema[] = [
     iconoLucide: "Cloud",
     totalCapitulos: 6,
     tiempoEstimadoMin: 50,
-    requisitos: "Redes y Linux",
+    nivel: "Redes y Linux",
     prerrequisitos: "Asume que ya viste Redes y Linux Admin.",
   },
   {
@@ -81,7 +81,7 @@ export const temas: Tema[] = [
     iconoLucide: "FileCode2",
     totalCapitulos: 4,
     tiempoEstimadoMin: 30,
-    requisitos: "Cloud",
+    nivel: "Cloud",
     prerrequisitos: "Requiere entender conceptos de Cloud primero.",
   },
   {
@@ -91,7 +91,7 @@ export const temas: Tema[] = [
     iconoLucide: "Boxes",
     totalCapitulos: 5,
     tiempoEstimadoMin: 45,
-    requisitos: "Docker y Cloud",
+    nivel: "Docker y Cloud",
     prerrequisitos: "Necesitás Docker entendido y al menos haber rozado Cloud.",
   },
   // === Inteligencia Artificial (próximamente) ===
@@ -102,7 +102,7 @@ export const temas: Tema[] = [
     iconoLucide: "Brain",
     totalCapitulos: 5,
     tiempoEstimadoMin: 50,
-    requisitos: "Ninguno",
+    nivel: "Básico",
     prerrequisitos:
       "Ideal venir con Prompt Engineering primero, pero no obligatorio. Cero supuestos técnicos.",
   },
@@ -114,9 +114,21 @@ export const temas: Tema[] = [
     iconoLucide: "Sparkles",
     totalCapitulos: 4,
     tiempoEstimadoMin: 30,
-    requisitos: "Ninguno",
+    nivel: "Básico",
     prerrequisitos:
-      "Ideal antes de Claude Cowork. No requiere experiencia técnica.",
+      "No requiere experiencia técnica.",
+  },
+  {
+    slug: "prompt-engineering-aplicado",
+    nombre: "Prompt Engineering Aplicado",
+    preguntaGancho:
+      "ChatGPT, Claude y Gemini en tu día a día: cómo dejar de pelearte con la IA y empezar a usarla en serio.",
+    iconoLucide: "Wand2",
+    totalCapitulos: 5,
+    tiempoEstimadoMin: 70,
+    nivel: "Intermedio",
+    prerrequisitos:
+      "Recomendado venir con Prompt Engineering visto. Orientado a roles administrativos, comerciales, gestión de proyectos y finanzas.",
   },
   {
     slug: "rag",
@@ -125,9 +137,9 @@ export const temas: Tema[] = [
     iconoLucide: "BookOpen",
     totalCapitulos: 5,
     tiempoEstimadoMin: 55,
-    requisitos: "Ninguno",
+    nivel: "Intermedio",
     prerrequisitos:
-      "Ideal venir con LLMs y Prompt Engineering primero. Sin requisitos técnicos profundos.",
+      "Ideal venir con LLMs y Prompt Engineering primero.",
   },
   {
     slug: "mcp",
@@ -136,9 +148,9 @@ export const temas: Tema[] = [
     iconoLucide: "PlugZap",
     totalCapitulos: 5,
     tiempoEstimadoMin: 50,
-    requisitos: "Ninguno",
+    nivel: "Intermedio",
     prerrequisitos:
-      "Ideal venir con LLMs y Claude Cowork vistos. No requiere experiencia de programación profunda.",
+      "Ideal venir con LLMs y Claude Cowork vistos.",
   },
   {
     slug: "claude-cowork",
@@ -147,7 +159,7 @@ export const temas: Tema[] = [
     iconoLucide: "Bot",
     totalCapitulos: 5,
     tiempoEstimadoMin: 60,
-    requisitos: "Ninguno",
+    nivel: "Básico",
     prerrequisitos: "Primer contacto con IA recomendado pero no obligatorio.",
   },
   {
@@ -157,7 +169,7 @@ export const temas: Tema[] = [
     iconoLucide: "Zap",
     totalCapitulos: 4,
     tiempoEstimadoMin: 30,
-    requisitos: "Ninguno",
+    nivel: "Básico",
     prerrequisitos: "Independiente. No se requiere experiencia técnica.",
   },
   {
@@ -167,7 +179,7 @@ export const temas: Tema[] = [
     iconoLucide: "Boxes",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -177,7 +189,7 @@ export const temas: Tema[] = [
     iconoLucide: "Workflow",
     totalCapitulos: 4,
     tiempoEstimadoMin: 35,
-    requisitos: "Ninguno",
+    nivel: "Ninguno",
     prerrequisitos: "Independiente. Se puede ver en cualquier momento.",
   },
   {
@@ -187,7 +199,7 @@ export const temas: Tema[] = [
     iconoLucide: "Bot",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -197,7 +209,7 @@ export const temas: Tema[] = [
     iconoLucide: "Gem",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -207,7 +219,7 @@ export const temas: Tema[] = [
     iconoLucide: "Users",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   // === Data Analysis (próximamente) ===
@@ -218,7 +230,7 @@ export const temas: Tema[] = [
     iconoLucide: "Database",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -228,7 +240,7 @@ export const temas: Tema[] = [
     iconoLucide: "Sheet",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -238,7 +250,7 @@ export const temas: Tema[] = [
     iconoLucide: "FileCode2",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -248,7 +260,7 @@ export const temas: Tema[] = [
     iconoLucide: "BarChart3",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -258,7 +270,7 @@ export const temas: Tema[] = [
     iconoLucide: "PieChart",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -268,7 +280,7 @@ export const temas: Tema[] = [
     iconoLucide: "Sigma",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
   {
@@ -278,7 +290,7 @@ export const temas: Tema[] = [
     iconoLucide: "LineChart",
     totalCapitulos: 0,
     tiempoEstimadoMin: 0,
-    requisitos: "Próximamente",
+    nivel: "Próximamente",
     prerrequisitos: "Contenido en preparación.",
   },
 ];

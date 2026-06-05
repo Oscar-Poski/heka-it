@@ -100,6 +100,57 @@ const capitulo: Capitulo = {
         },
       ],
     },
+    {
+      titulo: "El corpus manda (parte 1)",
+      secciones: [
+        {
+          tipo: "texto",
+          eyebrow: "Mismo prompt, distinto entrenamiento",
+          texto:
+            "Un LLM no «sabe» nada del mundo: replica patrones del texto con el que lo entrenaron. Cambia el corpus y cambia la predicción, aunque el prompt sea idéntico.",
+        },
+        {
+          tipo: "quiz",
+          pregunta:
+            "Entrenas un LLM solo con cuentos y obras literarias. Le das el prompt «El cielo es». ¿Qué palabra es más probable que prediga como siguiente?",
+          opciones: [
+            { texto: "«azul», porque el cielo es azul.", correcta: false },
+            { texto: "«un», porque en cuentos abundan frases como «el cielo es un manto de estrellas».", correcta: true },
+            { texto: "«cyan», porque es el término técnico para ese color.", correcta: false },
+            { texto: "Una palabra al azar, porque el corpus es pequeño.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Exacto. El modelo no «sabe» que el cielo es azul: solo reproduce los patrones que vio. En un corpus de cuentos, «el cielo es un…» co-ocurre muchísimo más que «el cielo es azul».",
+          feedbackIncorrecto:
+            "El LLM no tiene conocimiento del mundo, tiene estadísticas de su corpus. En cuentos, «el cielo es un manto/mar/techo de…» es una estructura mucho más frecuente que la afirmación literal «el cielo es azul».",
+        },
+      ],
+    },
+    {
+      titulo: "El corpus manda (parte 2)",
+      secciones: [
+        {
+          tipo: "highlight",
+          texto:
+            "Misma arquitectura, mismo prompt, distinto corpus → distinta respuesta. El «conocimiento» de un LLM es, literalmente, su corpus de entrenamiento.",
+        },
+        {
+          tipo: "quiz",
+          pregunta:
+            "Ahora entrenas el mismo modelo con casi todo internet. Mismo prompt: «El cielo es». ¿Qué cambia?",
+          opciones: [
+            { texto: "Nada: el prompt es idéntico, así que predice lo mismo.", correcta: false },
+            { texto: "Predice «azul» porque el modelo aprendió física y óptica.", correcta: false },
+            { texto: "Predice «azul» porque en miles de millones de textos «el cielo es azul» co-ocurre masivamente.", correcta: true },
+            { texto: "Predice palabras al azar: con tanto corpus hay demasiadas opciones posibles.", correcta: false },
+          ],
+          feedbackCorrecto:
+            "Correcto. No es que el modelo «entienda» el color del cielo: es que en internet esa secuencia exacta aparece millones de veces. Más datos → la distribución se vuelve más nítida, no más ruidosa.",
+          feedbackIncorrecto:
+            "Trampa común: el modelo no aprende física ni busca la verdad, aprende co-ocurrencias. Y más corpus no produce más ruido, produce distribuciones más afiladas hacia las frases más frecuentes.",
+        },
+      ],
+    },
   ],
 };
 

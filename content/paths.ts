@@ -10,6 +10,7 @@ export const paths: Path[] = [
     temaSlugs: [
 
       "prompt-engineering",
+      "prompt-engineering-aplicado",
       "llm",
       "claude-cowork",
       "rag",

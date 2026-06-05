@@ -117,7 +117,7 @@ export type Tema = {
   iconoLucide: string;
   totalCapitulos: number;
   tiempoEstimadoMin: number;
-  requisitos: string;
+  nivel: string;
   prerrequisitos: string;
 };
 

@@ -25,7 +25,7 @@ export function ChatBlock({ seccion }: Props) {
                   isUser ? "text-right text-text-dim" : "text-teal"
                 }`}
               >
-                {isUser ? "Tú" : "Claude"}
+                {isUser ? "Tú" : "IA"}
               </div>
               <div
                 className={`rounded-card px-3.5 py-2.5 text-[13px] leading-relaxed whitespace-pre-line ${

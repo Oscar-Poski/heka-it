@@ -90,6 +90,11 @@ export function TemaPageClient() {
       {/* Stats */}
       <section className="px-5 mt-5">
         <div className="grid grid-cols-3 gap-5">
+                    <Stat
+            icon={<Info size={20} strokeWidth={1.8} />}
+            label="Categoría"
+            value={tema.nivel}
+          />
           <Stat
             icon={<CircleEllipsis size={20} strokeWidth={1.8} />}
             label="Niveles"
@@ -99,11 +104,6 @@ export function TemaPageClient() {
             icon={<Clock size={20} strokeWidth={1.8} />}
             label="Tiempo"
             value={`${tema.tiempoEstimadoMin} min`}
-          />
-          <Stat
-            icon={<Info size={20} strokeWidth={1.8} />}
-            label="Requisitos"
-            value={tema.requisitos}
           />
         </div>
       </section>

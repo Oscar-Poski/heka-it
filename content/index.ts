@@ -29,6 +29,11 @@ import pe1 from "./prompt-engineering/1";
 import pe2 from "./prompt-engineering/2";
 import pe3 from "./prompt-engineering/3";
 import pe4 from "./prompt-engineering/4";
+import pea2 from "./prompt-engineering-aplicado/2";
+import pea3 from "./prompt-engineering-aplicado/3";
+import pea4 from "./prompt-engineering-aplicado/4";
+import pea5 from "./prompt-engineering-aplicado/5";
+import pea6 from "./prompt-engineering-aplicado/6";
 import llm1 from "./llm/1";
 import llm2 from "./llm/2";
 import llm3 from "./llm/3";
@@ -80,6 +85,13 @@ export const capitulos: ContentMap = {
     2: pe2,
     3: pe3,
     4: pe4,
+  },
+  "prompt-engineering-aplicado": {
+    1: pea2,
+    2: pea3,
+    3: pea4,
+    4: pea5,
+    5: pea6,
   },
   "claude-cowork": {
     1: cowork1,
